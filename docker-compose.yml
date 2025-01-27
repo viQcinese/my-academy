@@ -14,8 +14,8 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ./app:/usr/src/app
-    command: npm start
+      - ./app:/app
+    command: npm run dev
 
   db:
     image: mysql:8.0

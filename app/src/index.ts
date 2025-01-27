@@ -1,5 +1,6 @@
-const express = require("express");
-const mysql = require("mysql2");
+import express from "express";
+import mysql from "mysql2";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -8,7 +9,7 @@ const db = mysql.createConnection({
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_USER_PASSWORD,
   database: process.env.DATABASE_NAME,
-  port: process.env.DATABASE_PORT,
+  port: Number(process.env.DATABASE_PORT),
 });
 
 db.connect((err) => {
