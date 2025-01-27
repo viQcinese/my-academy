@@ -1,0 +1,49 @@
+services:
+  app:
+    build:
+      context: ./app
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_HOSTNAME: db
+      DATABASE_PORT: 3306
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_USER_PASSWORD: ${DATABASE_USER_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./app:/usr/src/app
+    command: npm start
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - my_sql:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD}",
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+volumes:
+  my_sql:
