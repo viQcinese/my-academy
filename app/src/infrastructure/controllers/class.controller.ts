@@ -77,6 +77,8 @@ export class ClassController {
       return;
     }
 
+    await this.enrollmentService.unenrollAllStudentsFromClass(Number(id));
+
     res.status(200).json(foundClass);
   }
 }

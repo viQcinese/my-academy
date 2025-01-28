@@ -39,6 +39,12 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
     });
   }
 
+  async unenrollAllStudentsFromClass(classId: number) {
+    await this.prisma.enrollment.deleteMany({
+      where: { classId },
+    });
+  }
+
   async enrollStudentInClass(studentId: number, classId: number) {
     await this.prisma.enrollment.create({
       data: {

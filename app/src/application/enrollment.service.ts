@@ -34,7 +34,7 @@ export class EnrollmentService {
   ): Promise<void> {
     const classEntity = await this.classRepository.findById(classId);
 
-    if (!classEntity || !classEntity.isActive) {
+    if (!classEntity) {
       throw new Error("The class does not exist or is not active.");
     }
 
@@ -42,6 +42,16 @@ export class EnrollmentService {
       studentId,
       classId
     );
+  }
+
+  async unenrollAllStudentsFromClass(classId: number): Promise<void> {
+    const classEntity = await this.classRepository.findById(classId);
+
+    if (!classEntity) {
+      throw new Error("The class does not exist or is not active.");
+    }
+
+    await this.enrollmentRepository.unenrollAllStudentsFromClass(classId);
   }
 
   async listClassesByStudent(studentId: number): Promise<Class[]> {
