@@ -1,6 +1,3 @@
-import { PrismaClient } from "@prisma/client";
-import { StudentRepository } from "../../model/student/student.repository";
-import { Student } from "../../model/student/student.entity";
 import { StudentService } from "../../application/student.service";
 import { Request, Response } from "express";
 
@@ -15,7 +12,7 @@ export class StudentController {
     const { firstName, lastName, birthdate, document, cellphone, email } =
       req.body;
 
-    if (firstName) {
+    if (!firstName) {
       res.status(400).json({ error: "Name is required" });
       return;
     }

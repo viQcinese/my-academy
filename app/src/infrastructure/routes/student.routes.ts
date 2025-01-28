@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { PrismaClient } from "@prisma/client";
 import { PrismaStudentRepository } from "../repositories/prisma.student.repository";
 import { StudentService } from "../../application/student.service";
 import { StudentController } from "../controllers/student.controller";
@@ -9,10 +10,16 @@ const studentController = new StudentController(studentService);
 
 const studentRoutes = Router();
 
-studentRoutes.post("/", studentController.createStudent);
-studentRoutes.get("/", studentController.listStudents);
-studentRoutes.get("/:id", studentController.getStudent);
-studentRoutes.patch("/:id/activate", studentController.activateStudent);
-studentRoutes.patch("/:id/deactivate", studentController.deactivateStudent);
+studentRoutes.post("/", (req, res) =>
+  studentController.createStudent(req, res)
+);
+studentRoutes.get("/", (req, res) => studentController.listStudents(req, res));
+studentRoutes.get("/:id", (req, res) => studentController.getStudent(req, res));
+studentRoutes.patch("/:id/activate", (req, res) =>
+  studentController.activateStudent(req, res)
+);
+studentRoutes.patch("/:id/deactivate", (req, res) =>
+  studentController.deactivateStudent(req, res)
+);
 
 export { studentRoutes };
