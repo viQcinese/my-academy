@@ -3,8 +3,9 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaStudentRepository } from "../repositories/prisma.student.repository";
 import { StudentService } from "../../application/student.service";
 import { StudentController } from "../controllers/student.controller";
+import { prisma } from "../db/prisma.client";
 
-const studentRepository = new PrismaStudentRepository();
+const studentRepository = new PrismaStudentRepository(prisma);
 const studentService = new StudentService(studentRepository);
 const studentController = new StudentController(studentService);
 

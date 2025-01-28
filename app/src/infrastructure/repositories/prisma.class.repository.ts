@@ -5,8 +5,8 @@ import { Class } from "../../model/class/class.entity";
 export class PrismaClassRepository implements ClassRepository {
   private prisma: PrismaClient;
 
-  constructor() {
-    this.prisma = new PrismaClient();
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma;
   }
 
   async create(inputClass: Class): Promise<Class> {

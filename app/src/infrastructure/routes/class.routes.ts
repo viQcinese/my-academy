@@ -2,8 +2,9 @@ import { Router } from "express";
 import { PrismaClassRepository } from "../repositories/prisma.class.repository";
 import { ClassService } from "../../application/class.service";
 import { ClassController } from "../controllers/class.controller";
+import { prisma } from "../db/prisma.client";
 
-const classRepository = new PrismaClassRepository();
+const classRepository = new PrismaClassRepository(prisma);
 const classService = new ClassService(classRepository);
 const classController = new ClassController(classService);
 
