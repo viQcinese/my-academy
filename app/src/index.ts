@@ -1,27 +1,13 @@
 import express from "express";
-import mysql from "mysql2";
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
-const db = mysql.createConnection({
-  host: process.env.DATABASE_HOSTNAME,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_USER_PASSWORD,
-  database: process.env.DATABASE_NAME,
-  port: Number(process.env.DATABASE_PORT),
-});
+const app = express();
 
-db.connect((err) => {
-  if (err) {
-    console.error("error connecting to the database:", err);
-    return;
-  }
-  console.log("Connected to MySQL database");
-});
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
+app.get("/", () => {
+  console.log("hello");
 });
 
 app.listen(PORT, () => {
