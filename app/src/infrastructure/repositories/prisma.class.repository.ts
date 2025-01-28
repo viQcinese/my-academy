@@ -17,8 +17,7 @@ export class PrismaClassRepository implements ClassRepository {
       },
     });
 
-    inputClass.id = savedClass.id;
-    return inputClass;
+    return new Class(savedClass);
   }
 
   async findAll(): Promise<Class[]> {
@@ -38,7 +37,7 @@ export class PrismaClassRepository implements ClassRepository {
     const { id, ...otherProperties } = inputClass;
     const updatedClass = await this.prisma.class.update({
       where: { id: Number(id) },
-      data: { ...otherProperties, isActive: otherProperties.isActive || true },
+      data: { ...otherProperties, isActive: otherProperties.isActive ?? true },
     });
 
     return new Class(updatedClass);

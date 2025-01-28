@@ -22,8 +22,7 @@ export class PrismaStudentRepository implements StudentRepository {
       },
     });
 
-    student.id = savedStudent.id;
-    return student;
+    return new Student(savedStudent);
   }
 
   async findAll(): Promise<Student[]> {
@@ -43,7 +42,7 @@ export class PrismaStudentRepository implements StudentRepository {
     const { id, ...otherProperties } = student;
     const updatedStudent = await this.prisma.student.update({
       where: { id: Number(id) },
-      data: { ...otherProperties, isActive: otherProperties.isActive || true },
+      data: { ...otherProperties, isActive: otherProperties.isActive ?? true },
     });
 
     return new Student(updatedStudent);
