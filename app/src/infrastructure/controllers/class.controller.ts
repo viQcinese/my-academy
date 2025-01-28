@@ -32,7 +32,7 @@ export class ClassController {
   async getClass(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const foundClass = await this.classService.getClass(id);
+    const foundClass = await this.classService.getClass(Number(id));
 
     if (!foundClass) {
       res.status(404).json({ error: "Class not found." });
@@ -45,7 +45,7 @@ export class ClassController {
   async activateClass(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const foundClass = await this.classService.activate(id);
+    const foundClass = await this.classService.activate(Number(id));
 
     if (!foundClass) {
       res.status(404).json({ error: "Class not found." });
@@ -58,7 +58,7 @@ export class ClassController {
   async deactivateClass(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const foundClass = await this.classService.deactivate(id);
+    const foundClass = await this.classService.deactivate(Number(id));
 
     if (!foundClass) {
       res.status(404).json({ error: "Class not found." });

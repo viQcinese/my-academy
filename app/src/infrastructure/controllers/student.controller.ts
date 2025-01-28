@@ -1,11 +1,17 @@
+import { EnrollmentService } from "../../application/enrollment.service";
 import { StudentService } from "../../application/student.service";
 import { Request, Response } from "express";
 
 export class StudentController {
   private studentService: StudentService;
+  private enrollmentService: EnrollmentService;
 
-  constructor(studentService: StudentService) {
+  constructor(
+    studentService: StudentService,
+    enrollmentService: EnrollmentService
+  ) {
     this.studentService = studentService;
+    this.enrollmentService = enrollmentService;
   }
 
   async createStudent(req: Request, res: Response): Promise<void> {
@@ -38,7 +44,7 @@ export class StudentController {
   async getStudent(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const student = await this.studentService.getStudent(id);
+    const student = await this.studentService.getStudent(Number(id));
 
     if (!student) {
       res.status(404).json({ error: "Student not found." });
@@ -51,7 +57,7 @@ export class StudentController {
   async activateStudent(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const student = await this.studentService.activate(id);
+    const student = await this.studentService.activate(Number(id));
 
     if (!student) {
       res.status(404).json({ error: "Student not found." });
@@ -64,7 +70,7 @@ export class StudentController {
   async deactivateStudent(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const student = await this.studentService.deactivate(id);
+    const student = await this.studentService.deactivate(Number(id));
 
     if (!student) {
       res.status(404).json({ error: "Student not found." });
@@ -72,5 +78,22 @@ export class StudentController {
     }
 
     res.status(200).json(student);
+  }
+
+  async enrollStudentInClass(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { classId } = req.query;
+
+    this.enrollmentService.enrollStudentInClass(Number(id), Number(classId));
+  }
+
+  async unenrollStudentFromClass(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { classId } = req.query;
+
+    this.enrollmentService.unenrollStudentFromClass(
+      Number(id),
+      Number(classId)
+    );
   }
 }

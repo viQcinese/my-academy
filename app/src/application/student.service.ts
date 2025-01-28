@@ -14,7 +14,7 @@ export class StudentService {
     return await this.studentRepository.create(student);
   }
 
-  async getStudent(id: string): Promise<Student | null> {
+  async getStudent(id: number): Promise<Student | null> {
     return await this.studentRepository.findById(id);
   }
 
@@ -22,7 +22,7 @@ export class StudentService {
     return await this.studentRepository.findAll();
   }
 
-  async activate(userId: string): Promise<Student> {
+  async activate(userId: number): Promise<Student> {
     const user = await this.studentRepository.findById(userId);
     if (!user) throw new Error("User not found");
 
@@ -31,7 +31,7 @@ export class StudentService {
     return user;
   }
 
-  async deactivate(userId: string): Promise<Student> {
+  async deactivate(userId: number): Promise<Student> {
     const user = await this.studentRepository.findById(userId);
     if (!user) throw new Error("User not found");
 

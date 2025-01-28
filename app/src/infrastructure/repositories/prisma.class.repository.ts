@@ -25,9 +25,9 @@ export class PrismaClassRepository implements ClassRepository {
     return classData.map((data) => new Class(data));
   }
 
-  async findById(id: string): Promise<Class | null> {
+  async findById(id: number): Promise<Class | null> {
     const classData = await this.prisma.class.findUnique({
-      where: { id: Number(id) },
+      where: { id },
     });
 
     return classData ? new Class(classData) : null;
@@ -35,8 +35,11 @@ export class PrismaClassRepository implements ClassRepository {
 
   async update(inputClass: Class): Promise<Class> {
     const { id, ...otherProperties } = inputClass;
+
+    if (!id) throw new Error("Id must be defined");
+
     const updatedClass = await this.prisma.class.update({
-      where: { id: Number(id) },
+      where: { id },
       data: { ...otherProperties, isActive: otherProperties.isActive ?? true },
     });
 

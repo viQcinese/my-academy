@@ -4,10 +4,22 @@ import { PrismaStudentRepository } from "../repositories/prisma.student.reposito
 import { StudentService } from "../../application/student.service";
 import { StudentController } from "../controllers/student.controller";
 import { prisma } from "../db/prisma.client";
+import { PrismaEnrollmentRepository } from "../repositories/prisma.enrollment.repository";
+import { EnrollmentService } from "../../application/enrollment.service";
+import { PrismaClassRepository } from "../repositories/prisma.class.repository";
 
 const studentRepository = new PrismaStudentRepository(prisma);
+const enrollmentRepository = new PrismaEnrollmentRepository(prisma);
+const classRepository = new PrismaClassRepository(prisma);
+const enrollmentService = new EnrollmentService(
+  enrollmentRepository,
+  classRepository
+);
 const studentService = new StudentService(studentRepository);
-const studentController = new StudentController(studentService);
+const studentController = new StudentController(
+  studentService,
+  enrollmentService
+);
 
 const studentRoutes = Router();
 
@@ -21,6 +33,12 @@ studentRoutes.patch("/:id/activate", (req, res) =>
 );
 studentRoutes.patch("/:id/deactivate", (req, res) =>
   studentController.deactivateStudent(req, res)
+);
+studentRoutes.post("/:id/enroll", (req, res) =>
+  studentController.enrollStudentInClass(req, res)
+);
+studentRoutes.post("/:id/unenroll", (req, res) =>
+  studentController.unenrollStudentFromClass(req, res)
 );
 
 export { studentRoutes };

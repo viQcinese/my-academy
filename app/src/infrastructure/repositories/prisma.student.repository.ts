@@ -30,9 +30,9 @@ export class PrismaStudentRepository implements StudentRepository {
     return studentData.map((data) => new Student(data));
   }
 
-  async findById(id: string): Promise<Student | null> {
+  async findById(id: number): Promise<Student | null> {
     const studentData = await this.prisma.student.findUnique({
-      where: { id: Number(id) },
+      where: { id },
     });
 
     return studentData ? new Student(studentData) : null;
@@ -40,8 +40,11 @@ export class PrismaStudentRepository implements StudentRepository {
 
   async update(student: Student): Promise<Student> {
     const { id, ...otherProperties } = student;
+
+    if (!id) throw new Error("Id must be defined");
+
     const updatedStudent = await this.prisma.student.update({
-      where: { id: Number(id) },
+      where: { id },
       data: { ...otherProperties, isActive: otherProperties.isActive ?? true },
     });
 

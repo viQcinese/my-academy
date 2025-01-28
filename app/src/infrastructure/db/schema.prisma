@@ -23,6 +23,7 @@ model Student {
   cellphone String? @map("cellphone")
   email String? @map("email")
   isActive Boolean @map("is_active")
+  enrollments Enrollment[]
 
   @@map("students")
 }
@@ -31,6 +32,18 @@ model Class {
   id Int @id @default(autoincrement())
   name String  @map("name")
   isActive Boolean @map("is_active")
+  enrollments Enrollment[]
 
   @@map("classes")
+}
+
+model Enrollment {
+  id Int @id @default(autoincrement())
+  studentId Int
+  classId Int
+
+  student Student @relation(fields: [studentId], references: [id])
+  class Class @relation(fields: [classId], references: [id])
+
+  @@unique([studentId, classId])
 }

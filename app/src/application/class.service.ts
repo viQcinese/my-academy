@@ -14,7 +14,7 @@ export class ClassService {
     return await this.classRepository.create(createdClass);
   }
 
-  async getClass(id: string): Promise<Class | null> {
+  async getClass(id: number): Promise<Class | null> {
     return await this.classRepository.findById(id);
   }
 
@@ -22,7 +22,7 @@ export class ClassService {
     return await this.classRepository.findAll();
   }
 
-  async activate(classId: string): Promise<Class> {
+  async activate(classId: number): Promise<Class> {
     const foundClass = await this.classRepository.findById(classId);
     if (!foundClass) throw new Error("Class not found");
 
@@ -31,7 +31,7 @@ export class ClassService {
     return foundClass;
   }
 
-  async deactivate(classId: string): Promise<Class> {
+  async deactivate(classId: number): Promise<Class> {
     const foundClass = await this.classRepository.findById(classId);
     if (!foundClass) throw new Error("Class not found");
 
