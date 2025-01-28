@@ -3,10 +3,19 @@ import { PrismaClassRepository } from "../repositories/prisma.class.repository";
 import { ClassService } from "../../application/class.service";
 import { ClassController } from "../controllers/class.controller";
 import { prisma } from "../db/prisma.client";
+import { PrismaEnrollmentRepository } from "../repositories/prisma.enrollment.repository";
+import { EnrollmentService } from "../../application/enrollment.service";
 
 const classRepository = new PrismaClassRepository(prisma);
 const classService = new ClassService(classRepository);
-const classController = new ClassController(classService);
+
+const enrollmentRepository = new PrismaEnrollmentRepository(prisma);
+const enrollmentService = new EnrollmentService(
+  enrollmentRepository,
+  classRepository
+);
+
+const classController = new ClassController(classService, enrollmentService);
 
 const classRoutes = Router();
 
