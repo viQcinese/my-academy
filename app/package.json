@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "db:generate": "prisma generate --schema=src/infrastructure/db/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema=src/infrastructure/db/schema.prisma"
   },
   "author": "",
   "license": "ISC",
