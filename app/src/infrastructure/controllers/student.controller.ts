@@ -45,13 +45,16 @@ export class StudentController {
     const { id } = req.params;
 
     const student = await this.studentService.getStudent(Number(id));
+    const classes = await this.enrollmentService.listClassesByStudent(
+      Number(id)
+    );
 
     if (!student) {
       res.status(404).json({ error: "Student not found." });
       return;
     }
 
-    res.status(200).json(student);
+    res.status(200).json({ student, classes });
   }
 
   async activateStudent(req: Request, res: Response): Promise<void> {
@@ -85,6 +88,8 @@ export class StudentController {
     const { classId } = req.query;
 
     this.enrollmentService.enrollStudentInClass(Number(id), Number(classId));
+
+    res.status(200).json();
   }
 
   async unenrollStudentFromClass(req: Request, res: Response): Promise<void> {
@@ -95,5 +100,7 @@ export class StudentController {
       Number(id),
       Number(classId)
     );
+
+    res.status(200).json();
   }
 }
