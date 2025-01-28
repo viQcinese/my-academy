@@ -1,4 +1,3 @@
-import { CreateStudentDTO } from "./student.dto";
 import { Student } from "./student.entity";
 
 export interface StudentRepository {

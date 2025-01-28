@@ -24,6 +24,8 @@ export class StudentController {
       document,
       cellphone,
       email,
+      id: null,
+      isActive: null,
     });
     res.status(201).json(student);
   }

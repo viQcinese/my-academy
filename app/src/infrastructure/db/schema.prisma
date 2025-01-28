@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/client"  
 }
 
 datasource db {
@@ -26,3 +27,10 @@ model Student {
   @@map("students")
 }
 
+model Class {
+  id Int @id @default(autoincrement())
+  name String  @map("name")
+  isActive Boolean @map("is_active")
+
+  @@map("classes")
+}

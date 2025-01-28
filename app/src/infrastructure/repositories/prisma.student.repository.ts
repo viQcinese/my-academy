@@ -18,7 +18,7 @@ export class PrismaStudentRepository implements StudentRepository {
         document: student.document,
         cellphone: student.cellphone,
         email: student.email,
-        isActive: student.isActive,
+        isActive: student.isActive || true,
       },
     });
 
@@ -43,7 +43,7 @@ export class PrismaStudentRepository implements StudentRepository {
     const { id, ...otherProperties } = student;
     const updatedStudent = await this.prisma.student.update({
       where: { id: Number(id) },
-      data: otherProperties,
+      data: { ...otherProperties, isActive: otherProperties.isActive || true },
     });
 
     return new Student(updatedStudent);

@@ -8,17 +8,17 @@ export class Student {
   public document: string | null;
   public cellphone: string | null;
   public email: string | null;
-  public isActive: boolean;
+  public isActive: boolean | null;
 
   constructor(params: CreateStudentDTO) {
-    this.id = params.id;
     this.firstName = params.firstName;
     this.lastName = params.lastName;
     this.birthdate = params.birthdate;
     this.document = params.document;
     this.cellphone = params.cellphone;
     this.email = params.email;
-    this.isActive = true;
+    this.id = params.id;
+    this.isActive = params.isActive;
   }
 
   activate() {
