@@ -17,12 +17,13 @@ datasource db {
 model Student {
   id Int @id @default(autoincrement())
   firstName String  @map("first_name")
+  isActive Boolean @map("is_active")
+  
   lastName String? @map("last_name")
   birthdate DateTime? @map("birth_date")
   document String? @map("document")
   cellphone String? @map("cellphone")
   email String? @map("email")
-  isActive Boolean @map("is_active")
   
   enrollments Enrollment[]
   invoices Invoice[]
@@ -58,6 +59,10 @@ model Invoice {
   amount Int @map("amount")
   currency String @map("currency")
   isPaid Boolean @map("is_paid")
+  createdAt DateTime @map("created_at") @default(now())
+
+  description String? @map("description") @db.VarChar(512) 
+  due_date DateTime? @map("due_date")
 
   student Student @relation(fields: [studentId], references: [id])
 

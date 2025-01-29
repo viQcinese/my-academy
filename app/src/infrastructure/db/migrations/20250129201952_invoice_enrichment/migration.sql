@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `invoices` ADD COLUMN `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    ADD COLUMN `description` VARCHAR(512) NULL,
+    ADD COLUMN `due_date` DATETIME(3) NULL;

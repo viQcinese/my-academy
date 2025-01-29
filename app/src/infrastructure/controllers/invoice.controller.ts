@@ -9,7 +9,7 @@ export class InvoiceController {
   }
 
   async createInvoice(req: Request, res: Response): Promise<void> {
-    const { amount, studentId } = req.body;
+    const { amount, studentId, description } = req.body;
 
     if (!amount || !studentId) {
       res.status(400).json({ error: "amount and studentId are required" });
@@ -19,6 +19,7 @@ export class InvoiceController {
     const student = await this.invoiceService.createInvoice({
       amount,
       studentId,
+      description,
     });
 
     res.status(201).json(student);
