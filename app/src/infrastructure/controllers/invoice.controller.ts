@@ -35,15 +35,15 @@ export class InvoiceController {
     res.status(200).json(invoice);
   }
 
-  async markAsPaid(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const invoice = await this.invoiceService.markAsPaid(id);
+  async markInvoicesAsPaid(req: Request, res: Response): Promise<void> {
+    const { ids } = req.body;
+    const invoice = await this.invoiceService.markInvoicesAsPaid(ids);
     res.status(200).json(invoice);
   }
 
-  async markAsUnpaid(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const invoice = await this.invoiceService.markAsUnpaid(id);
+  async markInvoicesAsUnpaid(req: Request, res: Response): Promise<void> {
+    const { ids } = req.body;
+    const invoice = await this.invoiceService.markInvoicesAsUnpaid(ids);
     res.status(200).json(invoice);
   }
 }

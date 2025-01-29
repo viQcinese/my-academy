@@ -5,5 +5,7 @@ export interface InvoiceRepository {
   findById(id: string): Promise<Invoice | null>;
   createInvoice(dto: Invoice): Promise<Invoice>;
   updateInvoice(id: string, invoice: Invoice): Promise<Invoice>;
-  deleteInvoice(id: string): Promise<void>;
+  deleteInvoices(id: string[]): Promise<void>;
+  markInvoicesAsPaid(ids: string[]): Promise<number>;
+  markInvoicesAsUnpaid(ids: string[]): Promise<number>;
 }

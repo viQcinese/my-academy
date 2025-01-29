@@ -14,12 +14,4 @@ export class Invoice {
     this.studentId = params.studentId;
     this.amount = params.amount;
   }
-
-  markAsPaid() {
-    this.isPaid = true;
-  }
-
-  markAsUnpaid() {
-    this.isPaid = false;
-  }
 }

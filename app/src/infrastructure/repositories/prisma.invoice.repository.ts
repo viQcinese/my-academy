@@ -34,9 +34,26 @@ export class PrismaInvoiceRepository implements InvoiceRepository {
 
     return new Invoice(updatedInvoice);
   }
-  async deleteInvoice(id: string): Promise<void> {
-    await this.prisma.invoice.delete({
-      where: { id },
+
+  async deleteInvoices(ids: string[]): Promise<void> {
+    await this.prisma.invoice.deleteMany({
+      where: { id: { in: ids } },
     });
+  }
+
+  async markInvoicesAsPaid(ids: string[]): Promise<number> {
+    const { count } = await this.prisma.invoice.updateMany({
+      where: { id: { in: ids } },
+      data: { isPaid: true },
+    });
+    return count;
+  }
+
+  async markInvoicesAsUnpaid(ids: string[]): Promise<number> {
+    const { count } = await this.prisma.invoice.updateMany({
+      where: { id: { in: ids } },
+      data: { isPaid: false },
+    });
+    return count;
   }
 }

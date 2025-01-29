@@ -22,23 +22,23 @@ export class InvoiceService {
     return await this.invoiceRepository.findAll();
   }
 
-  async markAsPaid(id: string): Promise<Invoice> {
-    const invoice = await this.invoiceRepository.findById(id);
-
-    if (!invoice) throw new Error("Invoice not found");
-
-    invoice.markAsPaid();
-
-    return await this.invoiceRepository.updateInvoice(id, invoice);
+  async deleteInvoices(ids: string[]): Promise<void> {
+    return await this.invoiceRepository.deleteInvoices(ids);
   }
 
-  async markAsUnpaid(id: string): Promise<Invoice> {
-    const invoice = await this.invoiceRepository.findById(id);
+  async markInvoicesAsPaid(ids: string[]): Promise<void> {
+    const count = await this.invoiceRepository.markInvoicesAsPaid(ids);
 
-    if (!invoice) throw new Error("Invoice not found");
+    if (count !== ids.length) {
+      throw new Error(`Failed to update ${ids.length - count} invoices`);
+    }
+  }
 
-    invoice.markAsUnpaid();
+  async markInvoicesAsUnpaid(ids: string[]): Promise<void> {
+    const count = await this.invoiceRepository.markInvoicesAsUnpaid(ids);
 
-    return await this.invoiceRepository.updateInvoice(id, invoice);
+    if (count !== ids.length) {
+      throw new Error(`Failed to update ${ids.length - count} invoices`);
+    }
   }
 }
