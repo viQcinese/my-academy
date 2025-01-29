@@ -1,0 +1,49 @@
+import { InvoiceService } from "../../application/invoice.service";
+import { Request, Response } from "express";
+
+export class InvoiceController {
+  private invoiceService: InvoiceService;
+
+  constructor(invoiceService: InvoiceService) {
+    this.invoiceService = invoiceService;
+  }
+
+  async createInvoice(req: Request, res: Response): Promise<void> {
+    const { amount, studentId } = req.body;
+
+    if (!amount || !studentId) {
+      res.status(400).json({ error: "amount and studentId are required" });
+      return;
+    }
+
+    const student = await this.invoiceService.createInvoice({
+      amount,
+      studentId,
+    });
+
+    res.status(201).json(student);
+  }
+
+  async listInvoices(req: Request, res: Response): Promise<void> {
+    const invoices = await this.invoiceService.listInvoices();
+    res.status(200).json(invoices);
+  }
+
+  async getInvoice(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const invoice = await this.invoiceService.getInvoice(id);
+    res.status(200).json(invoice);
+  }
+
+  async markAsPaid(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const invoice = await this.invoiceService.markAsPaid(id);
+    res.status(200).json(invoice);
+  }
+
+  async markAsUnpaid(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const invoice = await this.invoiceService.markAsUnpaid(id);
+    res.status(200).json(invoice);
+  }
+}
