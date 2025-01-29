@@ -13,6 +13,10 @@ app.use("/students", studentRoutes);
 app.use("/classes", classRoutes);
 app.use("/invoices", invoiceRoutes);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

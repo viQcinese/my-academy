@@ -1,4 +1,19 @@
 services:
+  front:
+    build:
+      context: ./front
+    ports:
+      - "5173:5173"
+
+    depends_on:
+      app:
+        condition: service_healthy
+    volumes:
+      - ./front:/front
+    networks:
+      - my-network
+    command: npm run dev
+
   app:
     build:
       context: ./app
@@ -15,8 +30,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 5s
+      retries: 10
+      start_period: 30s
+      timeout: 10s
     volumes:
       - ./app:/app
+    networks:
+      - my-network
     command: npm run dev
 
   db:
@@ -30,6 +53,8 @@ services:
       - "3306:3306"
     volumes:
       - my_sql:/var/lib/mysql
+    networks:
+      - my-network
     healthcheck:
       test:
         [
@@ -42,10 +67,14 @@ services:
           "root",
           "-p${MYSQL_ROOT_PASSWORD}",
         ]
-      interval: 10s
-      retries: 5
+      interval: 5s
+      retries: 10
       start_period: 30s
       timeout: 10s
 
 volumes:
   my_sql:
+
+networks:
+  my-network:
+    driver: bridge
