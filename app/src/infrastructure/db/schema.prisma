@@ -23,7 +23,9 @@ model Student {
   cellphone String? @map("cellphone")
   email String? @map("email")
   isActive Boolean @map("is_active")
+  
   enrollments Enrollment[]
+  invoices Invoice[]
 
   @@map("students")
 }
@@ -32,6 +34,7 @@ model Class {
   id Int @id @default(autoincrement())
   name String  @map("name")
   isActive Boolean @map("is_active")
+
   enrollments Enrollment[]
 
   @@map("classes")
@@ -39,11 +42,24 @@ model Class {
 
 model Enrollment {
   id Int @id @default(autoincrement())
-  studentId Int
-  classId Int
+  studentId Int @map("student_id")
+  classId Int @map("class_id")
 
   student Student @relation(fields: [studentId], references: [id])
   class Class @relation(fields: [classId], references: [id])
 
   @@unique([studentId, classId])
+  @@map("enrollments")
+}
+
+model Invoice {
+  id String @id @default(uuid())
+  studentId Int @map("student_id")
+  amount Int @map("amount")
+  currency String @map("currency")
+  isPaid Boolean @map("is_paid")
+
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@map("invoices")
 }
