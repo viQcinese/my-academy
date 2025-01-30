@@ -11,6 +11,9 @@ export default {
       },
     },
     extend: {
+      maxWidth: {
+        site: "1200px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
