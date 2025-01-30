@@ -1,5 +1,7 @@
 import { Layout } from "@/components/layout";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Plus } from "lucide-react";
 
 export function StudentsPage() {
   return (
@@ -11,9 +13,11 @@ export function StudentsPage() {
       <div className="mt-16 flex justify-between">
         <div className="flex gap-4">
           <Input placeholder="Search..." />
-          <Input />
         </div>
-        <button>Create student</button>
+        <Button variant="outline">
+          <Plus />
+          Create student
+        </Button>
       </div>
     </Layout>
   );
