@@ -50,4 +50,9 @@ export const columns: ColumnDef<StudentRow>[] = [
     accessorKey: "email",
     header: "Email",
   },
+  {
+    accessorKey: "isActive",
+    header: "Status",
+    cell: ({ row }) => (row ? "Active" : "Inactive"),
+  },
 ];

@@ -2,11 +2,13 @@ import express from "express";
 import { studentRoutes } from "./infrastructure/routes/student.routes";
 import { classRoutes } from "./infrastructure/routes/class.routes";
 import { invoiceRoutes } from "./infrastructure/routes/invoice.routes";
+import cors from "cors";
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 app.use("/students", studentRoutes);

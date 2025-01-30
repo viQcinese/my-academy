@@ -1,15 +1,6 @@
 "use client";
 
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-
-import {
   Table,
   TableBody,
   TableCell,
@@ -17,71 +8,66 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { Student } from "../../model/student";
+import { Checkbox } from "@/components/ui/checkbox";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps {
+  students: Student[];
+  selectedStudents: number[];
+  onSelectStudent: (value: boolean, id: number) => void;
+  onSelectAllStudents: (value: boolean) => void;
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = useState({});
-
-  console.log({ rowSelection });
-
-  const table = useReactTable({
-    data,
-    columns,
-    state: {
-      rowSelection,
-    },
-    enableRowSelection: true,
-    getCoreRowModel: getCoreRowModel(),
-    onRowSelectionChange: setRowSelection,
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    debugTable: true,
-  });
+export function DataTable(props: DataTableProps) {
+  const { students, selectedStudents, onSelectStudent, onSelectAllStudents } =
+    props;
 
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
+          <TableRow>
+            <TableHead>
+              <Checkbox
+                checked={students.length === selectedStudents.length}
+                onCheckedChange={onSelectAllStudents}
+              />
+            </TableHead>
+            {["Name", "Cellphone", "Email", "Status"].map((header) => (
+              <TableHead key={header}>{header}</TableHead>
+            ))}
+          </TableRow>
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+          {students.length ? (
+            students.map((student) => (
               <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
+                key={student.id}
+                data-state={
+                  selectedStudents.includes(student.id) ? "selected" : undefined
+                }
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                <TableCell>
+                  <Checkbox
+                    checked={selectedStudents.includes(student.id)}
+                    onCheckedChange={(value: boolean) => {
+                      onSelectStudent(value, student.id);
+                    }}
+                  />
+                </TableCell>
+                <TableCell>
+                  {student.firstName} {student.secondName}
+                </TableCell>
+                <TableCell>{student.cellphone}</TableCell>
+                <TableCell>{student.email}</TableCell>
+                <TableCell>
+                  {student.isActive ? "Active" : "Inactive"}
+                </TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell colSpan={5} className="h-24 text-center">
                 No results.
               </TableCell>
             </TableRow>
