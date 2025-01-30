@@ -18,7 +18,7 @@ export function Layout(props: LayoutProps) {
           </div>
         </nav>
       </div>
-      <main className="max-w-site m-auto">{children}</main>
+      <main className="max-w-site m-auto py-8">{children}</main>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { Student } from "@/pages/students/model/Student";
+import { Class } from "@/pages/students/model/Class";
 
-export async function getStudents(): Promise<Student[]> {
-  const response = await fetch("http://localhost:3000/students", {
+export async function getClasses(): Promise<Class[]> {
+  const response = await fetch("http://localhost:3000/classes", {
     method: "GET",
     headers: {
       Accept: "application/json",

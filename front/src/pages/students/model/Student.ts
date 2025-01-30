@@ -3,7 +3,7 @@ export type Student = {
   firstName: string;
   isActive: boolean;
   birthdate: Date;
-  secondName?: string;
+  lastName?: string;
   cellphone?: string;
   document?: string;
   email?: string;

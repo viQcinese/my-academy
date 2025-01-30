@@ -1,12 +1,15 @@
 import { Student } from "@/pages/students/model/Student";
 
-export async function getStudents(): Promise<Student[]> {
+export async function createStudent(
+  student: Partial<Student>
+): Promise<Student[]> {
   const response = await fetch("http://localhost:3000/students", {
-    method: "GET",
+    method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
+    body: JSON.stringify(student),
   });
 
   if (!response.ok) {

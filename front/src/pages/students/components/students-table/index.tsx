@@ -8,8 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Student } from "../../model/student";
+import { Student } from "../../model/Student";
 import { Checkbox } from "@/components/ui/checkbox";
+import { empty } from "@/constants/empty";
 
 interface DataTableProps {
   students: Student[];
@@ -56,10 +57,10 @@ export function DataTable(props: DataTableProps) {
                   />
                 </TableCell>
                 <TableCell>
-                  {student.firstName} {student.secondName}
+                  {student.firstName} {student.lastName}
                 </TableCell>
-                <TableCell>{student.cellphone}</TableCell>
-                <TableCell>{student.email}</TableCell>
+                <TableCell>{student.cellphone || empty}</TableCell>
+                <TableCell>{student.email || empty}</TableCell>
                 <TableCell>
                   {student.isActive ? "Active" : "Inactive"}
                 </TableCell>
