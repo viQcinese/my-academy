@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Class } from "@/pages/students/model/Class";
+import { Class } from "@/model/Class";
 import { MultiSelect } from "@/components/ui/multi-select";
 
 export function ClassesMultiSelect() {

@@ -8,19 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Student } from "../../model/Student";
+import { Student } from "../../../../model/Student";
 import { Checkbox } from "@/components/ui/checkbox";
 import { empty } from "@/constants/empty";
 import { useMemo } from "react";
-import { Value } from "@radix-ui/react-select";
-import {
-  Archive,
-  Clock,
-  Clock10,
-  Clock10Icon,
-  Clock4Icon,
-  WatchIcon,
-} from "lucide-react";
+import { Archive } from "lucide-react";
 import { cx } from "class-variance-authority";
 
 interface DataTableProps {

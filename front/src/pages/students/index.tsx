@@ -4,7 +4,7 @@ import { useSelectMany } from "@/hooks/useSelectMany";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog } from "@/components/ui/dialog";
 import { CreateStudentDialog } from "@/components/dialogs/create-student";
-import { Student } from "./model/Student";
+import { Student } from "../../model/Student";
 import { StudentsTableActions } from "./components/students-table-actions";
 import { useState } from "react";
 

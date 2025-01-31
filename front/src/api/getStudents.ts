@@ -1,4 +1,4 @@
-import { Student } from "@/pages/students/model/Student";
+import { Student } from "@/model/Student";
 
 export async function getStudents(): Promise<Student[]> {
   const response = await fetch("http://localhost:3000/students", {

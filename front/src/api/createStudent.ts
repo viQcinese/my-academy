@@ -1,4 +1,4 @@
-import { Student } from "@/pages/students/model/Student";
+import { Student } from "@/model/Student";
 
 export async function createStudent(
   student: Partial<Student>

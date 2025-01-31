@@ -1,4 +1,4 @@
-import { Class } from "@/pages/students/model/Class";
+import { Class } from "@/model/Class";
 
 export async function getClasses(): Promise<Class[]> {
   const response = await fetch("http://localhost:3000/classes", {
