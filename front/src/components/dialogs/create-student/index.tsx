@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createStudent } from "@/api/createStudent";
 import { Loader2 } from "lucide-react";
+import { ClassesMultiSelect } from "./ClassesMultiSelect";
 
 type Props = {
   student?: Partial<Student>;
@@ -59,6 +60,14 @@ export function CreateStudentDialog(props: Props) {
       </DialogHeader>
       <form onSubmit={onSubmit}>
         <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="first-name" className="text-right">
+              Classes
+            </Label>
+            <div className="col-span-3">
+              <ClassesMultiSelect />
+            </div>
+          </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="first-name" className="text-right">
               First Name
