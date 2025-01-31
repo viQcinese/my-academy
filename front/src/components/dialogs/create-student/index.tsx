@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -50,6 +51,8 @@ export function CreateStudentDialog(props: Props) {
     mutate(student);
   }
 
+  const isInvalid = !student.firstName;
+
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
@@ -61,15 +64,7 @@ export function CreateStudentDialog(props: Props) {
       <form onSubmit={onSubmit}>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="first-name" className="text-right">
-              Classes
-            </Label>
-            <div className="col-span-3">
-              <ClassesMultiSelect />
-            </div>
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="first-name" className="text-right">
+            <Label isRequired htmlFor="first-name" className="text-right">
               First Name
             </Label>
             <Input
@@ -107,6 +102,27 @@ export function CreateStudentDialog(props: Props) {
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="document" className="text-right">
+              Document
+            </Label>
+            <Input
+              id="document"
+              onChange={(e) =>
+                setStudent({ ...student, document: e.currentTarget.value })
+              }
+              value={student.document}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="first-name" className="text-right">
+              Classes
+            </Label>
+            <div className="col-span-3">
+              <ClassesMultiSelect />
+            </div>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="cellphone" className="text-right">
               Cellphone
             </Label>
@@ -132,22 +148,14 @@ export function CreateStudentDialog(props: Props) {
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="document" className="text-right">
-              Document
-            </Label>
-            <Input
-              id="document"
-              onChange={(e) =>
-                setStudent({ ...student, document: e.currentTarget.value })
-              }
-              value={student.document}
-              className="col-span-3"
-            />
-          </div>
         </div>
         <DialogFooter>
-          <Button disabled={isPending} type="submit">
+          <DialogClose asChild>
+            <Button type="button" variant="outline">
+              Cancel
+            </Button>
+          </DialogClose>
+          <Button disabled={isPending || isInvalid} type="submit">
             {isPending && <Loader2 className="animate-spin" />}Submit
           </Button>
         </DialogFooter>

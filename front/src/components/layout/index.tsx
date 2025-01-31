@@ -23,7 +23,7 @@ export function Layout(props: LayoutProps) {
           </div>
         </nav>
       </div>
-      <main className="max-w-site m-auto py-8">{children}</main>
+      <main className="max-w-site m-auto pt-8 pb-32">{children}</main>
     </div>
   );
 }

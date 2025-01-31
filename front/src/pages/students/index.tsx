@@ -6,12 +6,14 @@ import { Dialog } from "@/components/ui/dialog";
 import { CreateStudentDialog } from "@/components/dialogs/create-student";
 import { Student } from "./model/Student";
 import { StudentsTableActions } from "./components/students-table-actions";
+import { useState } from "react";
 
 export function StudentsPage() {
   const { data } = useQuery<Student[]>({ queryKey: ["students"] });
   const studentIds = data?.map((student) => student.id) || [];
   const [selectedStudents, onToggleStudent, onToggleAllStudents] =
     useSelectMany(studentIds);
+  const [textSearch, setTextSearch] = useState("");
 
   return (
     <Dialog>
@@ -22,7 +24,11 @@ export function StudentsPage() {
           <p className="text">You can manage your students here</p>
         </div>
         <div className="mt-16">
-          <StudentsTableActions selectedStudents={selectedStudents} />
+          <StudentsTableActions
+            selectedStudents={selectedStudents}
+            textSearch={textSearch}
+            setTextSearch={setTextSearch}
+          />
         </div>
         <div className="mt-4">
           <DataTable
@@ -30,6 +36,7 @@ export function StudentsPage() {
             selectedStudents={selectedStudents}
             onSelectStudent={onToggleStudent}
             onSelectAllStudents={onToggleAllStudents}
+            textSearch={textSearch}
           />
         </div>
       </Layout>
