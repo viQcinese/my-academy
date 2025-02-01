@@ -1,4 +1,4 @@
-import { StudentsPage } from "./pages/students";
+import { StudentsPage } from "./pages/students/StudentsPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StudentsProvider } from "./providers/StudentsProvider";
 import { ClassesProvider } from "./providers/ClassesProvider";

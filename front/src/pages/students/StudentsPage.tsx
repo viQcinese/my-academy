@@ -1,11 +1,11 @@
-import { Layout } from "@/components/layout";
-import { DataTable } from "./components/students-table";
+import { Layout } from "@/components/layout/Layout";
+import { DataTable } from "./components/students-table/StudentsTable";
 import { useSelectMany } from "@/hooks/useSelectMany";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog } from "@/components/ui/dialog";
-import { CreateStudentDialog } from "@/components/dialogs/create-student";
+import { CreateStudentDialog } from "@/components/dialogs/create-student/CreateStudentDialog";
 import { Student } from "../../model/Student";
-import { StudentsTableActions } from "./components/students-table-actions";
+import { StudentsTableActions } from "./components/students-table-actions/StudentsTableActions";
 import { useState } from "react";
 
 export function StudentsPage() {

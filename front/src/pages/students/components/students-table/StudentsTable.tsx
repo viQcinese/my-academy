@@ -12,7 +12,7 @@ import { Student } from "../../../../model/Student";
 import { Checkbox } from "@/components/ui/checkbox";
 import { empty } from "@/constants/empty";
 import { useMemo } from "react";
-import { Archive } from "lucide-react";
+import { Archive, SquareMousePointer } from "lucide-react";
 import { cx } from "class-variance-authority";
 
 interface DataTableProps {
@@ -47,11 +47,15 @@ export function DataTable(props: DataTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="pl-3">
-              <Checkbox
-                checked={students.length === selectedStudents.length}
-                onCheckedChange={onSelectAllStudents}
-              />
+            <TableHead
+              className="pl-3 w-12 cursor-pointer"
+              onClick={() =>
+                onSelectAllStudents(
+                  !(students.length === selectedStudents.length)
+                )
+              }
+            >
+              <Checkbox checked={students.length === selectedStudents.length} />
             </TableHead>
             {["First Name", "Last Name", "Cellphone", "Email", "Status"].map(
               (header) => (
@@ -67,21 +71,23 @@ export function DataTable(props: DataTableProps) {
             filteredStudents.map((student) => (
               <TableRow
                 key={student.id}
-                onClick={() =>
-                  onSelectStudent(
-                    !selectedStudents.includes(student.id),
-                    student.id
-                  )
-                }
                 className={cx(
-                  "cursor-pointer h-10",
+                  "h-10",
                   student.isActive ? "text-slate-900" : "text-slate-400"
                 )}
                 data-state={
                   selectedStudents.includes(student.id) ? "selected" : undefined
                 }
               >
-                <TableCell className="pl-3">
+                <TableCell
+                  className="pl-3 cursor-pointer"
+                  onClick={() =>
+                    onSelectStudent(
+                      !selectedStudents.includes(student.id),
+                      student.id
+                    )
+                  }
+                >
                   <Checkbox
                     checked={selectedStudents.includes(student.id)}
                     onCheckedChange={(value: boolean) => {
@@ -89,7 +95,16 @@ export function DataTable(props: DataTableProps) {
                     }}
                   />
                 </TableCell>
-                <TableCell>{student.firstName}</TableCell>
+                <TableCell>
+                  <button className="flex items-center font-bold gap-1 group hover:underline">
+                    {student.firstName}
+                    <SquareMousePointer
+                      size={14}
+                      strokeWidth={2}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    />
+                  </button>
+                </TableCell>
                 <TableCell>{student.lastName || empty}</TableCell>
                 <TableCell>{student.cellphone || empty}</TableCell>
                 <TableCell>{student.email || empty}</TableCell>
