@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { Class } from "@/model/Class";
 import { Checkbox } from "@/components/ui/checkbox";
-import { empty } from "@/constants/empty";
 import { useMemo } from "react";
 import { Archive } from "lucide-react";
 import { cx } from "class-variance-authority";
@@ -88,7 +87,7 @@ export function ClassesTable(props: DataTableProps) {
                   />
                 </TableCell>
                 <TableCell>{studentClass.name}</TableCell>
-                <TableCell>{empty}</TableCell>
+                <TableCell>{studentClass.studentsCount}</TableCell>
                 <TableCell className={"flex items-center gap-1 leading-tight"}>
                   {!studentClass.isActive && <Archive size={12} />}
                   {studentClass.isActive ? "Active" : "Inactive"}
