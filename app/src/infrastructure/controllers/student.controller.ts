@@ -1,6 +1,7 @@
 import { EnrollmentService } from "../../application/enrollment.service";
 import { StudentService } from "../../application/student.service";
 import { Request, Response } from "express";
+import { Student } from "../../model/student/student.entity";
 
 export class StudentController {
   private studentService: StudentService;
@@ -34,6 +35,22 @@ export class StudentController {
       isActive: null,
     });
     res.status(201).json(student);
+  }
+
+  async editStudent(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { student } = req.body;
+
+    if (!student) {
+      res.status(400).json({ error: "Invalid input" });
+      return;
+    }
+
+    const updatedStudent = await this.studentService.editStudent(
+      Number(id),
+      student
+    );
+    res.status(200).json(updatedStudent);
   }
 
   async listStudents(req: Request, res: Response): Promise<void> {

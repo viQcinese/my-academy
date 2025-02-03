@@ -27,6 +27,9 @@ studentRoutes.post("/", (req, res) =>
 );
 studentRoutes.get("/", (req, res) => studentController.listStudents(req, res));
 studentRoutes.get("/:id", (req, res) => studentController.getStudent(req, res));
+studentRoutes.put("/:id", (req, res) =>
+  studentController.editStudent(req, res)
+);
 studentRoutes.patch("/activate", (req, res) =>
   studentController.activateStudents(req, res)
 );

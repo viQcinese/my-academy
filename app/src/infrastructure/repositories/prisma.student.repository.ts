@@ -25,6 +25,23 @@ export class PrismaStudentRepository implements StudentRepository {
     return new Student(savedStudent);
   }
 
+  async updateStudent(id: number, student: Student): Promise<Student> {
+    const updatedStudent = await this.prisma.student.update({
+      where: { id },
+      data: {
+        firstName: student.firstName,
+        lastName: student.lastName,
+        birthdate: student.birthdate,
+        document: student.document,
+        cellphone: student.cellphone,
+        email: student.email,
+        isActive: student.isActive || true,
+      },
+    });
+
+    return new Student(updatedStudent);
+  }
+
   async findAll(): Promise<Student[]> {
     const studentData = await this.prisma.student.findMany();
     return studentData.map((data) => new Student(data));

@@ -18,6 +18,10 @@ export class StudentService {
     return await this.studentRepository.findById(id);
   }
 
+  async editStudent(id: number, student: Student): Promise<Student> {
+    return await this.studentRepository.updateStudent(id, student);
+  }
+
   async listStudents(): Promise<Student[]> {
     return await this.studentRepository.findAll();
   }
