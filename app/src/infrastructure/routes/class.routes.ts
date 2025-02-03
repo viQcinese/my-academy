@@ -7,7 +7,8 @@ import { PrismaEnrollmentRepository } from "../repositories/prisma.enrollment.re
 import { EnrollmentService } from "../../application/enrollment.service";
 
 const classRepository = new PrismaClassRepository(prisma);
-const classService = new ClassService(classRepository);
+const enrollmentrepository = new PrismaEnrollmentRepository(prisma);
+const classService = new ClassService(classRepository, enrollmentrepository);
 
 const enrollmentRepository = new PrismaEnrollmentRepository(prisma);
 const enrollmentService = new EnrollmentService(

@@ -1,12 +1,22 @@
 import { ClassRepository } from "../model/class/class.repository";
 import { CreateClassDTO } from "../model/class/class.dto";
 import { Class } from "../model/class/class.entity";
+import { EnrollmentRepository } from "../model/enrollment/enrollment.repository";
+
+type ClassListItem = Class & {
+  studentsCount: number;
+};
 
 export class ClassService {
   private classRepository: ClassRepository;
+  private enrollmentRepository: EnrollmentRepository;
 
-  constructor(classRepository: ClassRepository) {
+  constructor(
+    classRepository: ClassRepository,
+    enrollmentRepository: EnrollmentRepository
+  ) {
     this.classRepository = classRepository;
+    this.enrollmentRepository = enrollmentRepository;
   }
 
   async createClass(dto: CreateClassDTO): Promise<Class> {
@@ -18,8 +28,17 @@ export class ClassService {
     return await this.classRepository.findById(id);
   }
 
-  async listClasses(): Promise<Class[]> {
-    return await this.classRepository.findAll();
+  async listClasses(): Promise<ClassListItem[]> {
+    const classes = await this.classRepository.findAll();
+    const enrollmentsCount =
+      await this.enrollmentRepository.countStudentsByClasses(
+        classes.map((c) => c.id!)
+      );
+
+    return classes.map((c) => ({
+      ...c,
+      studentsCount: enrollmentsCount[c.id!] || 0,
+    }));
   }
 
   async activate(classId: number): Promise<Class> {

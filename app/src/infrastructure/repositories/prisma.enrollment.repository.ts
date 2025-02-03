@@ -53,4 +53,19 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
       },
     });
   }
+
+  async countStudentsByClasses(
+    classIds: number[]
+  ): Promise<Record<string, number>> {
+    const counts = await this.prisma.enrollment.groupBy({
+      by: ["classId"],
+      where: { classId: { in: classIds } },
+      _count: { classId: true },
+    });
+
+    return counts.reduce((acc, { classId, _count }) => {
+      acc[classId] = _count.classId;
+      return acc;
+    }, {} as Record<string, number>);
+  }
 }

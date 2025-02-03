@@ -7,4 +7,5 @@ export interface EnrollmentRepository {
   unenrollAllStudentsFromClass(classId: number): Promise<void>;
   listClassesByStudent(studentId: number): Promise<Class[]>;
   listStudentsByClass(classId: number): Promise<Student[]>;
+  countStudentsByClasses(classIds: number[]): Promise<Record<string, number>>;
 }
