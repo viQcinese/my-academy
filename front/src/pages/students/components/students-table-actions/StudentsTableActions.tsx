@@ -8,6 +8,7 @@ type Props = {
   setTextSearch: (value: string) => void;
   onOpenCreateStudent: () => void;
   onOpenActivateStudents: () => void;
+  onOpenDeactivateStudents: () => void;
 };
 
 export function StudentsTableActions(props: Props) {
@@ -17,6 +18,7 @@ export function StudentsTableActions(props: Props) {
     setTextSearch,
     onOpenCreateStudent,
     onOpenActivateStudents,
+    onOpenDeactivateStudents,
   } = props;
 
   return (
@@ -51,11 +53,12 @@ export function StudentsTableActions(props: Props) {
           Activate
         </Button>
         <Button
-          disabled={selectedStudents.length === 0 || true}
+          disabled={selectedStudents.length === 0}
+          onClick={onOpenDeactivateStudents}
           size="sm"
           variant="outline"
         >
-          Inactivate
+          Deactivate
         </Button>
       </div>
     </div>

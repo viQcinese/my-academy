@@ -7,6 +7,7 @@ import { Student } from "../../model/Student";
 import { StudentsTableActions } from "./components/students-table-actions/StudentsTableActions";
 import { useState } from "react";
 import { ActivateStudentsDialog } from "./dialogs/activate-students/ActivateStudents";
+import { DeactivateStudentsDialog } from "./dialogs/deactivate-students/DeactivateStudents";
 
 export function StudentsPage() {
   const { data } = useQuery<Student[]>({ queryKey: ["students"] });
@@ -16,9 +17,16 @@ export function StudentsPage() {
   const [textSearch, setTextSearch] = useState("");
   const [isCreateStudentOpen, setIsCreateStudentOpen] = useState(false);
   const [isActivateStudentsOpen, setIsActivateStudentsOpen] = useState(false);
+  const [isDeactivateStudentsOpen, setIsDeactivateStudentsOpen] =
+    useState(false);
 
   return (
     <Layout>
+      <DeactivateStudentsDialog
+        students={selectedStudents}
+        isOpen={isDeactivateStudentsOpen}
+        onIsOpenChange={setIsDeactivateStudentsOpen}
+      />
       <ActivateStudentsDialog
         students={selectedStudents}
         isOpen={isActivateStudentsOpen}
@@ -39,6 +47,7 @@ export function StudentsPage() {
           setTextSearch={setTextSearch}
           onOpenActivateStudents={() => setIsActivateStudentsOpen(true)}
           onOpenCreateStudent={() => setIsCreateStudentOpen(true)}
+          onOpenDeactivateStudents={() => setIsDeactivateStudentsOpen(true)}
         />
       </div>
       <div className="mt-4">

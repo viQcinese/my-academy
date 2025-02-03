@@ -1,5 +1,5 @@
-export async function activateStudents(ids: number[]): Promise<void> {
-  const response = await fetch("http://localhost:3000/students/activate", {
+export async function deactivateStudents(ids: number[]): Promise<void> {
+  const response = await fetch("http://localhost:3000/students/deactivate", {
     method: "PATCH",
     headers: {
       Accept: "application/json",
