@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { studentRoutes } from "./infrastructure/routes/student.routes";
 import { classRoutes } from "./infrastructure/routes/class.routes";
 import { invoiceRoutes } from "./infrastructure/routes/invoice.routes";
@@ -17,6 +17,10 @@ app.use("/invoices", invoiceRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({ message: "Internal Server Error" });
 });
 
 app.listen(PORT, () => {
