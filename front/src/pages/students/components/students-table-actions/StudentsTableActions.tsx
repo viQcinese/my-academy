@@ -1,16 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
-import { DialogTrigger } from "@/components/ui/dialog";
 
 type Props = {
   selectedStudents: number[];
   textSearch: string;
   setTextSearch: (value: string) => void;
+  onOpenCreateStudent: () => void;
+  onOpenActivateStudents: () => void;
 };
 
 export function StudentsTableActions(props: Props) {
-  const { selectedStudents, textSearch, setTextSearch } = props;
+  const {
+    selectedStudents,
+    textSearch,
+    setTextSearch,
+    onOpenCreateStudent,
+    onOpenActivateStudents,
+  } = props;
 
   return (
     <div className="flex flex-col gap-4 ">
@@ -22,12 +29,10 @@ export function StudentsTableActions(props: Props) {
             onChange={(e) => setTextSearch(e.currentTarget.value)}
           />
         </div>
-        <DialogTrigger asChild>
-          <Button variant="outline">
-            <Plus />
-            Create student
-          </Button>
-        </DialogTrigger>
+        <Button variant="outline" onClick={onOpenCreateStudent}>
+          <Plus />
+          Create student
+        </Button>
       </div>
       <div className="flex gap-2">
         <Button
@@ -38,7 +43,8 @@ export function StudentsTableActions(props: Props) {
           Create Invoice
         </Button>
         <Button
-          disabled={selectedStudents.length === 0 || true}
+          disabled={selectedStudents.length === 0}
+          onClick={onOpenActivateStudents}
           size="sm"
           variant="outline"
         >

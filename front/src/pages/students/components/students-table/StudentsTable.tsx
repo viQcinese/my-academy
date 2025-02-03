@@ -88,12 +88,7 @@ export function DataTable(props: DataTableProps) {
                     )
                   }
                 >
-                  <Checkbox
-                    checked={selectedStudents.includes(student.id)}
-                    onCheckedChange={(value: boolean) => {
-                      onSelectStudent(value, student.id);
-                    }}
-                  />
+                  <Checkbox checked={selectedStudents.includes(student.id)} />
                 </TableCell>
                 <TableCell>
                   <button className="flex items-center font-bold gap-1 group hover:underline">
