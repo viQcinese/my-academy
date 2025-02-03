@@ -8,6 +8,7 @@ import { StudentsTableActions } from "./components/students-table-actions/Studen
 import { useState } from "react";
 import { ActivateStudentsDialog } from "./dialogs/activate-students/ActivateStudents";
 import { DeactivateStudentsDialog } from "./dialogs/deactivate-students/DeactivateStudents";
+import { StudentDetailsDialog } from "./dialogs/student-details/StudentDetailsDialog";
 
 export function StudentsPage() {
   const { data } = useQuery<Student[]>({ queryKey: ["students"] });
@@ -19,9 +20,21 @@ export function StudentsPage() {
   const [isActivateStudentsOpen, setIsActivateStudentsOpen] = useState(false);
   const [isDeactivateStudentsOpen, setIsDeactivateStudentsOpen] =
     useState(false);
+  const [openStudentId, setOpenStudentId] = useState<number>(0);
+  const [isStudentDetailsOpen, setIsStudentDetailsOpen] = useState(false);
+
+  function onOpenStudent(studentId: number) {
+    setOpenStudentId(studentId);
+    setIsStudentDetailsOpen(true);
+  }
 
   return (
     <Layout>
+      <StudentDetailsDialog
+        studentId={openStudentId}
+        isOpen={isStudentDetailsOpen}
+        onIsOpenChange={setIsStudentDetailsOpen}
+      />
       <DeactivateStudentsDialog
         students={selectedStudents}
         isOpen={isDeactivateStudentsOpen}
@@ -56,6 +69,7 @@ export function StudentsPage() {
           selectedStudents={selectedStudents}
           onSelectStudent={onToggleStudent}
           onSelectAllStudents={onToggleAllStudents}
+          onOpenStudentDetails={onOpenStudent}
           textSearch={textSearch}
         />
       </div>

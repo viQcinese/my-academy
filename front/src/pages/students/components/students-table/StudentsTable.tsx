@@ -19,6 +19,7 @@ interface DataTableProps {
   textSearch: string;
   students: Student[];
   selectedStudents: number[];
+  onOpenStudentDetails: (studentId: number) => void;
   onSelectStudent: (value: boolean, id: number) => void;
   onSelectAllStudents: (value: boolean) => void;
 }
@@ -28,6 +29,7 @@ export function DataTable(props: DataTableProps) {
     students,
     selectedStudents,
     textSearch,
+    onOpenStudentDetails,
     onSelectStudent,
     onSelectAllStudents,
   } = props;
@@ -91,7 +93,10 @@ export function DataTable(props: DataTableProps) {
                   <Checkbox checked={selectedStudents.includes(student.id)} />
                 </TableCell>
                 <TableCell>
-                  <button className="flex items-center font-bold gap-1 group hover:underline">
+                  <button
+                    className="flex items-center font-bold gap-1 group hover:underline"
+                    onClick={() => onOpenStudentDetails(student.id)}
+                  >
                     {student.firstName}
                     <SquareMousePointer
                       size={14}
