@@ -9,12 +9,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { empty } from "@/constants/empty";
 import { StudentDetails } from "@/model/StudentDetails";
-import { Separator } from "@radix-ui/react-select";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { EditIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { StudentForm } from "../../components/student-form/StudentForm";
 import { editStudent } from "@/api/editStudent";
+import { EditStudent } from "./EditStudent";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 type Props = {
   studentId: number;
@@ -55,20 +55,14 @@ export function StudentDetailsDialog(props: Props) {
     }
   }
 
-  useEffect(() => {
-    return () => {
-      setIsEdit(false);
-    };
-  }, []);
-
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         {isEdit && data ? (
-          <StudentForm
-            student={data.student}
-            mutation={editStudentMutation}
+          <EditStudent
             goBack={() => setIsEdit(false)}
+            mutation={editStudentMutation}
+            student={data.student}
           />
         ) : (
           <div>
@@ -83,6 +77,9 @@ export function StudentDetailsDialog(props: Props) {
                   <EditIcon />
                 </Button>
               </DialogTitle>
+              <DialogDescription className="hidden">
+                {data?.student.firstName} {data?.student?.lastName}
+              </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
@@ -118,7 +115,6 @@ export function StudentDetailsDialog(props: Props) {
                 </span>
               </div>
             </div>
-            <Separator className="text-slate-500" />
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birthdate" className="text-right">
                 Classes
@@ -128,7 +124,9 @@ export function StudentDetailsDialog(props: Props) {
                   <li className="text-sm">{empty}</li>
                 ) : (
                   data?.classes.map((studentClass) => (
-                    <li className="text-sm">{studentClass.name}</li>
+                    <li key={`class-${studentClass.id}`} className="text-sm">
+                      {studentClass.name}
+                    </li>
                   ))
                 )}
               </ul>
