@@ -1,10 +1,8 @@
 import { Student } from "@/model/Student";
 
-export async function createStudent(
-  student: Partial<Student>
-): Promise<Student> {
-  const response = await fetch("http://localhost:3000/students", {
-    method: "POST",
+export async function editStudent(student: Partial<Student>): Promise<Student> {
+  const response = await fetch(`http://localhost:3000/students/${student.id}`, {
+    method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

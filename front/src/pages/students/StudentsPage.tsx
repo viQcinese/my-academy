@@ -30,6 +30,10 @@ export function StudentsPage() {
 
   return (
     <Layout>
+      <CreateStudentDialog
+        isOpen={isCreateStudentOpen}
+        onIsOpenChange={setIsCreateStudentOpen}
+      />
       <StudentDetailsDialog
         studentId={openStudentId}
         isOpen={isStudentDetailsOpen}
@@ -45,10 +49,7 @@ export function StudentsPage() {
         isOpen={isActivateStudentsOpen}
         onIsOpenChange={setIsActivateStudentsOpen}
       />
-      <CreateStudentDialog
-        isOpen={isCreateStudentOpen}
-        onIsOpenChange={setIsCreateStudentOpen}
-      />
+
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl font-bold">Students</h1>
         <p className="text">You can manage your students here</p>
