@@ -9,25 +9,25 @@ import {
 import { Label } from "@/components/ui/label";
 import { empty } from "@/constants/empty";
 import { StudentDetails } from "@/model/StudentDetails";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { EditIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { editStudent } from "@/api/editStudent";
 import { EditStudent } from "./EditStudent";
 import { DialogDescription } from "@radix-ui/react-dialog";
 
 type Props = {
-  studentId: number;
+  studentId?: number;
   isOpen: boolean;
   onIsOpenChange: (value: boolean) => void;
 };
 
 export function StudentDetailsDialog(props: Props) {
   const { isOpen, onIsOpenChange, studentId } = props;
+
   const [isEdit, setIsEdit] = useState(false);
   const { data, error } = useQuery<StudentDetails>({
     queryKey: ["student", studentId],
-    queryFn: () => getStudent(studentId),
+    queryFn: studentId ? () => getStudent(studentId) : undefined,
   });
 
   useEffect(() => {
@@ -35,16 +35,6 @@ export function StudentDetailsDialog(props: Props) {
       onIsOpenChange(false);
     }
   }, [error, onIsOpenChange]);
-
-  const queryClient = useQueryClient();
-  const editStudentMutation = useMutation({
-    mutationFn: editStudent,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["students"] });
-      onIsOpenChange(false);
-      setIsEdit(false);
-    },
-  });
 
   function onOpenChange(value: boolean) {
     if (value) {
@@ -59,11 +49,7 @@ export function StudentDetailsDialog(props: Props) {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         {isEdit && data ? (
-          <EditStudent
-            goBack={() => setIsEdit(false)}
-            mutation={editStudentMutation}
-            student={data.student}
-          />
+          <EditStudent goBack={() => setIsEdit(false)} student={data.student} />
         ) : (
           <div>
             <DialogHeader>
@@ -86,7 +72,7 @@ export function StudentDetailsDialog(props: Props) {
                 <Label htmlFor="birthdate" className="text-right">
                   Birthdate
                 </Label>
-                <span className="text-sm">
+                <span className="text-sm col-span-3">
                   {data?.student.birthdate?.toString() || empty}
                 </span>
               </div>

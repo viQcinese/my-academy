@@ -8,16 +8,16 @@ import {
 } from "@/components/ui/dialog";
 import { Student } from "@/model/Student";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { IconLeft } from "react-day-picker";
 import { StudentForm } from "../../components/student-form/StudentForm";
 import { StudentFormData } from "../../model/StudentFormData";
+import { editStudent } from "@/api/editStudent";
 
 type Props = {
-  student: Partial<Student>;
+  student: Student;
   goBack: () => void;
-  mutation: ReturnType<typeof useMutation<Student, Error, Partial<Student>>>;
 };
 
 export function EditStudent(props: Props) {
@@ -31,11 +31,21 @@ export function EditStudent(props: Props) {
     document: props.student.document || "",
   });
 
-  const { mutate, isPending } = props.mutation;
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => editStudent(props.student.id, student),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["students"] });
+      queryClient.invalidateQueries({
+        queryKey: ["student", props.student.id],
+      });
+      goBack();
+    },
+  });
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    mutate(student);
+    mutate();
   }
 
   const isInvalid = !student.firstName;
