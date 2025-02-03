@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StudentsProvider } from "./providers/StudentsProvider";
 import { ClassesProvider } from "./providers/ClassesProvider";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { ClassesPage } from "./pages/classes";
+import { ClassesPage } from "./pages/classes/ClassesPage";
 
 const queryClient = new QueryClient();
 

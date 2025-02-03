@@ -3,9 +3,9 @@ import { useSelectMany } from "@/hooks/useSelectMany";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog } from "@/components/ui/dialog";
 import { Class } from "@/model/Class";
-import { ClassesTableActions } from "./classes-table-actions";
+import { ClassesTableActions } from "./components/classes-table-actions/ClassesTableActions";
 import { useState } from "react";
-import { ClassesTable } from "./classes-table";
+import { ClassesTable } from "./components/classes-table/ClassesTable";
 
 export function ClassesPage() {
   const { data } = useQuery<Class[]>({ queryKey: ["classes"] });
