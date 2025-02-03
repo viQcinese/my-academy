@@ -22,21 +22,19 @@ export class StudentService {
     return await this.studentRepository.findAll();
   }
 
-  async activate(userId: number): Promise<Student> {
-    const user = await this.studentRepository.findById(userId);
-    if (!user) throw new Error("User not found");
+  async activateStudents(ids: number[]): Promise<void> {
+    const count = await this.studentRepository.activateStudents(ids);
 
-    user.activate();
-    await this.studentRepository.update(user);
-    return user;
+    if (count !== ids.length) {
+      throw new Error(`Failed to update ${ids.length - count} students`);
+    }
   }
 
-  async deactivate(userId: number): Promise<Student> {
-    const user = await this.studentRepository.findById(userId);
-    if (!user) throw new Error("User not found");
+  async deactivateStudents(ids: number[]): Promise<void> {
+    const count = await this.studentRepository.deactivateStudents(ids);
 
-    user.deactivate();
-    await this.studentRepository.update(user);
-    return user;
+    if (count !== ids.length) {
+      throw new Error(`Failed to update ${ids.length - count} students`);
+    }
   }
 }

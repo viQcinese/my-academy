@@ -57,30 +57,16 @@ export class StudentController {
     res.status(200).json({ student, classes });
   }
 
-  async activateStudent(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-
-    const student = await this.studentService.activate(Number(id));
-
-    if (!student) {
-      res.status(404).json({ error: "Student not found." });
-      return;
-    }
-
-    res.status(200).json(student);
+  async activateStudents(req: Request, res: Response): Promise<void> {
+    const { ids } = req.body;
+    await this.studentService.activateStudents(ids);
+    res.status(200).json({});
   }
 
-  async deactivateStudent(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-
-    const student = await this.studentService.deactivate(Number(id));
-
-    if (!student) {
-      res.status(404).json({ error: "Student not found." });
-      return;
-    }
-
-    res.status(200).json(student);
+  async deactivateStudents(req: Request, res: Response): Promise<void> {
+    const { ids } = req.body;
+    await this.studentService.deactivateStudents(ids);
+    res.status(200).json({});
   }
 
   async enrollStudentInClass(req: Request, res: Response): Promise<void> {
@@ -89,7 +75,7 @@ export class StudentController {
 
     this.enrollmentService.enrollStudentInClass(Number(id), Number(classId));
 
-    res.status(200).json();
+    res.status(200).json({});
   }
 
   async unenrollStudentFromClass(req: Request, res: Response): Promise<void> {

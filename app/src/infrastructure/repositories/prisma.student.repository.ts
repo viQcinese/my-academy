@@ -38,16 +38,19 @@ export class PrismaStudentRepository implements StudentRepository {
     return studentData ? new Student(studentData) : null;
   }
 
-  async update(student: Student): Promise<Student> {
-    const { id, ...otherProperties } = student;
-
-    if (!id) throw new Error("Id must be defined");
-
-    const updatedStudent = await this.prisma.student.update({
-      where: { id },
-      data: { ...otherProperties, isActive: otherProperties.isActive ?? true },
+  async activateStudents(ids: number[]): Promise<number> {
+    const { count } = await this.prisma.student.updateMany({
+      where: { id: { in: ids } },
+      data: { isActive: true },
     });
+    return count;
+  }
 
-    return new Student(updatedStudent);
+  async deactivateStudents(ids: number[]): Promise<number> {
+    const { count } = await this.prisma.student.updateMany({
+      where: { id: { in: ids } },
+      data: { isActive: false },
+    });
+    return count;
   }
 }

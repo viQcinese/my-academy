@@ -4,5 +4,6 @@ export interface StudentRepository {
   create(student: Student): Promise<Student>;
   findAll(): Promise<Student[]>;
   findById(id: number): Promise<Student | null>;
-  update(student: Student): Promise<Student>;
+  activateStudents(ids: number[]): Promise<number>;
+  deactivateStudents(ids: number[]): Promise<number>;
 }
