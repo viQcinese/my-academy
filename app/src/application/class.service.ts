@@ -41,6 +41,10 @@ export class ClassService {
     }));
   }
 
+  async editClass(id: number, classData: Partial<Class>): Promise<Class> {
+    return await this.classRepository.update(id, classData);
+  }
+
   async activateClasses(ids: number[]): Promise<number> {
     const count = await this.classRepository.activateClasses(ids);
     if (count !== ids.length) {

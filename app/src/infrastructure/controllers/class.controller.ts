@@ -65,4 +65,14 @@ export class ClassController {
     await this.classService.deactivateClasses(ids);
     res.status(200).json({});
   }
+
+  async updateClass(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { class: classData } = req.body;
+    const updateClass = await this.classService.editClass(
+      Number(id),
+      classData
+    );
+    res.status(200).json({ class: updateClass });
+  }
 }

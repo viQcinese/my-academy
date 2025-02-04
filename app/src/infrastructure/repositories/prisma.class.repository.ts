@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { ClassRepository } from "../../model/class/class.repository";
 import { Class } from "../../model/class/class.entity";
+import { CreateClassDTO } from "../../model/class/class.dto";
 
 export class PrismaClassRepository implements ClassRepository {
   private prisma: PrismaClient;
@@ -35,14 +36,10 @@ export class PrismaClassRepository implements ClassRepository {
     return classData ? new Class(classData) : null;
   }
 
-  async update(inputClass: Class): Promise<Class> {
-    const { id, ...otherProperties } = inputClass;
-
-    if (!id) throw new Error("Id must be defined");
-
+  async update(id: number, classData: Partial<CreateClassDTO>): Promise<Class> {
     const updatedClass = await this.prisma.class.update({
       where: { id },
-      data: { ...otherProperties, isActive: otherProperties.isActive ?? true },
+      data: { name: classData.name },
     });
 
     return new Class(updatedClass);
