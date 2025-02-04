@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
-import { DataTable } from "./components/students-table/StudentsTable";
+import { StudentsTable } from "./components/students-table/StudentsTable";
 import { useSelectMany } from "@/hooks/useSelectMany";
 import { useQuery } from "@tanstack/react-query";
 import { CreateStudentDialog } from "@/pages/students/dialogs/create-student/CreateStudentDialog";
@@ -78,7 +78,7 @@ export function StudentsPage() {
         />
       </div>
       <div className="mt-4">
-        <DataTable
+        <StudentsTable
           students={paginatedData || []}
           selectedStudents={selectedStudents}
           onSelectStudent={onToggleStudent}

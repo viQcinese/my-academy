@@ -15,7 +15,7 @@ import { useMemo } from "react";
 import { Archive, SquareMousePointer } from "lucide-react";
 import { cx } from "class-variance-authority";
 
-interface DataTableProps {
+interface StudentsTableProps {
   textSearch: string;
   students: Student[];
   selectedStudents: number[];
@@ -24,7 +24,7 @@ interface DataTableProps {
   onSelectAllStudents: (value: boolean) => void;
 }
 
-export function DataTable(props: DataTableProps) {
+export function StudentsTable(props: StudentsTableProps) {
   const {
     students,
     selectedStudents,
