@@ -21,7 +21,9 @@ export class PrismaClassRepository implements ClassRepository {
   }
 
   async findAll(): Promise<Class[]> {
-    const classData = await this.prisma.class.findMany();
+    const classData = await this.prisma.class.findMany({
+      orderBy: [{ isActive: "desc" }, { name: "asc" }],
+    });
     return classData.map((data) => new Class(data));
   }
 
