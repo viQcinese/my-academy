@@ -1,7 +1,6 @@
 import { Pagination } from "@/components/pagination/Pagination";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { Plus } from "lucide-react";
 
 type Props = {

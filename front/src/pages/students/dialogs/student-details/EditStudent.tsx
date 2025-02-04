@@ -9,8 +9,7 @@ import {
 import { Student } from "@/model/Student";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import { IconLeft } from "react-day-picker";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { StudentForm } from "../../components/student-form/StudentForm";
 import { StudentFormData } from "../../model/StudentFormData";
 import { editStudent } from "@/api/editStudent";
@@ -54,8 +53,8 @@ export function EditStudent(props: Props) {
     <div>
       <DialogHeader>
         <DialogTitle className="flex items-center gap-2">
-          <Button variant="ghost" className="flex w-6 h-8" onClick={goBack}>
-            <IconLeft />
+          <Button variant="ghost" className="flex w-8 h-8" onClick={goBack}>
+            <ChevronLeft />
           </Button>
           Edit Student
         </DialogTitle>
