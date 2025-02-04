@@ -41,21 +41,19 @@ export class ClassService {
     }));
   }
 
-  async activate(classId: number): Promise<Class> {
-    const foundClass = await this.classRepository.findById(classId);
-    if (!foundClass) throw new Error("Class not found");
-
-    foundClass.activate();
-    await this.classRepository.update(foundClass);
-    return foundClass;
+  async activateClasses(ids: number[]): Promise<number> {
+    const count = await this.classRepository.activateClasses(ids);
+    if (count !== ids.length) {
+      throw new Error(`Failed to update ${ids.length - count} students`);
+    }
+    return count;
   }
 
-  async deactivate(classId: number): Promise<Class> {
-    const foundClass = await this.classRepository.findById(classId);
-    if (!foundClass) throw new Error("Class not found");
-
-    foundClass.deactivate();
-    await this.classRepository.update(foundClass);
-    return foundClass;
+  async deactivateClasses(ids: number[]): Promise<number> {
+    const count = await this.classRepository.deactivateClasses(ids);
+    if (count !== ids.length) {
+      throw new Error(`Failed to update ${ids.length - count} students`);
+    }
+    return count;
   }
 }

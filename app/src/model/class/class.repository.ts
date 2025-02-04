@@ -5,4 +5,6 @@ export interface ClassRepository {
   findAll(): Promise<Class[]>;
   findById(id: number): Promise<Class | null>;
   update(value: Class): Promise<Class>;
+  activateClasses(ids: number[]): Promise<number>;
+  deactivateClasses(ids: number[]): Promise<number>;
 }

@@ -45,4 +45,20 @@ export class PrismaClassRepository implements ClassRepository {
 
     return new Class(updatedClass);
   }
+
+  async activateClasses(ids: number[]): Promise<number> {
+    const { count } = await this.prisma.class.updateMany({
+      where: { id: { in: ids } },
+      data: { isActive: true },
+    });
+    return count;
+  }
+
+  async deactivateClasses(ids: number[]): Promise<number> {
+    const { count } = await this.prisma.class.updateMany({
+      where: { id: { in: ids } },
+      data: { isActive: false },
+    });
+    return count;
+  }
 }

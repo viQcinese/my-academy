@@ -23,11 +23,11 @@ const classRoutes = Router();
 classRoutes.post("/", (req, res) => classController.createClass(req, res));
 classRoutes.get("/", (req, res) => classController.listClasses(req, res));
 classRoutes.get("/:id", (req, res) => classController.getClass(req, res));
-classRoutes.patch("/:id/activate", (req, res) =>
-  classController.activateClass(req, res)
+classRoutes.patch("/activate", (req, res) =>
+  classController.activateClasses(req, res)
 );
-classRoutes.patch("/:id/deactivate", (req, res) =>
-  classController.deactivateClass(req, res)
+classRoutes.patch("/deactivate", (req, res) =>
+  classController.deactivateClasses(req, res)
 );
 
 export { classRoutes };

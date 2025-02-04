@@ -54,31 +54,15 @@ export class ClassController {
     });
   }
 
-  async activateClass(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-
-    const foundClass = await this.classService.activate(Number(id));
-
-    if (!foundClass) {
-      res.status(404).json({ error: "Class not found." });
-      return;
-    }
-
-    res.status(200).json(foundClass);
+  async activateClasses(req: Request, res: Response): Promise<void> {
+    const { ids } = req.body;
+    await this.classService.activateClasses(ids);
+    res.status(200).json({});
   }
 
-  async deactivateClass(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-
-    const foundClass = await this.classService.deactivate(Number(id));
-
-    if (!foundClass) {
-      res.status(404).json({ error: "Class not found." });
-      return;
-    }
-
-    await this.enrollmentService.unenrollAllStudentsFromClass(Number(id));
-
-    res.status(200).json(foundClass);
+  async deactivateClasses(req: Request, res: Response): Promise<void> {
+    const { ids } = req.body;
+    await this.classService.deactivateClasses(ids);
+    res.status(200).json({});
   }
 }
