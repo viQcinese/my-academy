@@ -9,6 +9,8 @@ import { ClassesTable } from "./components/classes-table/ClassesTable";
 import { useStaticPagination } from "@/hooks/useStaticPagination";
 import { ActivateClassesDialog } from "./dialogs/activate-classes/ActivateClasses";
 import { DeactivateClassesDialog } from "./dialogs/deactivate-classes/DeactivateClassesDialog";
+import { CreateClassDialog } from "./dialogs/create-class/CreateClassDialog";
+import { ClassDetailsDialog } from "./dialogs/class-details/ClassDetailsDialog";
 
 const ITEMS_PER_PAGE = 50;
 
@@ -38,6 +40,15 @@ export function ClassesPage() {
 
   return (
     <Dialog>
+      <ClassDetailsDialog
+        isOpen={isClassDetailsOpen}
+        onIsOpenChange={setIsClassDetailsOpen}
+        classId={openClassId}
+      />
+      <CreateClassDialog
+        isOpen={isCreateClassOpen}
+        onIsOpenChange={setIsCreateClassOpen}
+      />
       <ActivateClassesDialog
         classes={selectedClasses}
         isOpen={isActivateClasssOpen}
