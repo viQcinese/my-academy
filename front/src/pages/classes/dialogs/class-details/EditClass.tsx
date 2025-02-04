@@ -7,29 +7,41 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Loader2 } from "lucide-react";
-import { Class } from "@/model/Class";
 import { editClass } from "@/api/editClass";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { updateClassEnrollments } from "@/api/updateClassEnrollments";
+import { ClassForm } from "../../components/class-form/ClassForm";
+import { ClassDetails } from "@/model/ClassDetails";
+import { Student } from "@/model/Student";
 
 type Props = {
-  class: Class;
+  classDetails: ClassDetails;
   goBack: () => void;
 };
 
 export function EditClass(props: Props) {
-  const { goBack, class: studentClass } = props;
-  const [name, setName] = useState<string>(studentClass.name);
+  const { goBack, classDetails } = props;
+  const [name, setName] = useState<string>(classDetails.class.name);
+  const [selectedStudents, setSelectedStudents] = useState<string[]>(
+    classDetails.students.map((student) => student.id.toString())
+  );
+
+  const { data } = useQuery<Student[]>({ queryKey: ["students"] });
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: () => editClass(props.class.id, { name }),
+    mutationFn: async () => {
+      await editClass(classDetails.class.id, { name });
+      await updateClassEnrollments(
+        classDetails.class.id,
+        selectedStudents.map((id) => Number(id))
+      );
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classes"] });
       queryClient.invalidateQueries({
-        queryKey: ["class", props.class.id],
+        queryKey: ["class", classDetails.class.id],
       });
       goBack();
     },
@@ -40,6 +52,7 @@ export function EditClass(props: Props) {
     mutate();
   }
 
+  const activeStudents = data?.filter((student) => student.isActive) || [];
   const isInvalid = !name;
 
   return (
@@ -56,17 +69,13 @@ export function EditClass(props: Props) {
         </DialogDescription>
       </DialogHeader>
       <form onSubmit={onSubmit}>
-        <div className="grid py-4 grid-cols-4 items-center gap-4">
-          <Label htmlFor="name" className="text-right">
-            Name
-          </Label>
-          <Input
-            id="name"
-            onChange={(e) => setName(e.currentTarget.value)}
-            value={name}
-            className="col-span-3"
-          />
-        </div>
+        <ClassForm
+          name={name}
+          setName={setName}
+          selectedStudents={selectedStudents}
+          setSelectedStudents={setSelectedStudents}
+          students={activeStudents}
+        />
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="outline">

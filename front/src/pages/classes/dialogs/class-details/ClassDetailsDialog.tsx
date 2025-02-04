@@ -49,7 +49,7 @@ export function ClassDetailsDialog(props: Props) {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         {isEdit && data ? (
-          <EditClass goBack={() => setIsEdit(false)} class={data.class} />
+          <EditClass goBack={() => setIsEdit(false)} classDetails={data} />
         ) : (
           <div>
             <DialogHeader>
@@ -75,16 +75,19 @@ export function ClassDetailsDialog(props: Props) {
                 <span className="text-sm col-span-3">{data?.class.name}</span>
               </div>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="birthdate" className="text-right">
                 Students
               </Label>
-              <ul className="col-span-3">
+              <ul className="col-span-3 flex flex-col gap-2">
                 {data?.students.length === 0 ? (
                   <li className="text-sm">{empty}</li>
                 ) : (
                   data?.students.map((student) => (
-                    <li key={`class-${student.id}`} className="text-sm">
+                    <li
+                      key={`class-${student.id}`}
+                      className="text-sm leading-none"
+                    >
                       {student.firstName} {student.lastName}
                     </li>
                   ))

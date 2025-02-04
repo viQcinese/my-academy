@@ -134,66 +134,98 @@ export const MultiSelect = React.forwardRef<
           align="start"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
-          <Command>
+          <Command className="">
             {withSearchInput && (
               <CommandInput
                 placeholder="Search..."
                 onKeyDown={handleInputKeyDown}
               />
             )}
-            <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup>
-                {withSelectAll && (
-                  <CommandItem
-                    key="all"
-                    onSelect={toggleAll}
-                    className="cursor-pointer"
-                  >
-                    <div
-                      className={cn(
-                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
-                        selectedValues.length === options.length
-                          ? "bg-primary text-primary-foreground"
-                          : "opacity-50 [&_svg]:invisible"
-                      )}
-                    >
-                      <CheckIcon className="h-4 w-4" />
-                    </div>
-                    <span>Select All</span>
-                  </CommandItem>
-                )}
-                {options.map((option) => {
-                  const isSelected = selectedValues.includes(option.value);
-                  return (
+            <ScrollableContainer>
+              <CommandList>
+                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandGroup>
+                  {withSelectAll && (
                     <CommandItem
-                      key={option.value}
-                      onSelect={() => toggleOption(option.value)}
+                      key="all"
+                      onSelect={toggleAll}
                       className="cursor-pointer"
-                      data-value={option.value}
                     >
                       <div
                         className={cn(
                           "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
-                          isSelected
+                          selectedValues.length === options.length
                             ? "bg-primary text-primary-foreground"
                             : "opacity-50 [&_svg]:invisible"
                         )}
                       >
                         <CheckIcon className="h-4 w-4" />
                       </div>
-                      <span>{option.label}</span>
-                      <span className="hidden">{option.value}</span>
+                      <span>Select All</span>
                     </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-            </CommandList>
+                  )}
+                  {options.map((option) => {
+                    const isSelected = selectedValues.includes(option.value);
+                    return (
+                      <CommandItem
+                        key={option.value}
+                        onSelect={() => toggleOption(option.value)}
+                        className="cursor-pointer"
+                        data-value={option.value}
+                      >
+                        <div
+                          className={cn(
+                            "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                            isSelected
+                              ? "bg-primary text-primary-foreground"
+                              : "opacity-50 [&_svg]:invisible"
+                          )}
+                        >
+                          <CheckIcon className="h-4 w-4" />
+                        </div>
+                        <span>{option.label}</span>
+                        <span className="hidden">{option.value}</span>
+                      </CommandItem>
+                    );
+                  })}
+                </CommandGroup>
+              </CommandList>
+            </ScrollableContainer>
           </Command>
         </PopoverContent>
       </Popover>
     );
   }
 );
+
+function ScrollableContainer({
+  children,
+  ...props
+}: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const element = ref.current!;
+    const handleWheel = (e: WheelEvent) => {
+      e.stopPropagation();
+    };
+    const handleTouchMove = (e: TouchEvent) => {
+      e.stopPropagation();
+    };
+
+    element.addEventListener("wheel", handleWheel, true);
+    element.addEventListener("touchmove", handleTouchMove, true);
+
+    return () => {
+      element.removeEventListener("wheel", handleWheel, true);
+      element.removeEventListener("touchmove", handleTouchMove, true);
+    };
+  }, []);
+
+  return (
+    <div {...props} ref={ref}>
+      {children}
+    </div>
+  );
+}
 
 MultiSelect.displayName = "MultiSelect";

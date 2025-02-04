@@ -7,13 +7,14 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { createClass } from "@/api/createClass";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { ClassForm } from "../../components/class-form/ClassForm";
+import { Student } from "@/model/Student";
+import { updateClassEnrollments } from "@/api/updateClassEnrollments";
 
 type Props = {
   isOpen: boolean;
@@ -21,20 +22,32 @@ type Props = {
 };
 
 export function CreateClassDialog(props: Props) {
+  const [name, setName] = useState<string>("");
+  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
+
+  const { data } = useQuery<Student[]>({ queryKey: ["students"] });
+
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: createClass,
+    mutationFn: async () => {
+      const { id } = await createClass({ name });
+      await updateClassEnrollments(
+        id,
+        selectedStudents.map((id) => Number(id))
+      );
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classes"] });
       props.onIsOpenChange(false);
     },
   });
-  const [name, setName] = useState<string>("");
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    mutate({ name });
+    mutate();
   }
+
+  const activeStudents = data?.filter((student) => student.isActive) || [];
 
   const isInvalid = !name;
 
@@ -50,17 +63,13 @@ export function CreateClassDialog(props: Props) {
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={onSubmit}>
-          <div className="grid py-4 grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              onChange={(e) => setName(e.currentTarget.value)}
-              value={name}
-              className="col-span-3"
-            />
-          </div>
+          <ClassForm
+            name={name}
+            setName={setName}
+            students={activeStudents}
+            selectedStudents={selectedStudents}
+            setSelectedStudents={setSelectedStudents}
+          />
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
