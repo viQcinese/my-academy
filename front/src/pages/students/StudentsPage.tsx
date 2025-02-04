@@ -9,6 +9,9 @@ import { useState } from "react";
 import { ActivateStudentsDialog } from "./dialogs/activate-students/ActivateStudents";
 import { DeactivateStudentsDialog } from "./dialogs/deactivate-students/DeactivateStudents";
 import { StudentDetailsDialog } from "./dialogs/student-details/StudentDetailsDialog";
+import { useStaticPagination } from "@/hooks/useStaticPagination";
+
+const ITEMS_PER_PAGE = 50;
 
 export function StudentsPage() {
   const { data } = useQuery<Student[]>({ queryKey: ["students"] });
@@ -27,6 +30,13 @@ export function StudentsPage() {
     setOpenStudentId(studentId);
     setIsStudentDetailsOpen(true);
   }
+
+  const { currentPage, onChangePage, paginatedData, totalItems } =
+    useStaticPagination({
+      data: data ?? [],
+      onChangePage: () => onToggleAllStudents(false),
+      itemsPerPage: ITEMS_PER_PAGE,
+    });
 
   return (
     <Layout>
@@ -49,13 +59,16 @@ export function StudentsPage() {
         isOpen={isActivateStudentsOpen}
         onIsOpenChange={setIsActivateStudentsOpen}
       />
-
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl font-bold">Students</h1>
         <p className="text">You can manage your students here</p>
       </div>
       <div className="mt-16">
         <StudentsTableActions
+          currentPage={currentPage}
+          onChangePage={onChangePage}
+          totalItems={totalItems}
+          itemsPerPage={ITEMS_PER_PAGE}
           selectedStudents={selectedStudents}
           textSearch={textSearch}
           setTextSearch={setTextSearch}
@@ -66,7 +79,7 @@ export function StudentsPage() {
       </div>
       <div className="mt-4">
         <DataTable
-          students={data || []}
+          students={paginatedData || []}
           selectedStudents={selectedStudents}
           onSelectStudent={onToggleStudent}
           onSelectAllStudents={onToggleAllStudents}
