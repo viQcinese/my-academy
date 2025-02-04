@@ -30,27 +30,33 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
     return studentsData.map((data) => new Student(data.student));
   }
 
-  async unenrollStudentFromClass(studentId: number, classId: number) {
-    await this.prisma.enrollment.deleteMany({
+  async unenrollStudentsFromClass(
+    classId: number,
+    studentIds: number[]
+  ): Promise<number> {
+    const { count } = await this.prisma.enrollment.deleteMany({
       where: {
-        studentId,
         classId,
+        studentId: { in: studentIds },
       },
     });
+    return count;
+  }
+
+  async enrollStudentsInClass(
+    classId: number,
+    studentIds: number[]
+  ): Promise<number> {
+    const { count } = await this.prisma.enrollment.createMany({
+      data: studentIds.map((studentId) => ({ studentId, classId })),
+      skipDuplicates: true,
+    });
+    return count;
   }
 
   async unenrollAllStudentsFromClass(classId: number) {
     await this.prisma.enrollment.deleteMany({
       where: { classId },
-    });
-  }
-
-  async enrollStudentInClass(studentId: number, classId: number) {
-    await this.prisma.enrollment.create({
-      data: {
-        studentId,
-        classId,
-      },
     });
   }
 
@@ -67,5 +73,33 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
       acc[classId] = _count.classId;
       return acc;
     }, {} as Record<string, number>);
+  }
+
+  async findEnrollmentIdsByClassId(classId: number): Promise<number[]> {
+    const enrollments = await this.prisma.enrollment.findMany({
+      where: { classId },
+      select: { id: true },
+    });
+    return enrollments.map((enrollment) => enrollment.id);
+  }
+
+  async updateClassEnrollments(
+    classId: number,
+    studentIds: number[]
+  ): Promise<[number, number]> {
+    const [{ count: deletedCount }, { count: createdCount }] =
+      await this.prisma.$transaction([
+        this.prisma.enrollment.deleteMany({
+          where: {
+            classId,
+            studentId: { notIn: studentIds },
+          },
+        }),
+        this.prisma.enrollment.createMany({
+          data: studentIds.map((studentId) => ({ classId, studentId })),
+          skipDuplicates: true,
+        }),
+      ]);
+    return [deletedCount, createdCount];
   }
 }

@@ -75,4 +75,12 @@ export class ClassController {
     );
     res.status(200).json({ class: updateClass });
   }
+
+  async updateClassEnrollments(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { studentIds } = req.body;
+    const [deletedCount, createdCount] =
+      await this.enrollmentService.updateEnrollments(Number(id), studentIds);
+    res.status(200).json({ deletedCount, createdCount });
+  }
 }

@@ -15,32 +15,33 @@ export class EnrollmentService {
     this.classRepository = classRepository;
   }
 
-  async enrollStudentInClass(
-    studentId: number,
-    classId: number
-  ): Promise<void> {
-    const classEntity = await this.classRepository.findById(classId);
-
-    if (!classEntity || !classEntity.isActive) {
-      throw new Error("The class does not exist or is not active.");
-    }
-
-    await this.enrollmentRepository.enrollStudentInClass(studentId, classId);
+  async enrollStudentsInClass(
+    classId: number,
+    studentIds: number[]
+  ): Promise<number> {
+    return await this.enrollmentRepository.enrollStudentsInClass(
+      classId,
+      studentIds
+    );
   }
 
-  async unenrollStudentFromClass(
-    studentId: number,
-    classId: number
-  ): Promise<void> {
-    const classEntity = await this.classRepository.findById(classId);
+  async updateEnrollments(
+    classId: number,
+    studentIds: number[]
+  ): Promise<[number, number]> {
+    return await this.enrollmentRepository.updateClassEnrollments(
+      classId,
+      studentIds
+    );
+  }
 
-    if (!classEntity) {
-      throw new Error("The class does not exist or is not active.");
-    }
-
-    await this.enrollmentRepository.unenrollStudentFromClass(
-      studentId,
-      classId
+  async unenrollStudentsFromClass(
+    classId: number,
+    studentIds: number[]
+  ): Promise<number> {
+    return await this.enrollmentRepository.unenrollStudentsFromClass(
+      classId,
+      studentIds
     );
   }
 
