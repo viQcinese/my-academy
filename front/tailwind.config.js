@@ -11,6 +11,10 @@ export default {
       },
     },
     extend: {
+      spacing: {
+        nav: "3.5rem",
+        content: "calc(100vh - 3.5rem)",
+      },
       maxWidth: {
         site: "1200px",
       },

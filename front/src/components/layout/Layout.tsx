@@ -10,7 +10,7 @@ export function Layout(props: LayoutProps) {
 
   return (
     <div>
-      <div className="p-4 bg-teal-700 ">
+      <div className="p-4 bg-teal-700 h-nav">
         <nav className="flex max-w-site m-auto justify-between ">
           <div>o</div>
           <div className="flex  gap-4">
@@ -23,7 +23,9 @@ export function Layout(props: LayoutProps) {
           </div>
         </nav>
       </div>
-      <main className="max-w-site m-auto pt-8 pb-32">{children}</main>
+      <main className="max-w-site h-content flex flex-col m-auto pt-8 pb-12">
+        {children}
+      </main>
     </div>
   );
 }

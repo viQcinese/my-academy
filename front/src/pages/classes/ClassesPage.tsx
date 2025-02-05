@@ -78,7 +78,7 @@ export function ClassesPage() {
             textSearch={textSearch}
           />
         </div>
-        <div className="mt-4">
+        <div className="mt-4 overflow-auto">
           <ClassesTable
             classes={paginatedData || []}
             onOpenClassDetails={onOpenClass}
