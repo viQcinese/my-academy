@@ -1,4 +1,4 @@
-import { getClasses } from "@/api/getClasses";
+import { getClasses } from "@/api/class/getClasses";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 

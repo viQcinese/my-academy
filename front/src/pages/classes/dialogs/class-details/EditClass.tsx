@@ -9,8 +9,8 @@ import {
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Loader2 } from "lucide-react";
-import { editClass } from "@/api/editClass";
-import { updateClassEnrollments } from "@/api/updateClassEnrollments";
+import { editClass } from "@/api/class/editClass";
+import { updateClassEnrollments } from "@/api/class/updateClassEnrollments";
 import { ClassForm } from "../../components/class-form/ClassForm";
 import { ClassDetails } from "@/model/ClassDetails";
 import { Student } from "@/model/Student";

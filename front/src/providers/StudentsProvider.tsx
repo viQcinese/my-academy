@@ -1,4 +1,4 @@
-import { getStudents } from "@/api/getStudents";
+import { getStudents } from "@/api/student/getStudents";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 

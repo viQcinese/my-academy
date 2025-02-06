@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { activateStudents } from "@/api/activateStudents";
+import { activateStudents } from "@/api/student/activateStudents";
 import { Student } from "@/model/Student";
 import { ActOnManyDialog } from "@/components/dialogs/act-on-many/ActOnManyDialog";
 

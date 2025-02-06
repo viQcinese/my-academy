@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { StudentForm } from "../../components/student-form/StudentForm";
 import { StudentFormData } from "../../model/StudentFormData";
-import { editStudent } from "@/api/editStudent";
+import { editStudent } from "@/api/student/editStudent";
 
 type Props = {
   student: Student;

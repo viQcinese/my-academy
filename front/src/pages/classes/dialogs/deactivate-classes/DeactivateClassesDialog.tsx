@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ActOnManyDialog } from "@/components/dialogs/act-on-many/ActOnManyDialog";
-import { deactivateClasses } from "@/api/deactivateClasses";
+import { deactivateClasses } from "@/api/class/deactivateClasses";
 import { Class } from "@/model/Class";
 
 type Props = {

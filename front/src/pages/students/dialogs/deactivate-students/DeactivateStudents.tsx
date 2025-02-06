@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Student } from "@/model/Student";
 import { ActOnManyDialog } from "@/components/dialogs/act-on-many/ActOnManyDialog";
-import { deactivateStudents } from "@/api/deactivateStudents";
+import { deactivateStudents } from "@/api/student/deactivateStudents";
 
 type Props = {
   students: number[];

@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { EditIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { getClass } from "@/api/getClass";
+import { getClass } from "@/api/class/getClass";
 import { ClassDetails } from "@/model/ClassDetails";
 import { EditClass } from "./EditClass";
 

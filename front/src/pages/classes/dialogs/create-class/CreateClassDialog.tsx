@@ -11,10 +11,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { createClass } from "@/api/createClass";
+import { createClass } from "@/api/class/createClass";
 import { ClassForm } from "../../components/class-form/ClassForm";
 import { Student } from "@/model/Student";
-import { updateClassEnrollments } from "@/api/updateClassEnrollments";
+import { updateClassEnrollments } from "@/api/class/updateClassEnrollments";
 
 type Props = {
   isOpen: boolean;

@@ -1,4 +1,4 @@
-import { getStudent } from "@/api/getStudent";
+import { getStudent } from "@/api/student/getStudent";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
