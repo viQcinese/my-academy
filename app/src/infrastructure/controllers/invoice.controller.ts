@@ -9,20 +9,22 @@ export class InvoiceController {
   }
 
   async createInvoice(req: Request, res: Response): Promise<void> {
-    const { amount, studentId, description } = req.body;
+    const { amount, studentId, description, dueDate, currency } = req.body;
 
     if (!amount || !studentId) {
       res.status(400).json({ error: "amount and studentId are required" });
       return;
     }
 
-    const student = await this.invoiceService.createInvoice({
+    const invoice = await this.invoiceService.createInvoice({
       amount,
       studentId,
       description,
+      dueDate,
+      currency,
     });
 
-    res.status(201).json(student);
+    res.status(201).json(invoice);
   }
 
   async listInvoices(req: Request, res: Response): Promise<void> {

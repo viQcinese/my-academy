@@ -62,7 +62,7 @@ model Invoice {
   createdAt DateTime @map("created_at") @default(now())
 
   description String? @map("description") @db.VarChar(512) 
-  due_date DateTime? @map("due_date")
+  dueAt DateTime? @map("due_at")
 
   student Student @relation(fields: [studentId], references: [id])
 
