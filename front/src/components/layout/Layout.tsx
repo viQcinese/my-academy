@@ -20,6 +20,9 @@ export function Layout(props: LayoutProps) {
             <NavLink className="text-teal-50 font-bold" to="/classes" end>
               Classes
             </NavLink>
+            <NavLink className="text-teal-50 font-bold" to="/invoices" end>
+              Invoices
+            </NavLink>
           </div>
         </nav>
       </div>
