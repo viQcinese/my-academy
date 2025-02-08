@@ -83,7 +83,7 @@ export function InvoiceForm(props: Props) {
                 description: e.currentTarget.value,
               }))
             }
-            value={form.dueAt}
+            value={form.description}
             className="col-span-3"
           />
         </div>

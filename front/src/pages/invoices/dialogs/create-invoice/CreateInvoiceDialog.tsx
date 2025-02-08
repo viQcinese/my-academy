@@ -21,14 +21,24 @@ type Props = {
   onIsOpenChange: (value: boolean) => void;
 };
 
-export function CreateInvoiceDialog(props: Props) {
-  const { isOpen, onIsOpenChange } = props;
-  const [form, setForm] = useState<CreateInvoiceForm>({
+new Date();
+
+function defaultInvoiceForm(): CreateInvoiceForm {
+  const today = new Date();
+  const sevenDaysLater = new Date(today);
+  sevenDaysLater.setDate(today.getDate() + 7);
+
+  return {
     amount: 0,
     studentIds: [],
     description: "",
-    dueAt: undefined,
-  });
+    dueAt: sevenDaysLater.toISOString().split("T")[0],
+  };
+}
+
+export function CreateInvoiceDialog(props: Props) {
+  const { isOpen, onIsOpenChange } = props;
+  const [form, setForm] = useState<CreateInvoiceForm>(defaultInvoiceForm);
 
   const { data } = useQuery<Student[]>({ queryKey: ["students"] });
 
@@ -40,6 +50,7 @@ export function CreateInvoiceDialog(props: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
       onIsOpenChange(false);
+      setForm(defaultInvoiceForm);
     },
   });
 
@@ -53,7 +64,11 @@ export function CreateInvoiceDialog(props: Props) {
   const isInvalid = !form.amount || form.studentIds.length === 0;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onIsOpenChange}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={onIsOpenChange}
+      onClose={() => setForm(defaultInvoiceForm())}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">

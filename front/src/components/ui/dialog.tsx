@@ -4,7 +4,24 @@ import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-const Dialog = DialogPrimitive.Root;
+const Dialog = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root> & {
+    onOpen?: () => void;
+    onClose?: () => void;
+  }
+>(({ onOpen, onClose, onOpenChange, ...props }) => {
+  function handleOpenChange(open: boolean) {
+    if (open) {
+      onOpen?.();
+      onOpenChange?.(open);
+    } else {
+      onClose?.();
+      onOpenChange?.(open);
+    }
+  }
+  return <DialogPrimitive.Root {...props} onOpenChange={handleOpenChange} />;
+});
 
 const DialogTrigger = DialogPrimitive.Trigger;
 
