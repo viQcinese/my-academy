@@ -11,6 +11,7 @@ import { Student } from "@/model/Student";
 import { getStudents } from "@/api/student/getStudents";
 import { MarkAsPaidDialog } from "./dialogs/mark-as-paid/MarkAsPaidDialog";
 import { MarkAsUnpaidDialog } from "./dialogs/mark-as-paid/mark-as-unpaid/MarkAsUnpaidDialog";
+import { CreateInvoiceDialog } from "./dialogs/create-invoice/CreateInvoiceDialog";
 
 const ITEMS_PER_PAGE = 50;
 
@@ -53,6 +54,10 @@ export function InvoicesPage() {
         invoices={selectedInvoices}
         isOpen={isMarkAsUnpaidOpen}
         onIsOpenChange={setIsMarkAsUnpaidOpen}
+      />
+      <CreateInvoiceDialog
+        isOpen={isCreateInvoiceOpen}
+        onIsOpenChange={setIsCreateInvoiceOpen}
       />
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl font-bold">Invoices</h1>

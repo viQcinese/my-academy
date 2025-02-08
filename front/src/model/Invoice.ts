@@ -15,3 +15,10 @@ export type InvoiceTableItem = {
   invoice: Invoice;
   student?: Student;
 };
+
+export type CreateInvoiceForm = {
+  studentIds: string[];
+  amount: number;
+  dueAt?: string;
+  description?: string;
+};
