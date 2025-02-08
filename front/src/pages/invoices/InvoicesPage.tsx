@@ -32,14 +32,7 @@ export function InvoicesPage() {
   const [isActivateInvoicesOpen, setIsActivateInvoicesOpen] = useState(false);
   const [isDeactivateInvoicesOpen, setIsDeactivateInvoicesOpen] =
     useState(false);
-  const [openInvoiceId, setOpenInvoiceId] = useState<number>(0);
-  const [isInvoiceDetailsOpen, setIsInvoiceDetailsOpen] = useState(false);
   const [isDeleteInvoicesOpen, setIsDeleteInvoicesOpen] = useState(false);
-
-  function onOpenInvoice(invoiceId: number) {
-    setOpenInvoiceId(invoiceId);
-    setIsInvoiceDetailsOpen(true);
-  }
 
   const { currentPage, onChangePage, paginatedData, totalItems } =
     useStaticPagination({
@@ -72,7 +65,6 @@ export function InvoicesPage() {
       <div className="mt-4 overflow-auto">
         <InvoicesTable
           invoices={paginatedData || []}
-          onOpenInvoiceDetails={onOpenInvoice}
           onSelectAllInvoices={onToggleAllInvoices}
           onSelectInvoice={onToggleInvoice}
           selectedInvoices={selectedInvoices}

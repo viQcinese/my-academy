@@ -7,7 +7,7 @@ export class Invoice {
   public currency: string = "BRL";
   public isPaid: boolean = false;
   public description: string = "";
-  public dueDate?: Date;
+  public dueAt?: Date;
   public createdAt?: Date;
 
   constructor(params: CreateInvoiceDTO) {
@@ -17,7 +17,7 @@ export class Invoice {
     this.description = params.description ?? this.description;
     this.studentId = params.studentId;
     this.amount = params.amount;
-    this.dueDate = params.dueDate ?? this.dueDate;
+    this.dueAt = params.dueAt ?? this.dueAt;
     this.createdAt = params.createdAt;
   }
 }

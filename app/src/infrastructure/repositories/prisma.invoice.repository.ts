@@ -13,7 +13,7 @@ export class PrismaInvoiceRepository implements InvoiceRepository {
     const invoices = await this.prisma.invoice.findMany({
       orderBy: [
         { isPaid: "asc" },
-        { dueAt: "asc" },
+        { dueAt: { sort: "asc", nulls: "last" } },
         { student: { firstName: "asc" } },
       ],
     });

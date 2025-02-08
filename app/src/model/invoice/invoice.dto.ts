@@ -3,7 +3,7 @@ export type CreateInvoiceDTO = {
   isPaid?: boolean;
   currency?: string;
   description?: string | null;
-  dueDate?: Date | null;
+  dueAt?: Date | null;
   createdAt?: Date;
   studentId: number;
   amount: number;
