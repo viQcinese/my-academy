@@ -9,6 +9,8 @@ import { InvoicesTableActions } from "./components/invoices-table-actions/Invoic
 import { InvoicesTable } from "./components/invoices-table/InvoicesTable";
 import { Student } from "@/model/Student";
 import { getStudents } from "@/api/student/getStudents";
+import { MarkAsPaidDialog } from "./dialogs/mark-as-paid/MarkAsPaidDialog";
+import { MarkAsUnpaidDialog } from "./dialogs/mark-as-paid/mark-as-unpaid/MarkAsUnpaidDialog";
 
 const ITEMS_PER_PAGE = 50;
 
@@ -29,9 +31,8 @@ export function InvoicesPage() {
     useSelectMany(invoiceIds);
   const [textSearch, setTextSearch] = useState("");
   const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false);
-  const [isActivateInvoicesOpen, setIsActivateInvoicesOpen] = useState(false);
-  const [isDeactivateInvoicesOpen, setIsDeactivateInvoicesOpen] =
-    useState(false);
+  const [isMarkAsPaidOpen, setIsMarkAsPaidOpen] = useState(false);
+  const [isMarkAsUnpaidOpen, setIsMarkAsUnpaidOpen] = useState(false);
   const [isDeleteInvoicesOpen, setIsDeleteInvoicesOpen] = useState(false);
 
   const { currentPage, onChangePage, paginatedData, totalItems } =
@@ -43,6 +44,16 @@ export function InvoicesPage() {
 
   return (
     <Layout>
+      <MarkAsPaidDialog
+        invoices={selectedInvoices}
+        isOpen={isMarkAsPaidOpen}
+        onIsOpenChange={setIsMarkAsPaidOpen}
+      />
+      <MarkAsUnpaidDialog
+        invoices={selectedInvoices}
+        isOpen={isMarkAsUnpaidOpen}
+        onIsOpenChange={setIsMarkAsUnpaidOpen}
+      />
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl font-bold">Invoices</h1>
         <p className="text">You can manage your invoices here</p>
@@ -56,9 +67,9 @@ export function InvoicesPage() {
           selectedInvoices={selectedInvoices}
           textSearch={textSearch}
           setTextSearch={setTextSearch}
-          onOpenMarkAsPaid={() => setIsActivateInvoicesOpen(true)}
+          onOpenMarkAsPaid={() => setIsMarkAsPaidOpen(true)}
           onOpenCreateInvoice={() => setIsCreateInvoiceOpen(true)}
-          onOpenMarkAsUnpaid={() => setIsDeactivateInvoicesOpen(true)}
+          onOpenMarkAsUnpaid={() => setIsMarkAsUnpaidOpen(true)}
           onOpenDelete={() => setIsDeleteInvoicesOpen(true)}
         />
       </div>

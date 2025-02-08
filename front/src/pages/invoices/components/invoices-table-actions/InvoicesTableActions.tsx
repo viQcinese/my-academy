@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 
 type Props = {
-  selectedInvoices: number[];
+  selectedInvoices: string[];
   textSearch: string;
   currentPage: number;
   totalItems: number;

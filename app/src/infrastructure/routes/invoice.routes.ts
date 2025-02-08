@@ -18,7 +18,7 @@ invoiceRoutes.get("/:id", (req, res) => invoiceController.getInvoice(req, res));
 invoiceRoutes.post("/mark-as-paid", (req, res) =>
   invoiceController.markInvoicesAsPaid(req, res)
 );
-invoiceRoutes.post("mark-as-unpaid", (req, res) =>
+invoiceRoutes.post("/mark-as-unpaid", (req, res) =>
   invoiceController.markInvoicesAsUnpaid(req, res)
 );
 

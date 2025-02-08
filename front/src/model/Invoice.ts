@@ -1,7 +1,7 @@
 import { Student } from "./Student";
 
 export type Invoice = {
-  id: number;
+  id: string;
   studentId: number;
   amount: number;
   currency: string;

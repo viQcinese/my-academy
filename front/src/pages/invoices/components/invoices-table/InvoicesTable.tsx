@@ -18,8 +18,8 @@ import { AlertCircle, CheckIcon } from "lucide-react";
 interface InvoicesTableProps {
   textSearch: string;
   invoices: InvoiceTableItem[];
-  selectedInvoices: number[];
-  onSelectInvoice: (value: boolean, id: number) => void;
+  selectedInvoices: string[];
+  onSelectInvoice: (value: boolean, id: string) => void;
   onSelectAllInvoices: (value: boolean) => void;
 }
 

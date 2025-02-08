@@ -15,7 +15,7 @@ import React from "react";
 type Props<K> = {
   targets: K[];
   children?: React.ReactNode;
-  targetMutation: ReturnType<typeof useMutation<void, Error, K[]>>;
+  targetMutation: ReturnType<typeof useMutation<unknown, Error, K[]>>;
   title: string;
   description: string;
   isOpen: boolean;
