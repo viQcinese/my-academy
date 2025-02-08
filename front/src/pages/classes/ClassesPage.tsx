@@ -11,11 +11,15 @@ import { ActivateClassesDialog } from "./dialogs/activate-classes/ActivateClasse
 import { DeactivateClassesDialog } from "./dialogs/deactivate-classes/DeactivateClassesDialog";
 import { CreateClassDialog } from "./dialogs/create-class/CreateClassDialog";
 import { ClassDetailsDialog } from "./dialogs/class-details/ClassDetailsDialog";
+import { getClasses } from "@/api/class/getClasses";
 
 const ITEMS_PER_PAGE = 50;
 
 export function ClassesPage() {
-  const { data } = useQuery<Class[]>({ queryKey: ["classes"] });
+  const { data } = useQuery<Class[]>({
+    queryKey: ["classes"],
+    queryFn: getClasses,
+  });
   const studentIds = data?.map((student) => student.id) || [];
   const [selectedClasses, onToggleClass, onToggleAllClasses] =
     useSelectMany(studentIds);

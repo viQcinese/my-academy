@@ -3,19 +3,28 @@ import { useSelectMany } from "@/hooks/useSelectMany";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useStaticPagination } from "@/hooks/useStaticPagination";
-import { Invoice } from "@/model/Invoice";
+import { InvoiceTableItem } from "@/model/Invoice";
 import { getInvoices } from "@/api/invoices/getInvoices";
 import { InvoicesTableActions } from "./components/invoices-table-actions/InvoicesTableActions";
 import { InvoicesTable } from "./components/invoices-table/InvoicesTable";
+import { Student } from "@/model/Student";
+import { getStudents } from "@/api/student/getStudents";
 
 const ITEMS_PER_PAGE = 50;
 
 export function InvoicesPage() {
-  const { data } = useQuery<Invoice[]>({
-    queryFn: getInvoices,
-    queryKey: ["invoices"],
+  const { data: students } = useQuery<Student[]>({
+    queryKey: ["students"],
+    queryFn: getStudents,
   });
-  const invoiceIds = data?.map((invoice) => invoice.id) || [];
+
+  const { data } = useQuery<InvoiceTableItem[]>({
+    queryFn: () => getInvoices(students || []),
+    queryKey: ["invoices"],
+    enabled: !!students,
+  });
+
+  const invoiceIds = data?.map((invoice) => invoice.invoice.id) || [];
   const [selectedInvoices, onToggleInvoice, onToggleAllInvoices] =
     useSelectMany(invoiceIds);
   const [textSearch, setTextSearch] = useState("");
@@ -62,7 +71,7 @@ export function InvoicesPage() {
       </div>
       <div className="mt-4 overflow-auto">
         <InvoicesTable
-          invoices={data || []}
+          invoices={paginatedData || []}
           onOpenInvoiceDetails={onOpenInvoice}
           onSelectAllInvoices={onToggleAllInvoices}
           onSelectInvoice={onToggleInvoice}

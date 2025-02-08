@@ -10,11 +10,15 @@ import { ActivateStudentsDialog } from "./dialogs/activate-students/ActivateStud
 import { DeactivateStudentsDialog } from "./dialogs/deactivate-students/DeactivateStudents";
 import { StudentDetailsDialog } from "./dialogs/student-details/StudentDetailsDialog";
 import { useStaticPagination } from "@/hooks/useStaticPagination";
+import { getStudents } from "@/api/student/getStudents";
 
 const ITEMS_PER_PAGE = 50;
 
 export function StudentsPage() {
-  const { data } = useQuery<Student[]>({ queryKey: ["students"] });
+  const { data } = useQuery<Student[]>({
+    queryKey: ["students"],
+    queryFn: getStudents,
+  });
   const studentIds = data?.map((student) => student.id) || [];
   const [selectedStudents, onToggleStudent, onToggleAllStudents] =
     useSelectMany(studentIds);

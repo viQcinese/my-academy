@@ -1,3 +1,5 @@
+import { Student } from "./Student";
+
 export type Invoice = {
   id: number;
   studentId: number;
@@ -5,5 +7,11 @@ export type Invoice = {
   currency: string;
   createdAt: string;
   dueAt: string;
+  isPaid: boolean;
   description?: string;
+};
+
+export type InvoiceTableItem = {
+  invoice: Invoice;
+  student?: Student;
 };

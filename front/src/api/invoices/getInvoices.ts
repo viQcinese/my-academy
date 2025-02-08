@@ -1,6 +1,9 @@
-import { Invoice } from "@/model/Invoice";
+import { Invoice, InvoiceTableItem } from "@/model/Invoice";
+import { Student } from "@/model/Student";
 
-export async function getInvoices(): Promise<Invoice[]> {
+export async function getInvoices(
+  students: Student[]
+): Promise<InvoiceTableItem[]> {
   const response = await fetch("http://localhost:3000/invoices", {
     method: "GET",
     headers: {
@@ -13,5 +16,10 @@ export async function getInvoices(): Promise<Invoice[]> {
     throw new Error("Network response was not ok");
   }
 
-  return await response.json();
+  const invoices: Invoice[] = await response.json();
+
+  return invoices.map((invoice) => ({
+    invoice,
+    student: students.find((student) => student.id === invoice.studentId),
+  }));
 }
