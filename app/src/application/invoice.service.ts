@@ -1,5 +1,8 @@
 import { InvoiceRepository } from "../model/invoice/invoice.repository";
-import { CreateInvoiceDTO } from "../model/invoice/invoice.dto";
+import {
+  CreateInvoiceDTO,
+  CreateInvoicesDTO,
+} from "../model/invoice/invoice.dto";
 import { Invoice } from "../model/invoice/invoice.entity";
 
 export class InvoiceService {
@@ -9,9 +12,8 @@ export class InvoiceService {
     this.invoiceRepository = invoiceRepository;
   }
 
-  async createInvoice(dto: CreateInvoiceDTO): Promise<Invoice> {
-    const invoice = new Invoice(dto);
-    return await this.invoiceRepository.createInvoice(invoice);
+  async createInvoices(dto: CreateInvoicesDTO): Promise<void> {
+    return await this.invoiceRepository.createInvoices(dto);
   }
 
   async getInvoice(id: string): Promise<Invoice | null> {

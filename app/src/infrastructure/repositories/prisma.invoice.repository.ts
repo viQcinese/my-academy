@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { InvoiceRepository } from "../../model/invoice/invoice.repository";
 import { Invoice } from "../../model/invoice/invoice.entity";
+import { CreateInvoicesDTO } from "../../model/invoice/invoice.dto";
 
 export class PrismaInvoiceRepository implements InvoiceRepository {
   private prisma: PrismaClient;
@@ -27,9 +28,19 @@ export class PrismaInvoiceRepository implements InvoiceRepository {
     return invoice ? new Invoice(invoice) : null;
   }
 
-  async createInvoice(dto: Invoice): Promise<Invoice> {
-    const createdInvoice = await this.prisma.invoice.create({ data: dto });
-    return new Invoice(createdInvoice);
+  async createInvoices(dto: CreateInvoicesDTO): Promise<void> {
+    const { amount, studentIds, description, dueAt } = dto;
+    await this.prisma.invoice.createMany({
+      data: studentIds.map((studentId) => ({
+        studentId,
+        amount,
+        description,
+        dueAt: dueAt ? new Date(dueAt) : undefined,
+        isPaid: false,
+        currency: "BRL",
+      })),
+      skipDuplicates: true,
+    });
   }
 
   async updateInvoice(id: string, invoice: Invoice): Promise<Invoice> {

@@ -11,7 +11,7 @@ const invoiceController = new InvoiceController(invoiceService);
 const invoiceRoutes = Router();
 
 invoiceRoutes.post("/", (req, res) =>
-  invoiceController.createInvoice(req, res)
+  invoiceController.createInvoices(req, res)
 );
 invoiceRoutes.get("/", (req, res) => invoiceController.listInvoices(req, res));
 invoiceRoutes.get("/:id", (req, res) => invoiceController.getInvoice(req, res));

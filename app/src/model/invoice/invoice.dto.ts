@@ -3,10 +3,17 @@ export type CreateInvoiceDTO = {
   isPaid?: boolean;
   currency?: string;
   description?: string | null;
-  dueAt?: Date | null;
+  dueDate?: Date | null;
   createdAt?: Date;
   studentId: number;
   amount: number;
+};
+
+export type CreateInvoicesDTO = {
+  amount: number;
+  studentIds: number[];
+  description?: string;
+  dueAt?: Date;
 };
 
 export type ShowInvoiceDTO = {
