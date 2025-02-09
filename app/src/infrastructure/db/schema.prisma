@@ -16,6 +16,7 @@ datasource db {
 
 model Student {
   id Int @id @default(autoincrement())
+  userId String @map("user_id")
   firstName String  @map("first_name")
   isActive Boolean @map("is_active")
   
@@ -33,6 +34,7 @@ model Student {
 
 model Class {
   id Int @id @default(autoincrement())
+  userId String @map("user_id")
   name String  @map("name")
   isActive Boolean @map("is_active")
 
@@ -43,6 +45,7 @@ model Class {
 
 model Enrollment {
   id Int @id @default(autoincrement())
+  userId String @map("user_id")
   studentId Int @map("student_id")
   classId Int @map("class_id")
 
@@ -55,6 +58,7 @@ model Enrollment {
 
 model Invoice {
   id String @id @default(uuid())
+  userId String @map("user_id")
   studentId Int @map("student_id")
   amount Int @map("amount")
   currency String @map("currency")

@@ -6,8 +6,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "@/components/ui/button";
 
 export function ApplicationRoutes() {
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
 
+  console.log({ user });
   return isAuthenticated ? (
     <Routes>
       <Route path="/" element={<Navigate to="/classes" replace />} />
