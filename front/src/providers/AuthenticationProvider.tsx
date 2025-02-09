@@ -11,7 +11,10 @@ export function AuthenticationProvider(props: Props) {
     <Auth0Provider
       domain={import.meta.env.VITE_AUTH_PROVIDER_DOMAIN!}
       clientId={import.meta.env.VITE_AUTH_PROVIDER_CLIENT_ID!}
-      authorizationParams={{ redirect_uri: window.location.origin }}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: import.meta.env.VITE_AUTH_PROVIDER_AUDIENCE,
+      }}
     >
       {children}
     </Auth0Provider>

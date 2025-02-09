@@ -1,7 +1,6 @@
 import { EnrollmentService } from "../../application/enrollment.service";
 import { StudentService } from "../../application/student.service";
 import { Request, Response } from "express";
-import { Student } from "../../model/student/student.entity";
 
 export class StudentController {
   private studentService: StudentService;
@@ -84,26 +83,5 @@ export class StudentController {
     const { ids } = req.body;
     await this.studentService.deactivateStudents(ids);
     res.status(200).json({});
-  }
-
-  async enrollStudentInClass(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const { classId } = req.query;
-
-    this.enrollmentService.enrollStudentInClass(Number(id), Number(classId));
-
-    res.status(200).json({});
-  }
-
-  async unenrollStudentFromClass(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const { classId } = req.query;
-
-    this.enrollmentService.unenrollStudentFromClass(
-      Number(id),
-      Number(classId)
-    );
-
-    res.status(200).json();
   }
 }

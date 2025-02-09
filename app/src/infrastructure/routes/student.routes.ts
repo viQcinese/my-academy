@@ -36,11 +36,5 @@ studentRoutes.patch("/activate", (req, res) =>
 studentRoutes.patch("/deactivate", (req, res) =>
   studentController.deactivateStudents(req, res)
 );
-studentRoutes.post("/:id/enroll", (req, res) =>
-  studentController.enrollStudentInClass(req, res)
-);
-studentRoutes.post("/:id/unenroll", (req, res) =>
-  studentController.unenrollStudentFromClass(req, res)
-);
 
 export { studentRoutes };
