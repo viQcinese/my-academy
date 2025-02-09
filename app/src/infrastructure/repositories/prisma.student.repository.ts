@@ -9,9 +9,10 @@ export class PrismaStudentRepository implements StudentRepository {
     this.prisma = prisma;
   }
 
-  async create(student: Student): Promise<Student> {
+  async create(student: Student, userId: string): Promise<Student> {
     const savedStudent = await this.prisma.student.create({
       data: {
+        userId,
         firstName: student.firstName,
         lastName: student.lastName,
         birthdate: student.birthdate,
@@ -25,9 +26,13 @@ export class PrismaStudentRepository implements StudentRepository {
     return new Student(savedStudent);
   }
 
-  async updateStudent(id: number, student: Student): Promise<Student> {
+  async updateStudent(
+    id: number,
+    student: Student,
+    userId: string
+  ): Promise<Student> {
     const updatedStudent = await this.prisma.student.update({
-      where: { id },
+      where: { id, userId },
       data: {
         firstName: student.firstName,
         lastName: student.lastName,
@@ -42,32 +47,33 @@ export class PrismaStudentRepository implements StudentRepository {
     return new Student(updatedStudent);
   }
 
-  async findAll(): Promise<Student[]> {
+  async findAll(userId: string): Promise<Student[]> {
     const studentData = await this.prisma.student.findMany({
+      where: { userId },
       orderBy: [{ isActive: "desc" }, { firstName: "asc" }],
     });
     return studentData.map((data) => new Student(data));
   }
 
-  async findById(id: number): Promise<Student | null> {
+  async findById(id: number, userId: string): Promise<Student | null> {
     const studentData = await this.prisma.student.findUnique({
-      where: { id },
+      where: { id, userId },
     });
 
     return studentData ? new Student(studentData) : null;
   }
 
-  async activateStudents(ids: number[]): Promise<number> {
+  async activateStudents(ids: number[], userId: string): Promise<number> {
     const { count } = await this.prisma.student.updateMany({
-      where: { id: { in: ids } },
+      where: { userId, id: { in: ids } },
       data: { isActive: true },
     });
     return count;
   }
 
-  async deactivateStudents(ids: number[]): Promise<number> {
+  async deactivateStudents(ids: number[], userId: string): Promise<number> {
     const { count } = await this.prisma.student.updateMany({
-      where: { id: { in: ids } },
+      where: { userId, id: { in: ids } },
       data: { isActive: false },
     });
     return count;

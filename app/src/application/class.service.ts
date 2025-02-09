@@ -19,20 +19,21 @@ export class ClassService {
     this.enrollmentRepository = enrollmentRepository;
   }
 
-  async createClass(dto: CreateClassDTO): Promise<Class> {
+  async createClass(dto: CreateClassDTO, userId: string): Promise<Class> {
     const createdClass = new Class(dto);
-    return await this.classRepository.create(createdClass);
+    return await this.classRepository.create(createdClass, userId);
   }
 
-  async getClass(id: number): Promise<Class | null> {
-    return await this.classRepository.findById(id);
+  async getClass(id: number, userId: string): Promise<Class | null> {
+    return await this.classRepository.findById(id, userId);
   }
 
-  async listClasses(): Promise<ClassListItem[]> {
-    const classes = await this.classRepository.findAll();
+  async listClasses(userId: string): Promise<ClassListItem[]> {
+    const classes = await this.classRepository.findAll(userId);
     const enrollmentsCount =
       await this.enrollmentRepository.countStudentsByClasses(
-        classes.map((c) => c.id!)
+        classes.map((c) => c.id!),
+        userId
       );
 
     return classes.map((c) => ({
@@ -41,20 +42,24 @@ export class ClassService {
     }));
   }
 
-  async editClass(id: number, classData: Partial<Class>): Promise<Class> {
-    return await this.classRepository.update(id, classData);
+  async editClass(
+    id: number,
+    classData: Partial<Class>,
+    userId: string
+  ): Promise<Class> {
+    return await this.classRepository.update(id, classData, userId);
   }
 
-  async activateClasses(ids: number[]): Promise<number> {
-    const count = await this.classRepository.activateClasses(ids);
+  async activateClasses(ids: number[], userId: string): Promise<number> {
+    const count = await this.classRepository.activateClasses(ids, userId);
     if (count !== ids.length) {
       throw new Error(`Failed to update ${ids.length - count} students`);
     }
     return count;
   }
 
-  async deactivateClasses(ids: number[]): Promise<number> {
-    const count = await this.classRepository.deactivateClasses(ids);
+  async deactivateClasses(ids: number[], userId: string): Promise<number> {
+    const count = await this.classRepository.deactivateClasses(ids, userId);
     if (count !== ids.length) {
       throw new Error(`Failed to update ${ids.length - count} students`);
     }

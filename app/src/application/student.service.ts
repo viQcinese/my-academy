@@ -9,36 +9,44 @@ export class StudentService {
     this.studentRepository = studentRepository;
   }
 
-  async createStudent(dto: CreateStudentDTO): Promise<Student> {
+  async createStudent(dto: CreateStudentDTO, userId: string): Promise<Student> {
     const student = new Student(dto);
-    return await this.studentRepository.create(student);
+    return await this.studentRepository.create(student, userId);
   }
 
-  async getStudent(id: number): Promise<Student | null> {
-    return await this.studentRepository.findById(id);
+  async getStudent(id: number, userId: string): Promise<Student | null> {
+    return await this.studentRepository.findById(id, userId);
   }
 
-  async editStudent(id: number, student: Student): Promise<Student> {
-    return await this.studentRepository.updateStudent(id, student);
+  async editStudent(
+    id: number,
+    student: Student,
+    userId: string
+  ): Promise<Student> {
+    return await this.studentRepository.updateStudent(id, student, userId);
   }
 
-  async listStudents(): Promise<Student[]> {
-    return await this.studentRepository.findAll();
+  async listStudents(userId: string): Promise<Student[]> {
+    return await this.studentRepository.findAll(userId);
   }
 
-  async activateStudents(ids: number[]): Promise<void> {
-    const count = await this.studentRepository.activateStudents(ids);
+  async activateStudents(ids: number[], userId: string): Promise<number> {
+    const count = await this.studentRepository.activateStudents(ids, userId);
 
     if (count !== ids.length) {
       throw new Error(`Failed to update ${ids.length - count} students`);
     }
+
+    return count;
   }
 
-  async deactivateStudents(ids: number[]): Promise<void> {
-    const count = await this.studentRepository.deactivateStudents(ids);
+  async deactivateStudents(ids: number[], userId: string): Promise<number> {
+    const count = await this.studentRepository.deactivateStudents(ids, userId);
 
     if (count !== ids.length) {
       throw new Error(`Failed to update ${ids.length - count} students`);
     }
+
+    return count;
   }
 }

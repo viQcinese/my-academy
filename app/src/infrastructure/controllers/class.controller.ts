@@ -16,31 +16,38 @@ export class ClassController {
 
   async createClass(req: Request, res: Response): Promise<void> {
     const { name } = req.body;
+    const userId = req.auth.sub;
 
     if (!name) {
       res.status(400).json({ error: "Name is required" });
       return;
     }
 
-    const createdClass = await this.classService.createClass({
-      name,
-      id: null,
-      isActive: null,
-    });
+    const createdClass = await this.classService.createClass(
+      {
+        name,
+        id: null,
+        isActive: null,
+      },
+      userId
+    );
     res.status(201).json(createdClass);
   }
 
   async listClasses(req: Request, res: Response): Promise<void> {
-    const classess = await this.classService.listClasses();
+    const userId = req.auth.sub;
+    const classess = await this.classService.listClasses(userId);
     res.status(200).json(classess);
   }
 
   async getClass(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
+    const userId = req.auth.sub;
 
-    const foundClass = await this.classService.getClass(Number(id));
+    const foundClass = await this.classService.getClass(Number(id), userId);
     const students = await this.enrollmentService.listStudentsByClass(
-      Number(id)
+      Number(id),
+      userId
     );
 
     if (!foundClass) {
@@ -56,22 +63,35 @@ export class ClassController {
 
   async activateClasses(req: Request, res: Response): Promise<void> {
     const { ids } = req.body;
-    await this.classService.activateClasses(ids);
-    res.status(200).json({});
+    const userId = req.auth.sub;
+
+    const activatedClasses = await this.classService.activateClasses(
+      ids,
+      userId
+    );
+    res.status(200).json({ activatedClasses });
   }
 
   async deactivateClasses(req: Request, res: Response): Promise<void> {
     const { ids } = req.body;
-    await this.classService.deactivateClasses(ids);
-    res.status(200).json({});
+    const userId = req.auth.sub;
+
+    const deactivatedClasses = await this.classService.deactivateClasses(
+      ids,
+      userId
+    );
+    res.status(200).json({ deactivatedClasses });
   }
 
   async updateClass(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const { class: classData } = req.body;
+    const userId = req.auth.sub;
+
     const updateClass = await this.classService.editClass(
       Number(id),
-      classData
+      classData,
+      userId
     );
     res.status(200).json({ class: updateClass });
   }
@@ -79,8 +99,14 @@ export class ClassController {
   async updateClassEnrollments(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const { studentIds } = req.body;
+    const userId = req.auth.sub;
+
     const [deletedCount, createdCount] =
-      await this.enrollmentService.updateEnrollments(Number(id), studentIds);
+      await this.enrollmentService.updateEnrollments(
+        Number(id),
+        studentIds,
+        userId
+      );
     res.status(200).json({ deletedCount, createdCount });
   }
 }

@@ -17,49 +17,70 @@ export class EnrollmentService {
 
   async enrollStudentsInClass(
     classId: number,
-    studentIds: number[]
+    studentIds: number[],
+    userId: string
   ): Promise<number> {
     return await this.enrollmentRepository.enrollStudentsInClass(
       classId,
-      studentIds
+      studentIds,
+      userId
     );
   }
 
   async updateEnrollments(
     classId: number,
-    studentIds: number[]
+    studentIds: number[],
+    userId: string
   ): Promise<[number, number]> {
     return await this.enrollmentRepository.updateClassEnrollments(
       classId,
-      studentIds
+      studentIds,
+      userId
     );
   }
 
   async unenrollStudentsFromClass(
     classId: number,
-    studentIds: number[]
+    studentIds: number[],
+    userId: string
   ): Promise<number> {
     return await this.enrollmentRepository.unenrollStudentsFromClass(
       classId,
-      studentIds
+      studentIds,
+      userId
     );
   }
 
-  async unenrollAllStudentsFromClass(classId: number): Promise<void> {
+  async unenrollAllStudentsFromClass(
+    classId: number,
+    userId: string
+  ): Promise<number> {
     const classEntity = await this.classRepository.findById(classId);
 
     if (!classEntity) {
       throw new Error("The class does not exist or is not active.");
     }
 
-    await this.enrollmentRepository.unenrollAllStudentsFromClass(classId);
+    return await this.enrollmentRepository.unenrollAllStudentsFromClass(
+      classId,
+      userId
+    );
   }
 
-  async listClassesByStudent(studentId: number): Promise<Class[]> {
-    return await this.enrollmentRepository.listClassesByStudent(studentId);
+  async listClassesByStudent(
+    studentId: number,
+    userId: string
+  ): Promise<Class[]> {
+    return await this.enrollmentRepository.listClassesByStudent(
+      studentId,
+      userId
+    );
   }
 
-  async listStudentsByClass(classId: number): Promise<Student[]> {
-    return await this.enrollmentRepository.listStudentsByClass(classId);
+  async listStudentsByClass(
+    classId: number,
+    userId: string
+  ): Promise<Student[]> {
+    return await this.enrollmentRepository.listStudentsByClass(classId, userId);
   }
 }

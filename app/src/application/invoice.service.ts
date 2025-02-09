@@ -12,35 +12,51 @@ export class InvoiceService {
     this.invoiceRepository = invoiceRepository;
   }
 
-  async createInvoices(dto: CreateInvoicesDTO): Promise<void> {
-    return await this.invoiceRepository.createInvoices(dto);
+  async createInvoices(
+    dto: CreateInvoicesDTO,
+    userId: string
+  ): Promise<number> {
+    return await this.invoiceRepository.createInvoices(dto, userId);
   }
 
-  async getInvoice(id: string): Promise<Invoice | null> {
-    return await this.invoiceRepository.findById(id);
+  async getInvoice(id: string, userId: string): Promise<Invoice | null> {
+    return await this.invoiceRepository.findById(id, userId);
   }
 
-  async listInvoices(): Promise<Invoice[]> {
-    return await this.invoiceRepository.findAll();
+  async listInvoices(userId: string): Promise<Invoice[]> {
+    return await this.invoiceRepository.findAll(userId);
   }
 
-  async deleteInvoices(ids: string[]): Promise<void> {
-    return await this.invoiceRepository.deleteInvoices(ids);
-  }
-
-  async markInvoicesAsPaid(ids: string[]): Promise<void> {
-    const count = await this.invoiceRepository.markInvoicesAsPaid(ids);
+  async deleteInvoices(ids: string[], userId: string): Promise<number> {
+    const count = await this.invoiceRepository.deleteInvoices(ids, userId);
 
     if (count !== ids.length) {
       throw new Error(`Failed to update ${ids.length - count} invoices`);
     }
+
+    return count;
   }
 
-  async markInvoicesAsUnpaid(ids: string[]): Promise<void> {
-    const count = await this.invoiceRepository.markInvoicesAsUnpaid(ids);
+  async markInvoicesAsPaid(ids: string[], userId: string): Promise<number> {
+    const count = await this.invoiceRepository.markInvoicesAsPaid(ids, userId);
 
     if (count !== ids.length) {
       throw new Error(`Failed to update ${ids.length - count} invoices`);
     }
+
+    return count;
+  }
+
+  async markInvoicesAsUnpaid(ids: string[], userId: string): Promise<number> {
+    const count = await this.invoiceRepository.markInvoicesAsUnpaid(
+      ids,
+      userId
+    );
+
+    if (count !== ids.length) {
+      throw new Error(`Failed to update ${ids.length - count} invoices`);
+    }
+
+    return count;
   }
 }

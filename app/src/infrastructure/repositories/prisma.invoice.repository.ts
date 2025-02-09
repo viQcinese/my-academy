@@ -10,8 +10,9 @@ export class PrismaInvoiceRepository implements InvoiceRepository {
     this.prisma = prisma;
   }
 
-  async findAll(): Promise<Invoice[]> {
+  async findAll(userId: string): Promise<Invoice[]> {
     const invoices = await this.prisma.invoice.findMany({
+      where: { userId },
       orderBy: [
         { isPaid: "asc" },
         { dueAt: { sort: "asc", nulls: "last" } },
@@ -21,17 +22,21 @@ export class PrismaInvoiceRepository implements InvoiceRepository {
     return invoices.map((invoice) => new Invoice(invoice));
   }
 
-  async findById(id: string): Promise<Invoice | null> {
+  async findById(id: string, userId: string): Promise<Invoice | null> {
     const invoice = await this.prisma.invoice.findUnique({
-      where: { id },
+      where: { userId, id },
     });
     return invoice ? new Invoice(invoice) : null;
   }
 
-  async createInvoices(dto: CreateInvoicesDTO): Promise<void> {
+  async createInvoices(
+    dto: CreateInvoicesDTO,
+    userId: string
+  ): Promise<number> {
     const { amount, studentIds, description, dueAt } = dto;
-    await this.prisma.invoice.createMany({
+    const { count } = await this.prisma.invoice.createMany({
       data: studentIds.map((studentId) => ({
+        userId,
         studentId,
         amount,
         description,
@@ -41,34 +46,40 @@ export class PrismaInvoiceRepository implements InvoiceRepository {
       })),
       skipDuplicates: true,
     });
+    return count;
   }
 
-  async updateInvoice(id: string, invoice: Invoice): Promise<Invoice> {
+  async updateInvoice(
+    id: string,
+    invoice: Invoice,
+    userId: string
+  ): Promise<Invoice> {
     const updatedInvoice = await this.prisma.invoice.update({
-      where: { id },
+      where: { userId, id },
       data: invoice,
     });
 
     return new Invoice(updatedInvoice);
   }
 
-  async deleteInvoices(ids: string[]): Promise<void> {
-    await this.prisma.invoice.deleteMany({
-      where: { id: { in: ids } },
+  async deleteInvoices(ids: string[], userId: string): Promise<number> {
+    const { count } = await this.prisma.invoice.deleteMany({
+      where: { userId, id: { in: ids } },
     });
+    return count;
   }
 
-  async markInvoicesAsPaid(ids: string[]): Promise<number> {
+  async markInvoicesAsPaid(ids: string[], userId: string): Promise<number> {
     const { count } = await this.prisma.invoice.updateMany({
-      where: { id: { in: ids } },
+      where: { userId, id: { in: ids } },
       data: { isPaid: true },
     });
     return count;
   }
 
-  async markInvoicesAsUnpaid(ids: string[]): Promise<number> {
+  async markInvoicesAsUnpaid(ids: string[], userId: string): Promise<number> {
     const { count } = await this.prisma.invoice.updateMany({
-      where: { id: { in: ids } },
+      where: { userId, id: { in: ids } },
       data: { isPaid: false },
     });
     return count;

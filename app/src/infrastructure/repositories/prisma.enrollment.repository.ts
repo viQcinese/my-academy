@@ -10,9 +10,12 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
     this.prisma = prisma;
   }
 
-  async listClassesByStudent(studentId: number): Promise<Class[]> {
+  async listClassesByStudent(
+    studentId: number,
+    userId: string
+  ): Promise<Class[]> {
     const classesData = await this.prisma.enrollment.findMany({
-      where: { studentId },
+      where: { studentId, userId },
       include: {
         class: true,
       },
@@ -20,9 +23,12 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
     return classesData.map((data) => new Class(data.class));
   }
 
-  async listStudentsByClass(classId: number): Promise<Student[]> {
+  async listStudentsByClass(
+    classId: number,
+    userId: string
+  ): Promise<Student[]> {
     const studentsData = await this.prisma.enrollment.findMany({
-      where: { classId },
+      where: { classId, userId },
       include: {
         student: true,
       },
@@ -32,10 +38,12 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
 
   async unenrollStudentsFromClass(
     classId: number,
-    studentIds: number[]
+    studentIds: number[],
+    userId: string
   ): Promise<number> {
     const { count } = await this.prisma.enrollment.deleteMany({
       where: {
+        userId,
         classId,
         studentId: { in: studentIds },
       },
@@ -45,27 +53,30 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
 
   async enrollStudentsInClass(
     classId: number,
-    studentIds: number[]
+    studentIds: number[],
+    userId: string
   ): Promise<number> {
     const { count } = await this.prisma.enrollment.createMany({
-      data: studentIds.map((studentId) => ({ studentId, classId })),
+      data: studentIds.map((studentId) => ({ studentId, classId, userId })),
       skipDuplicates: true,
     });
     return count;
   }
 
-  async unenrollAllStudentsFromClass(classId: number) {
-    await this.prisma.enrollment.deleteMany({
-      where: { classId },
+  async unenrollAllStudentsFromClass(classId: number, userId: string) {
+    const { count } = await this.prisma.enrollment.deleteMany({
+      where: { classId, userId },
     });
+    return count;
   }
 
   async countStudentsByClasses(
-    classIds: number[]
+    classIds: number[],
+    userId: string
   ): Promise<Record<string, number>> {
     const counts = await this.prisma.enrollment.groupBy({
       by: ["classId"],
-      where: { classId: { in: classIds } },
+      where: { userId, classId: { in: classIds } },
       _count: { classId: true },
     });
 
@@ -75,9 +86,12 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
     }, {} as Record<string, number>);
   }
 
-  async findEnrollmentIdsByClassId(classId: number): Promise<number[]> {
+  async findEnrollmentIdsByClassId(
+    classId: number,
+    userId: string
+  ): Promise<number[]> {
     const enrollments = await this.prisma.enrollment.findMany({
-      where: { classId },
+      where: { userId, classId },
       select: { id: true },
     });
     return enrollments.map((enrollment) => enrollment.id);
@@ -85,7 +99,8 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
 
   async updateClassEnrollments(
     classId: number,
-    studentIds: number[]
+    studentIds: number[],
+    userId: string
   ): Promise<[number, number]> {
     const [{ count: deletedCount }, { count: createdCount }] =
       await this.prisma.$transaction([
@@ -96,7 +111,7 @@ export class PrismaEnrollmentRepository implements EnrollmentRepository {
           },
         }),
         this.prisma.enrollment.createMany({
-          data: studentIds.map((studentId) => ({ classId, studentId })),
+          data: studentIds.map((studentId) => ({ userId, classId, studentId })),
           skipDuplicates: true,
         }),
       ]);

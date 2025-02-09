@@ -17,28 +17,33 @@ export class StudentController {
   async createStudent(req: Request, res: Response): Promise<void> {
     const { firstName, lastName, birthdate, document, cellphone, email } =
       req.body;
+    const userId = req.auth.sub;
 
     if (!firstName) {
       res.status(400).json({ error: "Name is required" });
       return;
     }
 
-    const student = await this.studentService.createStudent({
-      firstName,
-      lastName,
-      birthdate,
-      document,
-      cellphone,
-      email,
-      id: null,
-      isActive: null,
-    });
+    const student = await this.studentService.createStudent(
+      {
+        firstName,
+        lastName,
+        birthdate,
+        document,
+        cellphone,
+        email,
+        id: null,
+        isActive: null,
+      },
+      userId
+    );
     res.status(201).json(student);
   }
 
   async editStudent(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const { student } = req.body;
+    const userId = req.auth.sub;
 
     if (!student) {
       res.status(400).json({ error: "Invalid input" });
@@ -47,22 +52,26 @@ export class StudentController {
 
     const updatedStudent = await this.studentService.editStudent(
       Number(id),
-      student
+      student,
+      userId
     );
     res.status(200).json(updatedStudent);
   }
 
   async listStudents(req: Request, res: Response): Promise<void> {
-    const students = await this.studentService.listStudents();
+    const userId = req.auth.sub;
+    const students = await this.studentService.listStudents(userId);
     res.status(200).json(students);
   }
 
   async getStudent(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
+    const userId = req.auth.sub;
 
-    const student = await this.studentService.getStudent(Number(id));
+    const student = await this.studentService.getStudent(Number(id), userId);
     const classes = await this.enrollmentService.listClassesByStudent(
-      Number(id)
+      Number(id),
+      userId
     );
 
     if (!student) {
@@ -75,13 +84,23 @@ export class StudentController {
 
   async activateStudents(req: Request, res: Response): Promise<void> {
     const { ids } = req.body;
-    await this.studentService.activateStudents(ids);
-    res.status(200).json({});
+    const userId = req.auth.sub;
+
+    const activateStudents = await this.studentService.activateStudents(
+      ids,
+      userId
+    );
+    res.status(200).json({ activateStudents });
   }
 
   async deactivateStudents(req: Request, res: Response): Promise<void> {
     const { ids } = req.body;
-    await this.studentService.deactivateStudents(ids);
-    res.status(200).json({});
+    const userId = req.auth.sub;
+
+    const deactivateStudents = await this.studentService.deactivateStudents(
+      ids,
+      userId
+    );
+    res.status(200).json({ deactivateStudents });
   }
 }

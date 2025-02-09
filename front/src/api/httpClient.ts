@@ -43,7 +43,9 @@ class HttpClient {
       body: this.body(config),
     });
 
-    const data = await response.json();
+    const data = await response
+      .text()
+      .then((text) => (text ? JSON.parse(text) : {}));
 
     if (!response.ok) {
       throw new HttpClientError(response, url, method, data);

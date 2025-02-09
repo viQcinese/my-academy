@@ -1,10 +1,10 @@
 import { Student } from "./student.entity";
 
 export interface StudentRepository {
-  create(student: Student): Promise<Student>;
-  findAll(): Promise<Student[]>;
-  findById(id: number): Promise<Student | null>;
-  updateStudent(id: number, student: Student): Promise<Student>;
-  activateStudents(ids: number[]): Promise<number>;
-  deactivateStudents(ids: number[]): Promise<number>;
+  create(student: Student, userId: string): Promise<Student>;
+  findAll(userId: string): Promise<Student[]>;
+  findById(id: number, userId: string): Promise<Student | null>;
+  updateStudent(id: number, student: Student, userId: string): Promise<Student>;
+  activateStudents(ids: number[], userId: string): Promise<number>;
+  deactivateStudents(ids: number[], userId: string): Promise<number>;
 }
