@@ -4,7 +4,9 @@ services:
       context: ./front
     ports:
       - "5173:5173"
-
+    environment:
+      VITE_AUTH_PROVIDER_DOMAIN: ${AUTH_PROVIDER_DOMAIN}
+      VITE_AUTH_PROVIDER_CLIENT_ID: ${AUTH_PROVIDER_CLIENT_ID}
     depends_on:
       app:
         condition: service_healthy
