@@ -1,20 +1,10 @@
 import { Student } from "@/model/Student";
+import { httpClient } from "../httpClient";
 
 export async function createStudent(
   student: Partial<Student>
 ): Promise<Student> {
-  const response = await fetch("http://localhost:3000/students", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(student),
+  return httpClient.post<Student>(`students`, {
+    body: student,
   });
-
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-
-  return await response.json();
 }

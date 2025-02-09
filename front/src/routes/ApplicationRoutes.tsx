@@ -4,11 +4,27 @@ import { ClassesPage } from "../pages/classes/ClassesPage";
 import { InvoicesPage } from "../pages/invoices/InvoicesPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "@/components/ui/button";
+import { httpClient } from "@/api/httpClient";
+import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
 export function ApplicationRoutes() {
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+  const {
+    loginWithRedirect,
+    getAccessTokenSilently,
+    isAuthenticated,
+    isLoading,
+  } = useAuth0();
 
-  console.log({ user });
+  useEffect(() => {
+    async function initHttpClient() {
+      const token = await getAccessTokenSilently();
+      httpClient.use(token, "http://localhost:3000");
+    }
+
+    initHttpClient();
+  }, [getAccessTokenSilently]);
+
   return isAuthenticated ? (
     <Routes>
       <Route path="/" element={<Navigate to="/classes" replace />} />
@@ -18,7 +34,11 @@ export function ApplicationRoutes() {
     </Routes>
   ) : (
     <main className="h-screen flex items-center justify-center screen">
-      <Button onClick={() => loginWithRedirect()}>Login</Button>
+      {isLoading ? (
+        <Loader2 className="animate-spin" />
+      ) : (
+        <Button onClick={() => loginWithRedirect()}>Login</Button>
+      )}
     </main>
   );
 }
