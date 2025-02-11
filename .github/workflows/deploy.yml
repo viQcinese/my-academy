@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and Push Backend Image
         run: |
-          docker build -t viqcinese/my-academy-app:latest -f backend/Dockerfile.prod .
+          docker build -t viqcinese/my-academy-app:latest -f app/Dockerfile.prod .
           docker tag viqcinese/my-academy-app:latest viqcinese/my-academy-app:latest
           docker push viqcinese/my-academy-app:latest
 
