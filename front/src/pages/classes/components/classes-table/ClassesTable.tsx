@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { empty } from "@/constants/empty";
 import { useMemo } from "react";
 import { Archive, SquareMousePointer } from "lucide-react";
 import { cx } from "class-variance-authority";

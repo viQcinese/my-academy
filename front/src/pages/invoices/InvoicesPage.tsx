@@ -34,7 +34,6 @@ export function InvoicesPage() {
   const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false);
   const [isMarkAsPaidOpen, setIsMarkAsPaidOpen] = useState(false);
   const [isMarkAsUnpaidOpen, setIsMarkAsUnpaidOpen] = useState(false);
-  const [isDeleteInvoicesOpen, setIsDeleteInvoicesOpen] = useState(false);
 
   const { currentPage, onChangePage, paginatedData, totalItems } =
     useStaticPagination({
@@ -75,7 +74,7 @@ export function InvoicesPage() {
           onOpenMarkAsPaid={() => setIsMarkAsPaidOpen(true)}
           onOpenCreateInvoice={() => setIsCreateInvoiceOpen(true)}
           onOpenMarkAsUnpaid={() => setIsMarkAsUnpaidOpen(true)}
-          onOpenDelete={() => setIsDeleteInvoicesOpen(true)}
+          onOpenDelete={() => undefined}
         />
       </div>
       <div className="mt-4 overflow-auto">

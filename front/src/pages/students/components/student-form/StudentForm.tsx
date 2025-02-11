@@ -46,7 +46,9 @@ export function StudentForm(props: Props) {
           <Input
             id="birthdate"
             type="date"
-            onChange={() => setStudent({ ...student, birthdate: new Date() })}
+            onChange={() =>
+              setStudent({ ...student, birthdate: new Date().toISOString() })
+            }
             value={student.birthdate?.toString()}
             className="col-span-3"
           />

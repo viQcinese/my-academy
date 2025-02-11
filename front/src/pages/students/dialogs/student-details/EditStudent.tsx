@@ -24,7 +24,7 @@ export function EditStudent(props: Props) {
   const [student, setStudent] = useState<StudentFormData>({
     firstName: props.student.firstName || "",
     lastName: props.student.lastName || "",
-    birthdate: props.student.birthdate || new Date(),
+    birthdate: props.student.birthdate || new Date().toISOString(),
     cellphone: props.student.cellphone || "",
     email: props.student.email || "",
     document: props.student.document || "",

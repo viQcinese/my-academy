@@ -32,7 +32,7 @@ export function CreateStudentDialog(props: Props) {
   const [student, setStudent] = useState<StudentFormData>({
     firstName: "",
     lastName: "",
-    birthdate: new Date(),
+    birthdate: new Date().toISOString(),
     cellphone: "",
     email: "",
     document: "",
