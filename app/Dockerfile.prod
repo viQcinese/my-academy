@@ -4,11 +4,14 @@
   
   # Copy only package.json and package-lock.json to leverage Docker caching
   COPY package*.json ./
+  
   RUN npm install --frozen-lockfile
   
   # Copy the rest of the backend source code
   COPY . .
-  
+
+  RUN npm run db:generate
+
   # Compile TypeScript (assuming you have a tsconfig.json)
   RUN npm run build
   
