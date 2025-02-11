@@ -21,13 +21,13 @@ jobs:
 
       - name: Build and Push Backend Image
         run: |
-          docker build -t viqcinese/my-academy-app:latest -f app/Dockerfile.prod .
+          docker build -t viqcinese/my-academy-app:latest -f app/Dockerfile.prod app
           docker tag viqcinese/my-academy-app:latest viqcinese/my-academy-app:latest
           docker push viqcinese/my-academy-app:latest
 
       # - name: Build and Push Frontend Image
       #   run: |
-      #     docker build -t mydockerhubuser/myapp-frontend:latest -f frontend/Dockerfile .
+      #     docker build -t mydockerhubuser/myapp-frontend:latest -f front/Dockerfile front
       #     docker tag mydockerhubuser/myapp-frontend:latest mydockerhubuser/myapp-frontend:latest
       #     docker push mydockerhubuser/myapp-frontend:latest
 
