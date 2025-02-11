@@ -1,19 +1,19 @@
 services:
-  # front:
-  #   image: viqcinese/my-academy-front:latest
-  #   restart: always
-  #   ports:
-  #     - "5173:5173"
-  #   environment:
-  #     VITE_AUTH_PROVIDER_DOMAIN: ${AUTH_PROVIDER_DOMAIN}
-  #     VITE_AUTH_PROVIDER_CLIENT_ID: ${AUTH_PROVIDER_CLIENT_ID}
-  #     VITE_AUTH_PROVIDER_AUDIENCE: ${AUTH_PROVIDER_AUDIENCE}
-  #   depends_on:
-  #     app:
-  #       condition: service_healthy
-  #   networks:
-  #     - my-network
-  #   command: npm run start
+  front:
+    image: viqcinese/my-academy-front:latest
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      VITE_AUTH_PROVIDER_DOMAIN: ${AUTH_PROVIDER_DOMAIN}
+      VITE_AUTH_PROVIDER_CLIENT_ID: ${AUTH_PROVIDER_CLIENT_ID}
+      VITE_AUTH_PROVIDER_AUDIENCE: ${AUTH_PROVIDER_AUDIENCE}
+    depends_on:
+      app:
+        condition: service_healthy
+    networks:
+      - my-network
+    command: npm run start
 
   app:
     image: viqcinese/my-academy-app:latest
