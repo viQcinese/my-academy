@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
           source: "docker-compose.prod.yml"
-          target: "/home/${{ secrets.VM_USER }}/"
+          target: "~/my-academy"
 
       - name: Deploy to VM
         uses: appleboy/ssh-action@v0.1.7
@@ -47,6 +47,7 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-            cd /home/${{ secrets.VM_USER }}
+            cd ~/my-academy
+            echo "${{ secrets.ENV_FILE }}" > .env
             docker pull viqcinese/my-academy-app:latest
             docker compose -f ./docker-compose.prod.yml up -d --force-recreate
