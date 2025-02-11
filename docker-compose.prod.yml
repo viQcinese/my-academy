@@ -13,7 +13,6 @@ services:
         condition: service_healthy
     networks:
       - my-network
-    command: npm run start
 
   app:
     image: viqcinese/my-academy-app:latest
@@ -40,7 +39,6 @@ services:
       timeout: 10s
     networks:
       - my-network
-    command: npm run start
 
   db:
     image: mysql:8.0
