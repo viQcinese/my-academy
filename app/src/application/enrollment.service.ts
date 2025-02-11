@@ -55,7 +55,7 @@ export class EnrollmentService {
     classId: number,
     userId: string
   ): Promise<number> {
-    const classEntity = await this.classRepository.findById(classId);
+    const classEntity = await this.classRepository.findById(classId, userId);
 
     if (!classEntity) {
       throw new Error("The class does not exist or is not active.");

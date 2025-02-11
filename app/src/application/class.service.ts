@@ -3,7 +3,7 @@ import { CreateClassDTO } from "../model/class/class.dto";
 import { Class } from "../model/class/class.entity";
 import { EnrollmentRepository } from "../model/enrollment/enrollment.repository";
 
-type ClassListItem = Class & {
+type ClassListItem = Partial<Class> & {
   studentsCount: number;
 };
 
