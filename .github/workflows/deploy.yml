@@ -12,14 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
-      - name: Load environment variables
-        run: |
-        echo "${{ secrets.ENV }}" > .env
-        export $(grep -v '^#' .env | xargs)
-
-      - name: Access DATABASE_PORT
-        run: echo "Database port is $DATABASE_PORT"
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -34,9 +26,16 @@ jobs:
           docker push viqcinese/my-academy-app:latest
 
       - name: Build and Push Frontend Image
+        env:
+          VITE_AUTH_PROVIDER_DOMAIN: 111
+          VITE_AUTH_PROVIDER_CLIENT_ID: 222
+          VITE_AUTH_PROVIDER_AUDIENCE: 333
         run: |
-          docker build -t viqcinese/my-academy-front:latest -f front/Dockerfile.prod front
-          docker tag viqcinese/my-academy-front:latest viqcinese/my-academy-front:latest
+          docker build \
+            --build-arg VITE_AUTH_PROVIDER_DOMAIN=$VITE_AUTH_PROVIDER_DOMAIN \
+            --build-arg VITE_AUTH_PROVIDER_CLIENT_ID=$VITE_AUTH_PROVIDER_CLIENT_ID \
+            --build-arg VITE_AUTH_PROVIDER_AUDIENCE=$VITE_AUTH_PROVIDER_AUDIENCE \
+            -t viqcinese/my-academy-front:latest -f front/Dockerfile.prod front
           docker push viqcinese/my-academy-front:latest
 
       - name: Copy `docker-compose.prod.yml` to VM
