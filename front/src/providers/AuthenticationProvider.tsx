@@ -7,6 +7,12 @@ type Props = {
 export function AuthenticationProvider(props: Props) {
   const { children } = props;
 
+  console.log(
+    import.meta.env.VITE_AUTH_PROVIDER_DOMAIN,
+    import.meta.env.VITE_AUTH_PROVIDER_CLIENT_ID,
+    import.meta.env.VITE_AUTH_PROVIDER_AUDIENCE
+  );
+
   return (
     <Auth0Provider
       domain={import.meta.env.VITE_AUTH_PROVIDER_DOMAIN!}
