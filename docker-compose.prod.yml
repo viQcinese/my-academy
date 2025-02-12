@@ -16,6 +16,7 @@ services:
 
   app:
     image: viqcinese/my-academy-app:latest
+    restart: always
     ports:
       - "3000:3000"
     environment:
