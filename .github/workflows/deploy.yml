@@ -51,4 +51,5 @@ jobs:
             echo "${{ secrets.ENV }}" > .env
             docker pull viqcinese/my-academy-app:latest
             docker pull viqcinese/my-academy-front:latest
-            docker compose -f ./docker-compose.prod.yml up -d --force-recreate
+            docker compose -f ./docker-compose.prod.yml down             
+            docker compose -f ./docker-compose.prod.yml up
