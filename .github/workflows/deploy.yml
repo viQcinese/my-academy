@@ -38,10 +38,10 @@ jobs:
           docker push viqcinese/my-academy-app:latest
 
       - name: Build and Push Frontend Image
-        env:
-          VITE_AUTH_PROVIDER_DOMAIN: 123
-          VITE_AUTH_PROVIDER_CLIENT_ID: 123
-          VITE_AUTH_PROVIDER_AUDIENCE: 123
+        # env:
+        #   VITE_AUTH_PROVIDER_DOMAIN: 123
+        #   VITE_AUTH_PROVIDER_CLIENT_ID: 123
+        #   VITE_AUTH_PROVIDER_AUDIENCE: 123
         run: |
           docker build \
             --build-arg VITE_AUTH_PROVIDER_DOMAIN=$VITE_AUTH_PROVIDER_DOMAIN \
