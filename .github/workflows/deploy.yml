@@ -38,7 +38,7 @@ jobs:
           echo "hi"
           cat ${{ env.GITHUB_ENV }}
         env:
-          VITE_AUTH_PROVIDER_DOMAIN: ${{ env.VITE_AUTH_PROVIDER_DOMAIN }}
+          VITE_AUTH_PROVIDER_DOMAIN: 123123123
 
       - name: Checkout code
         uses: actions/checkout@v3
