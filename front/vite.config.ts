@@ -10,4 +10,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    "process.env.VITE_AUTH_PROVIDER_DOMAIN": JSON.stringify(
+      process.env.AUTH_PROVIDER_DOMAIN
+    ),
+    "process.env.AUTH_PROVIDER_DOMAIN": JSON.stringify(
+      process.env.AUTH_PROVIDER_DOMAIN
+    ),
+  },
 });

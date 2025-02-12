@@ -9,6 +9,8 @@ export function AuthenticationProvider(props: Props) {
 
   console.log(
     "etc",
+    process.env.AUTH_PROVIDER_DOMAIN,
+    process.env.VITE_AUTH_PROVIDER_DOMAIN,
     import.meta.env.VITE_AUTH_PROVIDER_DOMAIN,
     import.meta.env.VITE_AUTH_PROVIDER_CLIENT_ID,
     import.meta.env.VITE_AUTH_PROVIDER_AUDIENCE
