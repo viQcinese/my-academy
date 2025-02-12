@@ -19,6 +19,14 @@ jobs:
             fi
           done < .env
 
+      - name: Load ENV secret and export variables
+        run: |
+          echo "${{ secrets.ENV }}" > .env
+          set -o allexport
+          source .env
+          set +o allexport
+          cat .env >> $GITHUB_ENV
+
       - name: Use exported variables
         run: |
           echo "API endpoint is $VITE_AUTH_PROVIDER_DOMAIN"
