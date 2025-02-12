@@ -13,18 +13,16 @@ jobs:
       - name: Load ENV secret and export variables
         run: |
           echo "${{ secrets.ENV }}" > .env
-          # For each non-empty, non-comment line in .env, append it to $GITHUB_ENV
-          while IFS= read -r line || [ -n "$line" ]; do
-            # Skip lines that are empty or start with #
-            if [[ -z "$line" ]] || [[ "$line" =~ ^[[:space:]]*# ]]; then
-              continue
+          while IFS='=' read -r key value; do
+            if [[ -n "$key" && "$key" != \#* ]]; then
+              echo "$key=$value" >> "$GITHUB_ENV"
             fi
-            echo "$line" >> $GITHUB_ENV
           done < .env
 
       - name: Use exported variables
         run: |
           echo "API endpoint is $VITE_AUTH_PROVIDER_DOMAIN"
+          echo $VITE_AUTH_PROVIDER_DOMAIN
           echo "hi"
           cat "$GITHUB_ENV"
           echo "hi"
