@@ -18,22 +18,6 @@ jobs:
             [ -n "$line" ] && echo "$line" >> "$GITHUB_ENV"
           done <<< "$ENV_CONTENT"
 
-      - name: Use AUTH_PROVIDER_DOMAIN
-        run: echo "The auth provider domain is $AUTH_PROVIDER_DOMAIN"
-
-      - name: Use exported variables
-        run: |
-          echo "API endpoint is $VITE_AUTH_PROVIDER_DOMAIN"
-          echo $VITE_AUTH_PROVIDER_DOMAIN
-          echo "hi"
-          cat "$GITHUB_ENV"
-          echo "hi"
-          cat $GITHUB_ENV
-          echo "hi"
-          cat ${{ env.GITHUB_ENV }}
-        env:
-          VITE_AUTH_PROVIDER_DOMAIN: ${{ env.VITE_AUTH_PROVIDER_DOMAIN }}
-
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -50,15 +34,11 @@ jobs:
           docker push viqcinese/my-academy-app:latest
 
       - name: Build and Push Frontend Image
-        # env:
-        # VITE_AUTH_PROVIDER_DOMAIN: 123
-        #   VITE_AUTH_PROVIDER_CLIENT_ID: 123
-        #   VITE_AUTH_PROVIDER_AUDIENCE: 123
         run: |
           docker build \
-            --build-arg VITE_AUTH_PROVIDER_DOMAIN=$VITE_AUTH_PROVIDER_DOMAIN \
-            --build-arg VITE_AUTH_PROVIDER_CLIENT_ID=$VITE_AUTH_PROVIDER_CLIENT_ID \
-            --build-arg VITE_AUTH_PROVIDER_AUDIENCE=$VITE_AUTH_PROVIDER_AUDIENCE \
+            --build-arg VITE_AUTH_PROVIDER_DOMAIN=$AUTH_PROVIDER_DOMAIN \
+            --build-arg VITE_AUTH_PROVIDER_CLIENT_ID=$AUTH_PROVIDER_CLIENT_ID \
+            --build-arg VITE_AUTH_PROVIDER_AUDIENCE=$AUTH_PROVIDER_AUDIENCE \
             -t viqcinese/my-academy-front:latest -f front/Dockerfile.prod front
           docker push viqcinese/my-academy-front:latest
 
