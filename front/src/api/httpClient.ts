@@ -5,11 +5,10 @@ type BaseConfig = {
 
 class HttpClient {
   private token: string = "";
-  private baseUrl: string = "";
+  private baseUrl = "https://zygurat.pro/api";
 
-  async use(token: string, baseUrl: string) {
+  async use(token: string) {
     this.token = token;
-    this.baseUrl = baseUrl;
   }
 
   async get<TReturn>(route: string, config?: BaseConfig): Promise<TReturn> {

@@ -19,7 +19,7 @@ export function ApplicationRoutes() {
   useEffect(() => {
     async function initHttpClient() {
       const token = await getAccessTokenSilently();
-      httpClient.use(token, "http://localhost:3000");
+      httpClient.use(token);
     }
 
     initHttpClient();
