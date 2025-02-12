@@ -7,7 +7,7 @@ services:
       - "443:443"
     volumes:
       - ./zygurat.pro:/etc/letsencrypt/live/zygurat.pro:ro
-    environment:
+    args:
       VITE_AUTH_PROVIDER_DOMAIN: ${AUTH_PROVIDER_DOMAIN}
       VITE_AUTH_PROVIDER_CLIENT_ID: ${AUTH_PROVIDER_CLIENT_ID}
       VITE_AUTH_PROVIDER_AUDIENCE: ${AUTH_PROVIDER_AUDIENCE}
