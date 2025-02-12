@@ -1,20 +1,20 @@
 services:
   front:
     build:
-      image: viqcinese/my-academy-front:latest
-      restart: always
-      ports:
-        - "80:80"
-        - "443:443"
-      volumes:
-        - ./zygurat.pro:/etc/letsencrypt/live/zygurat.pro:ro
+      context: .
       args:
         VITE_AUTH_PROVIDER_DOMAIN: ${AUTH_PROVIDER_DOMAIN}
         VITE_AUTH_PROVIDER_CLIENT_ID: ${AUTH_PROVIDER_CLIENT_ID}
-        VITE_AUTH_PROVIDER_AUDIENCE: ${AUTH_PROVIDER_AUDIENCE}
-      networks:
-        - my-network
-
+        VITE_AUTH_PROVIDER_AUDIENCE: ${VITE_AUTH_PROVIDER_AUDIENCE}
+    image: viqcinese/my-academy-front:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./zygurat.pro:/etc/letsencrypt/live/zygurat.pro:ro
+    networks:
+      - my-network
   app:
     image: viqcinese/my-academy-app:latest
     restart: always
