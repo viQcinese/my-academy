@@ -13,7 +13,6 @@ services:
       VITE_AUTH_PROVIDER_AUDIENCE: ${AUTH_PROVIDER_AUDIENCE}
     networks:
       - my-network
-    command: bash .
 
   app:
     image: viqcinese/my-academy-app:latest
