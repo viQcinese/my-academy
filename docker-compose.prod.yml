@@ -4,6 +4,10 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     environment:
       VITE_AUTH_PROVIDER_DOMAIN: ${AUTH_PROVIDER_DOMAIN}
       VITE_AUTH_PROVIDER_CLIENT_ID: ${AUTH_PROVIDER_CLIENT_ID}
