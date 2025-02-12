@@ -12,13 +12,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Create .env file from GitHub Secret
-        run: echo "${{ secrets.ENV }}" > .env
-
+        
       - name: Load environment variables
         run: |
-          export $(grep -v '^#' .env | xargs)
+        echo "${{ secrets.ENV }}" > .env
+        export $(grep -v '^#' .env | xargs)
 
       - name: Access DATABASE_PORT
         run: echo "Database port is $DATABASE_PORT"
