@@ -10,6 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Load .env variables
+        env:
+          ENV_CONTENT: ${{ secrets.ENV }}
+        run: |
+          while IFS= read -r line; do
+            [ -n "$line" ] && echo "$line" >> "$GITHUB_ENV"
+          done <<< "$ENV_CONTENT"
+
+      - name: Use AUTH_PROVIDER_DOMAIN
+        run: echo "The auth provider domain is $AUTH_PROVIDER_DOMAIN"
+
       - name: Use exported variables
         run: |
           echo "API endpoint is $VITE_AUTH_PROVIDER_DOMAIN"
