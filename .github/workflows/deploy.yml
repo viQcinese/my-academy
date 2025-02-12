@@ -25,7 +25,10 @@ jobs:
       - name: Use exported variables
         run: |
           echo "API endpoint is $VITE_AUTH_PROVIDER_DOMAIN"
+          echo "$GITHUB_ENV"
           echo $GITHUB_ENV
+          echo ${{ env.GITHUB_ENV }}
+          echo ${{ GITHUB_ENV }}
 
       - name: Checkout code
         uses: actions/checkout@v3
