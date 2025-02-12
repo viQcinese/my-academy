@@ -10,6 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Load ENV secret and export variables
+        run: |
+          echo "${{ secrets.ENV }}" > .env
+          echo "VITE_AUTH_PROVIDER_DOMAIN=$(grep '^VITE_AUTH_PROVIDER_DOMAIN=' .env | cut -d '=' -f2-)" >> $GITHUB_ENV
+          echo "VITE_AUTH_PROVIDER_CLIENT_ID=$(grep '^VITE_AUTH_PROVIDER_CLIENT_ID=' .env | cut -d '=' -f2-)" >> $GITHUB_ENV
+          echo "VITE_AUTH_PROVIDER_AUDIENCE=$(grep '^VITE_AUTH_PROVIDER_AUDIENCE=' .env | cut -d '=' -f2-)" >> $GITHUB_ENV
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -59,4 +66,4 @@ jobs:
             docker pull viqcinese/my-academy-app:latest
             docker pull viqcinese/my-academy-front:latest
             docker compose -f ./docker-compose.prod.yml down             
-            docker compose -f ./docker-compose.prod.yml up
+            docker compose -f ./docker-compose.prod.yml up -d
