@@ -15,7 +15,7 @@ jobs:
         echo "${{ secrets.ENV }}" > .env
         cat .env  # Debugging: Ensure contents are correct
         export $(grep -v '^#' .env | xargs)  # Load .env variables into environment
-        echo "VITE_AUTH_PROVIDER_DOMAIN=$VITE_AUTH_PROVIDER_DOMAIN" >> $GITHUB_ENV
+        echo "VITE_AUTH_PROVIDER_DOMAIN=${{ env.VITE_AUTH_PROVIDER_DOMAIN }}" >> $GITHUB_ENV  # Correcting this line
 
       - name: Load ENV secret and export variables
         run: |
