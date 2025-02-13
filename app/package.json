@@ -9,7 +9,7 @@
     "build": "tsc",
     "db:generate": "prisma generate --schema=src/infrastructure/db/schema.prisma",
     "db:migrate": "prisma migrate dev --schema=src/infrastructure/db/schema.prisma",
-    "db:migrate:prod": "prisma migrate dev --schema=dist/infrastructure/db/schema.prisma"
+    "db:migrate:prod": "prisma migrate deploy --schema=dist/infrastructure/db/schema.prisma"
   },
   "author": "",
   "license": "ISC",
