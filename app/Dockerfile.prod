@@ -23,7 +23,9 @@
   COPY --from=builder /app/dist ./dist
   COPY --from=builder /app/package.json ./
   COPY --from=builder /app/node_modules ./node_modules
-  
+  COPY --from=builder /app/src/infrastructure/db/schema.prisma ./dist/infrastructure/db/
+  COPY --from=builder /app/src/infrastructure/db/migrations ./dist/infrastructure/db/
+
   # Expose backend port (change to whatever your API uses)
   EXPOSE 3000
   

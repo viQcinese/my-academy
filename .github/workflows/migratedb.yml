@@ -1,0 +1,19 @@
+name: Migrate DB
+
+on:
+  workflow_dispatch:
+
+jobs:
+  migrate-db:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: migrate
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            cd ~/my-academy
+            docker compose -f ./docker-compose.prod.yml exec app npm run db:migrate
