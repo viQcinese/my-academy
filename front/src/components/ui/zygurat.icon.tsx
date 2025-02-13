@@ -1,5 +1,5 @@
 type Prop = {
-  size: number;
+  size: string;
 };
 
 export function ZyguratIcon(prop: Prop) {

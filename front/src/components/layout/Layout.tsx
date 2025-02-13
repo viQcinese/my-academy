@@ -14,7 +14,7 @@ export function Layout(props: LayoutProps) {
       <div className="p-4 bg-teal-700 h-nav">
         <nav className="flex max-w-site m-auto items-center justify-between ">
           <div className="">
-            <ZyguratIcon size={16} />
+            <ZyguratIcon size="24px" />
           </div>
           <div className="flex  gap-4">
             <NavLink className="text-teal-50 font-bold" to="/students" end>
