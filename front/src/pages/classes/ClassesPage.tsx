@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Dialog } from "@/components/ui/dialog";
 import { Class } from "@/model/Class";
 import { ClassesTableActions } from "./components/classes-table-actions/ClassesTableActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClassesTable } from "./components/classes-table/ClassesTable";
 import { useStaticPagination } from "@/hooks/useStaticPagination";
 import { ActivateClassesDialog } from "./dialogs/activate-classes/ActivateClasses";
@@ -41,6 +41,10 @@ export function ClassesPage() {
       onChangePage: () => onToggleAllClasses(false),
       itemsPerPage: ITEMS_PER_PAGE,
     });
+
+  useEffect(() => {
+    document.title = "Zygurat | Classes";
+  }, []);
 
   return (
     <Dialog>

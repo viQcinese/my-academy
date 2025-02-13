@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CreateStudentDialog } from "@/pages/students/dialogs/create-student/CreateStudentDialog";
 import { Student } from "../../model/Student";
 import { StudentsTableActions } from "./components/students-table-actions/StudentsTableActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivateStudentsDialog } from "./dialogs/activate-students/ActivateStudents";
 import { DeactivateStudentsDialog } from "./dialogs/deactivate-students/DeactivateStudents";
 import { StudentDetailsDialog } from "./dialogs/student-details/StudentDetailsDialog";
@@ -41,6 +41,10 @@ export function StudentsPage() {
       onChangePage: () => onToggleAllStudents(false),
       itemsPerPage: ITEMS_PER_PAGE,
     });
+
+  useEffect(() => {
+    document.title = "Zygurat | Students";
+  }, []);
 
   return (
     <Layout>

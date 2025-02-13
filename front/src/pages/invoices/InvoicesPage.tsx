@@ -1,7 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { useSelectMany } from "@/hooks/useSelectMany";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStaticPagination } from "@/hooks/useStaticPagination";
 import { InvoiceTableItem } from "@/model/Invoice";
 import { getInvoices } from "@/api/invoices/getInvoices";
@@ -41,6 +41,10 @@ export function InvoicesPage() {
       onChangePage: () => onToggleAllInvoices(false),
       itemsPerPage: ITEMS_PER_PAGE,
     });
+
+  useEffect(() => {
+    document.title = "Zygurat | Invoices";
+  }, []);
 
   return (
     <Layout>

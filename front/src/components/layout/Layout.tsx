@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { ZyguratIcon } from "../ui/zygurat.icon";
 
 type LayoutProps = {
   children?: React.ReactNode;
@@ -11,8 +12,10 @@ export function Layout(props: LayoutProps) {
   return (
     <div>
       <div className="p-4 bg-teal-700 h-nav">
-        <nav className="flex max-w-site m-auto justify-between ">
-          <div>o</div>
+        <nav className="flex max-w-site m-auto items-center justify-between ">
+          <div className="">
+            <ZyguratIcon size={16} />
+          </div>
           <div className="flex  gap-4">
             <NavLink className="text-teal-50 font-bold" to="/students" end>
               Students

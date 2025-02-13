@@ -27,7 +27,7 @@ export function ApplicationRoutes() {
 
   return isAuthenticated ? (
     <Routes>
-      <Route path="/" element={<Navigate to="/classes" replace />} />
+      <Route path="/" element={<Navigate to="/students" replace />} />
       <Route path="/students" element={<StudentsPage />} />
       <Route path="/classes" element={<ClassesPage />} />
       <Route path="/invoices" element={<InvoicesPage />} />
