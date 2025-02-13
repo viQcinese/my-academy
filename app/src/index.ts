@@ -9,6 +9,13 @@ import {
 } from "./infrastructure/auth/authMiddleware";
 import { errorHandlingMiddleware } from "./infrastructure/error/errorHandlingMiddleware";
 
+console.log(
+  "LOGS",
+  process.env.AUTH_PROVIDER_DOMAIN,
+  process.env.AUTH_PROVIDER_AUDIENCE,
+  process.env.DATABASE_URL
+);
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
