@@ -16,4 +16,4 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/my-academy
-            docker compose -f ./docker-compose.prod.yml exec app npm run db:migrate
+            docker compose -f ./docker-compose.prod.yml exec app npm run db:migrate:prod
