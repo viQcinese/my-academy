@@ -16,8 +16,6 @@ export function ApplicationRoutes() {
     isLoading,
   } = useAuth0();
 
-  console.log("api_base_url", import.meta.env.VITE_API_BASE_URL);
-
   useEffect(() => {
     async function initHttpClient() {
       const token = await getAccessTokenSilently();

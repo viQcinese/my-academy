@@ -5,14 +5,6 @@ import { invoiceRoutes } from "./infrastructure/routes/invoice.routes";
 import cors from "cors";
 import { authMiddleware } from "./infrastructure/auth/authMiddleware";
 import { errorHandlingMiddleware } from "./infrastructure/error/errorHandlingMiddleware";
-import { loggingMiddleware } from "./infrastructure/log/loggingMiddleware";
-
-console.log(
-  "LOGS",
-  process.env.AUTH_PROVIDER_DOMAIN,
-  process.env.AUTH_PROVIDER_AUDIENCE,
-  process.env.DATABASE_URL
-);
 
 const PORT = process.env.PORT || 3000;
 
@@ -21,9 +13,9 @@ const app = express();
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-app.use("/students", authMiddleware, loggingMiddleware, studentRoutes);
-app.use("/classes", authMiddleware, loggingMiddleware, classRoutes);
-app.use("/invoices", authMiddleware, loggingMiddleware, invoiceRoutes);
+app.use("/students", authMiddleware, studentRoutes);
+app.use("/classes", authMiddleware, classRoutes);
+app.use("/invoices", authMiddleware, invoiceRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
