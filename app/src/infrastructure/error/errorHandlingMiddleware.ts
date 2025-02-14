@@ -6,8 +6,10 @@ export function errorHandlingMiddleware(
   res: Response,
   next: NextFunction
 ) {
+  console.log(console.log(err));
   if (err.name === "UnauthorizedError") {
     res.status(401).json({ name: err.name, message: err.message });
+    return;
   }
   res
     .status(500)

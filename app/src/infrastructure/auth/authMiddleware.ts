@@ -5,21 +5,11 @@ import { expressJwtSecret } from "jwks-rsa";
 export const authMiddleware = expressjwt({
   secret: expressJwtSecret({
     cache: true,
-    rateLimit: true,
+    rateLimit: false,
     jwksUri: `https://${process.env.AUTH_PROVIDER_DOMAIN}/.well-known/jwks.json`,
+    timeout: 30000,
   }) as unknown as GetVerificationKey,
   audience: process.env.AUTH_PROVIDER_AUDIENCE,
   issuer: `https://${process.env.AUTH_PROVIDER_DOMAIN}/`,
   algorithms: ["RS256"],
 });
-
-export const authErrorHandler = (
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (err.name === "UnauthorizedError") {
-    return res.status(401).json({ error: err.name, message: err.message });
-  }
-};
