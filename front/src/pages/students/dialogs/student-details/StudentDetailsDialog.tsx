@@ -73,7 +73,11 @@ export function StudentDetailsDialog(props: Props) {
                   Birthdate
                 </Label>
                 <span className="text-sm col-span-3">
-                  {data?.student.birthdate?.toString() || empty}
+                  {data?.student.birthdate
+                    ? Intl.DateTimeFormat("pt-br", {}).format(
+                        new Date(data.student.birthdate)
+                      )
+                    : empty}
                 </span>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
