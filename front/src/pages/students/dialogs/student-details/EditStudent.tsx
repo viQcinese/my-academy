@@ -24,7 +24,7 @@ export function EditStudent(props: Props) {
   const [student, setStudent] = useState<StudentFormData>({
     firstName: props.student.firstName || "",
     lastName: props.student.lastName || "",
-    birthdate: props.student.birthdate || new Date().toISOString(),
+    birthdate: props.student.birthdate.split("T")[0],
     cellphone: props.student.cellphone || "",
     email: props.student.email || "",
     document: props.student.document || "",
@@ -32,7 +32,11 @@ export function EditStudent(props: Props) {
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: () => editStudent(props.student.id, student),
+    mutationFn: () =>
+      editStudent(props.student.id, {
+        ...student,
+        birthdate: new Date(student.birthdate).toISOString(),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["students"] });
       queryClient.invalidateQueries({

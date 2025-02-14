@@ -101,8 +101,8 @@ export function StudentDetailsDialog(props: Props) {
                 </span>
               </div>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="birthdate" className="text-right">
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="birthdate" className="text-right leading-none">
                 Classes
               </Label>
               <ul className="col-span-3">

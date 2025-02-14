@@ -21,18 +21,19 @@ type Props = {
 };
 
 export function CreateStudentDialog(props: Props) {
+  const { isOpen, onIsOpenChange } = props;
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: createStudent,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["students"] });
-      props.onIsOpenChange(false);
+      onIsOpenChange(false);
     },
   });
   const [student, setStudent] = useState<StudentFormData>({
     firstName: "",
     lastName: "",
-    birthdate: new Date().toISOString(),
+    birthdate: "",
     cellphone: "",
     email: "",
     document: "",
@@ -40,13 +41,16 @@ export function CreateStudentDialog(props: Props) {
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    mutate(student);
+    mutate({
+      ...student,
+      birthdate: new Date(student.birthdate).toISOString(),
+    });
   }
 
   const isInvalid = !student.firstName;
 
   return (
-    <Dialog open={props.isOpen} onOpenChange={props.onIsOpenChange}>
+    <Dialog open={isOpen} onOpenChange={onIsOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
