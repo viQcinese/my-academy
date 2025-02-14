@@ -24,6 +24,9 @@ services:
       context: ./app
     ports:
       - "3000:3000"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     environment:
       DATABASE_HOSTNAME: ${DATABASE_HOSTNAME}
       DATABASE_PORT: ${DATABASE_PORT}
@@ -88,3 +91,7 @@ volumes:
 networks:
   my-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
