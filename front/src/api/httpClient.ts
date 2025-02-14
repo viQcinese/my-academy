@@ -5,7 +5,7 @@ type BaseConfig = {
 
 class HttpClient {
   private token: string = "";
-  private baseUrl = "https://zygurat.pro/api";
+  private baseUrl = import.meta.env.VITE_API_BASE_URL!;
 
   async use(token: string) {
     this.token = token;

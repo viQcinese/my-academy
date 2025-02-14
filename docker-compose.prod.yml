@@ -2,10 +2,11 @@ services:
   front:
     build:
       context: .
-      args:
-        VITE_AUTH_PROVIDER_DOMAIN: ${AUTH_PROVIDER_DOMAIN}
-        VITE_AUTH_PROVIDER_CLIENT_ID: ${AUTH_PROVIDER_CLIENT_ID}
-        VITE_AUTH_PROVIDER_AUDIENCE: ${VITE_AUTH_PROVIDER_AUDIENCE}
+    environment:
+      VITE_AUTH_PROVIDER_DOMAIN: ${AUTH_PROVIDER_DOMAIN}
+      VITE_AUTH_PROVIDER_CLIENT_ID: ${AUTH_PROVIDER_CLIENT_ID}
+      VITE_AUTH_PROVIDER_AUDIENCE: ${AUTH_PROVIDER_AUDIENCE}
+      VITE_API_BASE_URL: ${API_BASE_URL}
     image: viqcinese/my-academy-front:latest
     restart: always
     ports:

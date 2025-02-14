@@ -14,7 +14,6 @@ export function ZyguratIcon(prop: Prop) {
       fill="white"
       width={size}
       viewBox="0 0 256 256"
-      enable-background="new 0 0 256 256"
     >
       <g>
         <g>
