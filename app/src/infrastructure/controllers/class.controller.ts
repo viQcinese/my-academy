@@ -1,6 +1,7 @@
 import { ClassService } from "../../application/class.service";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { EnrollmentService } from "../../application/enrollment.service";
+import { ErrorHandled } from "../decorators/ErrorHandled";
 
 export class ClassController {
   private classService: ClassService;
@@ -14,7 +15,12 @@ export class ClassController {
     this.enrollmentService = enrollmentService;
   }
 
-  async createClass(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async createClass(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { name } = req.body;
     const userId = req.auth.sub;
 
@@ -34,13 +40,23 @@ export class ClassController {
     res.status(201).json(createdClass);
   }
 
-  async listClasses(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async listClasses(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const userId = req.auth.sub;
     const classess = await this.classService.listClasses(userId);
     res.status(200).json(classess);
   }
 
-  async getClass(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async getClass(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { id } = req.params;
     const userId = req.auth.sub;
 
@@ -61,7 +77,12 @@ export class ClassController {
     });
   }
 
-  async activateClasses(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async activateClasses(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { ids } = req.body;
     const userId = req.auth.sub;
 
@@ -72,7 +93,12 @@ export class ClassController {
     res.status(200).json({ activatedClasses });
   }
 
-  async deactivateClasses(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async deactivateClasses(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { ids } = req.body;
     const userId = req.auth.sub;
 
@@ -83,7 +109,12 @@ export class ClassController {
     res.status(200).json({ deactivatedClasses });
   }
 
-  async updateClass(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async updateClass(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { id } = req.params;
     const { class: classData } = req.body;
     const userId = req.auth.sub;
@@ -96,7 +127,12 @@ export class ClassController {
     res.status(200).json({ class: updateClass });
   }
 
-  async updateClassEnrollments(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async updateClassEnrollments(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { id } = req.params;
     const { studentIds } = req.body;
     const userId = req.auth.sub;

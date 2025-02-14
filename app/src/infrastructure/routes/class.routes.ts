@@ -20,18 +20,26 @@ const classController = new ClassController(classService, enrollmentService);
 
 const classRoutes = Router();
 
-classRoutes.post("/", (req, res) => classController.createClass(req, res));
-classRoutes.get("/", (req, res) => classController.listClasses(req, res));
-classRoutes.get("/:id", (req, res) => classController.getClass(req, res));
-classRoutes.put("/:id", (req, res) => classController.updateClass(req, res));
-classRoutes.put("/:id/enrollments", (req, res) =>
-  classController.updateClassEnrollments(req, res)
+classRoutes.post("/", (req, res, next) =>
+  classController.createClass(req, res, next)
 );
-classRoutes.patch("/activate", (req, res) =>
-  classController.activateClasses(req, res)
+classRoutes.get("/", (req, res, next) =>
+  classController.listClasses(req, res, next)
 );
-classRoutes.patch("/deactivate", (req, res) =>
-  classController.deactivateClasses(req, res)
+classRoutes.get("/:id", (req, res, next) =>
+  classController.getClass(req, res, next)
+);
+classRoutes.put("/:id", (req, res, next) =>
+  classController.updateClass(req, res, next)
+);
+classRoutes.put("/:id/enrollments", (req, res, next) =>
+  classController.updateClassEnrollments(req, res, next)
+);
+classRoutes.patch("/activate", (req, res, next) =>
+  classController.activateClasses(req, res, next)
+);
+classRoutes.patch("/deactivate", (req, res, next) =>
+  classController.deactivateClasses(req, res, next)
 );
 
 export { classRoutes };

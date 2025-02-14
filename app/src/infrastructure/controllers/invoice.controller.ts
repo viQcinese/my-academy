@@ -1,5 +1,6 @@
 import { InvoiceService } from "../../application/invoice.service";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { ErrorHandled } from "../decorators/ErrorHandled";
 
 export class InvoiceController {
   private invoiceService: InvoiceService;
@@ -8,7 +9,12 @@ export class InvoiceController {
     this.invoiceService = invoiceService;
   }
 
-  async createInvoices(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async createInvoices(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { amount, studentIds, description, dueAt, currency } = req.body;
     const userId = req.auth.sub;
 
@@ -30,14 +36,24 @@ export class InvoiceController {
     res.status(201).json({ createdInvoices });
   }
 
-  async listInvoices(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async listInvoices(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const userId = req.auth.sub;
 
     const invoices = await this.invoiceService.listInvoices(userId);
     res.status(200).json(invoices);
   }
 
-  async getInvoice(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async getInvoice(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { id } = req.params;
     const userId = req.auth.sub;
 
@@ -45,7 +61,12 @@ export class InvoiceController {
     res.status(200).json(invoice);
   }
 
-  async markInvoicesAsPaid(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async markInvoicesAsPaid(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { ids } = req.body;
     const userId = req.auth.sub;
 
@@ -56,7 +77,12 @@ export class InvoiceController {
     res.status(200).json({ invoicesMarkedAsPaid });
   }
 
-  async markInvoicesAsUnpaid(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async markInvoicesAsUnpaid(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { ids } = req.body;
     const userId = req.auth.sub;
 

@@ -1,6 +1,7 @@
 import { EnrollmentService } from "../../application/enrollment.service";
 import { StudentService } from "../../application/student.service";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { ErrorHandled } from "../decorators/ErrorHandled";
 
 export class StudentController {
   private studentService: StudentService;
@@ -14,7 +15,12 @@ export class StudentController {
     this.enrollmentService = enrollmentService;
   }
 
-  async createStudent(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async createStudent(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { firstName, lastName, birthdate, document, cellphone, email } =
       req.body;
     const userId = req.auth.sub;
@@ -40,7 +46,12 @@ export class StudentController {
     res.status(201).json(student);
   }
 
-  async editStudent(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async editStudent(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { id } = req.params;
     const { student } = req.body;
     const userId = req.auth.sub;
@@ -58,13 +69,23 @@ export class StudentController {
     res.status(200).json(updatedStudent);
   }
 
-  async listStudents(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async listStudents(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const userId = req.auth.sub;
     const students = await this.studentService.listStudents(userId);
     res.status(200).json(students);
   }
 
-  async getStudent(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async getStudent(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { id } = req.params;
     const userId = req.auth.sub;
 
@@ -82,7 +103,12 @@ export class StudentController {
     res.status(200).json({ student, classes });
   }
 
-  async activateStudents(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async activateStudents(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { ids } = req.body;
     const userId = req.auth.sub;
 
@@ -93,7 +119,12 @@ export class StudentController {
     res.status(200).json({ activateStudents });
   }
 
-  async deactivateStudents(req: Request, res: Response): Promise<void> {
+  @ErrorHandled()
+  async deactivateStudents(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { ids } = req.body;
     const userId = req.auth.sub;
 

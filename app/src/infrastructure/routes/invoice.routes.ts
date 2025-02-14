@@ -10,16 +10,20 @@ const invoiceController = new InvoiceController(invoiceService);
 
 const invoiceRoutes = Router();
 
-invoiceRoutes.post("/", (req, res) =>
-  invoiceController.createInvoices(req, res)
+invoiceRoutes.post("/", (req, res, next) =>
+  invoiceController.createInvoices(req, res, next)
 );
-invoiceRoutes.get("/", (req, res) => invoiceController.listInvoices(req, res));
-invoiceRoutes.get("/:id", (req, res) => invoiceController.getInvoice(req, res));
-invoiceRoutes.post("/mark-as-paid", (req, res) =>
-  invoiceController.markInvoicesAsPaid(req, res)
+invoiceRoutes.get("/", (req, res, next) =>
+  invoiceController.listInvoices(req, res, next)
 );
-invoiceRoutes.post("/mark-as-unpaid", (req, res) =>
-  invoiceController.markInvoicesAsUnpaid(req, res)
+invoiceRoutes.get("/:id", (req, res, next) =>
+  invoiceController.getInvoice(req, res, next)
+);
+invoiceRoutes.post("/mark-as-paid", (req, res, next) =>
+  invoiceController.markInvoicesAsPaid(req, res, next)
+);
+invoiceRoutes.post("/mark-as-unpaid", (req, res, next) =>
+  invoiceController.markInvoicesAsUnpaid(req, res, next)
 );
 
 export { invoiceRoutes };

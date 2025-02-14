@@ -22,19 +22,23 @@ const studentController = new StudentController(
 
 const studentRoutes = Router();
 
-studentRoutes.post("/", (req, res) =>
-  studentController.createStudent(req, res)
+studentRoutes.post("/", (req, res, next) =>
+  studentController.createStudent(req, res, next)
 );
-studentRoutes.get("/", (req, res) => studentController.listStudents(req, res));
-studentRoutes.get("/:id", (req, res) => studentController.getStudent(req, res));
-studentRoutes.put("/:id", (req, res) =>
-  studentController.editStudent(req, res)
+studentRoutes.get("/", (req, res, next) =>
+  studentController.listStudents(req, res, next)
 );
-studentRoutes.patch("/activate", (req, res) =>
-  studentController.activateStudents(req, res)
+studentRoutes.get("/:id", (req, res, next) =>
+  studentController.getStudent(req, res, next)
 );
-studentRoutes.patch("/deactivate", (req, res) =>
-  studentController.deactivateStudents(req, res)
+studentRoutes.put("/:id", (req, res, next) =>
+  studentController.editStudent(req, res, next)
+);
+studentRoutes.patch("/activate", (req, res, next) =>
+  studentController.activateStudents(req, res, next)
+);
+studentRoutes.patch("/deactivate", (req, res, next) =>
+  studentController.deactivateStudents(req, res, next)
 );
 
 export { studentRoutes };
