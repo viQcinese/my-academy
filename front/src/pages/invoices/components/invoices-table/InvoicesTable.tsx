@@ -14,6 +14,7 @@ import { cx } from "class-variance-authority";
 import { InvoiceTableItem } from "@/model/Invoice";
 import { empty } from "@/constants/empty";
 import { AlertCircle, CheckIcon } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 
 interface InvoicesTableProps {
   textSearch: string;
@@ -87,9 +88,9 @@ export function InvoicesTable(props: InvoicesTableProps) {
                   className={cx(
                     "h-10",
                     status === "paid" &&
-                      "bg-green-50 hover:bg-green-50 data-[state='selected']:bg-green-50",
+                      "bg-green-50 hover:bg-green-50 data-[state=selected]:bg-green-50",
                     status === "overdue" &&
-                      "bg-red-50 hover:bg-red-50 data-[state='selected']:bg-red-50"
+                      "bg-red-50 hover:bg-red-50 data-[state=selected]:bg-red-50"
                   )}
                   data-state={
                     selectedInvoices.includes(invoice.id)
@@ -119,9 +120,9 @@ export function InvoicesTable(props: InvoicesTableProps) {
                   </TableCell>
                   <TableCell>
                     {invoice.dueAt
-                      ? Intl.DateTimeFormat("pt-br", {}).format(
-                          new Date(invoice.dueAt)
-                        )
+                      ? formatDistanceToNow(invoice.dueAt, {
+                          addSuffix: true,
+                        })
                       : empty}
                   </TableCell>
                   <TableCell>
