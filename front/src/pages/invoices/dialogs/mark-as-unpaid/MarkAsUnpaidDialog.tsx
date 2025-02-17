@@ -6,16 +6,18 @@ type Props = {
   invoices: string[];
   isOpen: boolean;
   onIsOpenChange: (value: boolean) => void;
+  onComplete: () => void;
 };
 
 export function MarkAsUnpaidDialog(props: Props) {
-  const { isOpen, onIsOpenChange, invoices } = props;
+  const { isOpen, onIsOpenChange, onComplete, invoices } = props;
   const queryClient = useQueryClient();
   const markInvoicesAsPaidMutation = useMutation({
     mutationFn: markInvoicesAsUnaid,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
       onIsOpenChange(false);
+      onComplete();
     },
   });
 

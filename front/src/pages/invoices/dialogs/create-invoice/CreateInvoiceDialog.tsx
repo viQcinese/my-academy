@@ -19,6 +19,7 @@ import { InvoiceForm } from "../../components/invoice-form/InvoiceForm";
 type Props = {
   isOpen: boolean;
   onIsOpenChange: (value: boolean) => void;
+  onComplete: () => void;
 };
 
 new Date();
@@ -37,20 +38,19 @@ function defaultInvoiceForm(): CreateInvoiceForm {
 }
 
 export function CreateInvoiceDialog(props: Props) {
-  const { isOpen, onIsOpenChange } = props;
+  const { isOpen, onIsOpenChange, onComplete } = props;
   const [form, setForm] = useState<CreateInvoiceForm>(defaultInvoiceForm);
 
   const { data } = useQuery<Student[]>({ queryKey: ["students"] });
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
-      await createInvoice(form);
-    },
+    mutationFn: async () => await createInvoice(form),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
       onIsOpenChange(false);
       setForm(defaultInvoiceForm);
+      onComplete();
     },
   });
 

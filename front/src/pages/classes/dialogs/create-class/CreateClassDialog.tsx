@@ -19,9 +19,11 @@ import { updateClassEnrollments } from "@/api/class/updateClassEnrollments";
 type Props = {
   isOpen: boolean;
   onIsOpenChange: (value: boolean) => void;
+  onComplete: () => void;
 };
 
 export function CreateClassDialog(props: Props) {
+  const { onComplete, onIsOpenChange, isOpen } = props;
   const [name, setName] = useState<string>("");
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
 
@@ -38,7 +40,8 @@ export function CreateClassDialog(props: Props) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classes"] });
-      props.onIsOpenChange(false);
+      onIsOpenChange(false);
+      onComplete();
     },
   });
 
@@ -52,7 +55,7 @@ export function CreateClassDialog(props: Props) {
   const isInvalid = !name;
 
   return (
-    <Dialog open={props.isOpen} onOpenChange={props.onIsOpenChange}>
+    <Dialog open={isOpen} onOpenChange={onIsOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">

@@ -35,6 +35,10 @@ export function ClassesPage() {
     setIsClassDetailsOpen(true);
   }
 
+  function onClearSelection() {
+    onToggleAllClasses(false);
+  }
+
   const { currentPage, onChangePage, paginatedData, totalItems } =
     useStaticPagination({
       data: data ?? [],
@@ -56,16 +60,19 @@ export function ClassesPage() {
       <CreateClassDialog
         isOpen={isCreateClassOpen}
         onIsOpenChange={setIsCreateClassOpen}
+        onComplete={onClearSelection}
       />
       <ActivateClassesDialog
         classes={selectedClasses}
         isOpen={isActivateClasssOpen}
         onIsOpenChange={setIsActivateClasssOpen}
+        onComplete={onClearSelection}
       />
       <DeactivateClassesDialog
         classes={selectedClasses}
         isOpen={isDeactivateClasssOpen}
         onIsOpenChange={setIsDeactivateClasssOpen}
+        onComplete={onClearSelection}
       />
       <Layout>
         <div className="flex flex-col gap-4">

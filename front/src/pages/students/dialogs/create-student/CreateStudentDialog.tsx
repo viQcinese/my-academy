@@ -18,32 +18,40 @@ import { StudentForm } from "../../components/student-form/StudentForm";
 type Props = {
   isOpen: boolean;
   onIsOpenChange: (value: boolean) => void;
+  onComplete: () => void;
+};
+
+const defaultStudent: StudentFormData = {
+  firstName: "",
+  lastName: "",
+  birthdate: "",
+  cellphone: "",
+  email: "",
+  document: "",
 };
 
 export function CreateStudentDialog(props: Props) {
-  const { isOpen, onIsOpenChange } = props;
+  const { isOpen, onIsOpenChange, onComplete } = props;
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: createStudent,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["students"] });
       onIsOpenChange(false);
+      setStudent(defaultStudent);
+      onComplete();
     },
   });
-  const [student, setStudent] = useState<StudentFormData>({
-    firstName: "",
-    lastName: "",
-    birthdate: "",
-    cellphone: "",
-    email: "",
-    document: "",
-  });
+
+  const [student, setStudent] = useState<StudentFormData>(defaultStudent);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     mutate({
       ...student,
-      birthdate: new Date(student.birthdate).toISOString(),
+      birthdate: student.birthdate
+        ? new Date(student.birthdate).toISOString()
+        : undefined,
     });
   }
 

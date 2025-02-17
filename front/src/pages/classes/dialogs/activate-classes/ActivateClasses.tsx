@@ -7,10 +7,11 @@ type Props = {
   classes: number[];
   isOpen: boolean;
   onIsOpenChange: (value: boolean) => void;
+  onComplete: () => void;
 };
 
 export function ActivateClassesDialog(props: Props) {
-  const { isOpen, onIsOpenChange, classes } = props;
+  const { isOpen, onIsOpenChange, onComplete, classes } = props;
   const { data } = useQuery<Class[]>({ queryKey: ["classes"] });
   const queryClient = useQueryClient();
   const activateClassesMutation = useMutation({
@@ -18,6 +19,7 @@ export function ActivateClassesDialog(props: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classes"] });
       onIsOpenChange(false);
+      onComplete();
     },
   });
 

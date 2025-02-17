@@ -8,8 +8,6 @@ import { errorHandlingMiddleware } from "./infrastructure/error/errorHandlingMid
 
 const PORT = process.env.PORT || 3000;
 
-console.log(process.env.DATABASE_URL);
-
 const app = express();
 
 app.use(cors({ origin: "*" }));

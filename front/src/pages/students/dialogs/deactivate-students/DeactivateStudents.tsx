@@ -7,10 +7,11 @@ type Props = {
   students: number[];
   isOpen: boolean;
   onIsOpenChange: (value: boolean) => void;
+  onComplete: () => void;
 };
 
 export function DeactivateStudentsDialog(props: Props) {
-  const { isOpen, onIsOpenChange, students } = props;
+  const { isOpen, onIsOpenChange, onComplete, students } = props;
   const { data } = useQuery<Student[]>({ queryKey: ["students"] });
   const queryClient = useQueryClient();
   const activateStudentsMutation = useMutation({
@@ -18,6 +19,7 @@ export function DeactivateStudentsDialog(props: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["students"] });
       onIsOpenChange(false);
+      onComplete();
     },
   });
 

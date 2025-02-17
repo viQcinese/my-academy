@@ -10,7 +10,7 @@ import { InvoicesTable } from "./components/invoices-table/InvoicesTable";
 import { Student } from "@/model/Student";
 import { getStudents } from "@/api/student/getStudents";
 import { MarkAsPaidDialog } from "./dialogs/mark-as-paid/MarkAsPaidDialog";
-import { MarkAsUnpaidDialog } from "./dialogs/mark-as-paid/mark-as-unpaid/MarkAsUnpaidDialog";
+import { MarkAsUnpaidDialog } from "./dialogs/mark-as-unpaid/MarkAsUnpaidDialog";
 import { CreateInvoiceDialog } from "./dialogs/create-invoice/CreateInvoiceDialog";
 
 const ITEMS_PER_PAGE = 50;
@@ -42,6 +42,10 @@ export function InvoicesPage() {
       itemsPerPage: ITEMS_PER_PAGE,
     });
 
+  function onClearSelection() {
+    onToggleAllInvoices(false);
+  }
+
   useEffect(() => {
     document.title = "Zygurat | Invoices";
   }, []);
@@ -52,15 +56,18 @@ export function InvoicesPage() {
         invoices={selectedInvoices}
         isOpen={isMarkAsPaidOpen}
         onIsOpenChange={setIsMarkAsPaidOpen}
+        onComplete={onClearSelection}
       />
       <MarkAsUnpaidDialog
         invoices={selectedInvoices}
         isOpen={isMarkAsUnpaidOpen}
         onIsOpenChange={setIsMarkAsUnpaidOpen}
+        onComplete={onClearSelection}
       />
       <CreateInvoiceDialog
         isOpen={isCreateInvoiceOpen}
         onIsOpenChange={setIsCreateInvoiceOpen}
+        onComplete={onClearSelection}
       />
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl font-bold">Invoices</h1>

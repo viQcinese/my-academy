@@ -42,6 +42,10 @@ export function StudentsPage() {
       itemsPerPage: ITEMS_PER_PAGE,
     });
 
+  function onClearSelection() {
+    onToggleAllStudents(false);
+  }
+
   useEffect(() => {
     document.title = "Zygurat | Students";
   }, []);
@@ -51,6 +55,7 @@ export function StudentsPage() {
       <CreateStudentDialog
         isOpen={isCreateStudentOpen}
         onIsOpenChange={setIsCreateStudentOpen}
+        onComplete={onClearSelection}
       />
       <StudentDetailsDialog
         studentId={openStudentId}
@@ -61,11 +66,13 @@ export function StudentsPage() {
         students={selectedStudents}
         isOpen={isDeactivateStudentsOpen}
         onIsOpenChange={setIsDeactivateStudentsOpen}
+        onComplete={onClearSelection}
       />
       <ActivateStudentsDialog
         students={selectedStudents}
         isOpen={isActivateStudentsOpen}
         onIsOpenChange={setIsActivateStudentsOpen}
+        onComplete={onClearSelection}
       />
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl font-bold">Students</h1>
