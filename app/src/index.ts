@@ -5,6 +5,7 @@ import { invoiceRoutes } from "./infrastructure/routes/invoice.routes";
 import cors from "cors";
 import { authMiddleware } from "./infrastructure/auth/authMiddleware";
 import { errorHandlingMiddleware } from "./infrastructure/error/errorHandlingMiddleware";
+import { recurringPaymentRoutes } from "./infrastructure/routes/recurring-payment.routes";
 
 const PORT = process.env.PORT || 3000;
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/students", authMiddleware, studentRoutes);
 app.use("/classes", authMiddleware, classRoutes);
 app.use("/invoices", authMiddleware, invoiceRoutes);
+app.use("/recurring-payments", authMiddleware, recurringPaymentRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });

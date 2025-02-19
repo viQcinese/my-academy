@@ -29,6 +29,7 @@ model Student {
   
   enrollments Enrollment[]
   invoices Invoice[]
+  recurringPayments RecurringPaymentAssignment[]
 
   @@map("students")
 }
@@ -66,10 +67,38 @@ model Invoice {
   isPaid Boolean @map("is_paid")
   createdAt DateTime @map("created_at") @default(now())
 
+  recurringPaymentAssignmentId Int? @map("recurring_payment_assignment_id")
   description String? @map("description") @db.VarChar(512) 
   dueAt DateTime? @map("due_at")
 
   student Student @relation(fields: [studentId], references: [id])
+  recurringPaymentAssignment RecurringPaymentAssignment? @relation(fields: [recurringPaymentAssignmentId], references: [id])
 
   @@map("invoices")
+}
+
+model RecurringPayment {
+  id Int @id @default(autoincrement())
+  userId String @map("user_id")
+  name String @map("name") @db.VarChar(256)
+  frequency String @map("frequency")
+  amount Int @map("amount")
+  currency String @map("currency")
+
+  @@map("recurring_payments")
+}
+
+model RecurringPaymentAssignment {
+  id Int @id @default(autoincrement())
+  userId String @map("user_id")
+  recurringPaymentId Int @map("recurring_payment_id")
+  studentId Int @map("student_id") @unique
+  chargedAt DateTime @map("charged_at") @default(now())
+  nextChargeAt DateTime @map("next_charge_at")
+
+  invoices Invoice[]
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@unique([studentId, recurringPaymentId])
+  @@map("recurring_payment_assignments")
 }
