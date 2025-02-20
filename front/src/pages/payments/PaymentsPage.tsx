@@ -2,6 +2,7 @@ import { Layout } from "@/components/layout/Layout";
 import { useEffect } from "react";
 import { InvoicesTab } from "./components/invoices-tab/InvoicesTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TemplatesTab } from "./components/templates-tab/TemplatesTab";
 
 export function PaymentsPage() {
   useEffect(() => {
@@ -17,15 +18,13 @@ export function PaymentsPage() {
       <Tabs defaultValue="invoices" className="mt-8">
         <TabsList className="grid grid-cols-2 w-[400px]">
           <TabsTrigger value="invoices">Invoices</TabsTrigger>
-          <TabsTrigger value="templates" disabled>
-            Templates
-          </TabsTrigger>
+          <TabsTrigger value="templates">Templates</TabsTrigger>
         </TabsList>
         <TabsContent value="invoices" className="mt-8">
           <InvoicesTab />
         </TabsContent>
         <TabsContent value="templates" className="mt-8">
-          <div>hello</div>
+          <TemplatesTab />
         </TabsContent>
       </Tabs>
     </Layout>
